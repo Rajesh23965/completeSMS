@@ -1,0 +1,9 @@
+<!-- views/partials/subheader.ejs -->
+<header class="subheader">
+  <div class="subheader-left">
+    <% if (typeof icon !== 'undefined' && icon) { %>
+      <span class="page-title-icon"><i class="fas <%= icon %>"></i></span>
+    <% } %>
+    <h2 class="subheader-title"><%= title || 'Dashboard' %></h2>
+  </div>
+</header>

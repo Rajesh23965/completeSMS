@@ -1,0 +1,326 @@
+<!-- views/frontend/partials/settingForm.ejs -->
+<div id="alertMessage" class="alert-message" style="display: none;"></div>
+
+<form id="settingsForm" class="settings-form" enctype="multipart/form-data">
+    <!-- CMS Settings Section -->
+    <h3 class="section-title"><i class="fas fa-sliders-h"></i> CMS Settings</h3>
+
+    <div class="form-grid">
+        <div class="form-group">
+            <label class="form-label required-field">CMS Title</label>
+            <input type="text" name="cms_title" value="<%= settings.cms_title || '' %>" class="form-control" required>
+        </div>
+
+        <div class="form-group">
+            <label class="form-label required-field">CMS Url Alias</label>
+            <input type="text" name="cms_url_alias" value="<%= settings.cms_url_alias || '' %>" class="form-control"
+                required>
+        </div>
+
+        <div class="form-group">
+            <label class="form-label required-field">CMS Frontend</label>
+            <select name="cms_frontend" class="form-select" required>
+                <option value="Enable" <%=settings.cms_frontend==="Enable" ? "selected" : "" %>>Enable</option>
+                <option value="Disable" <%=settings.cms_frontend==="Disable" ? "selected" : "" %>>Disable</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label class="form-label required-field">Online Admission</label>
+            <select name="online_admission" class="form-select" required>
+                <option value="Enable" <%=settings.online_admission==="Enable" ? "selected" : "" %>>Enable</option>
+                <option value="Disable" <%=settings.online_admission==="Disable" ? "selected" : "" %>>Disable</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label class="form-label required-field">Receive Email To</label>
+            <input type="email" name="receive_email_to" value="<%= settings.receive_email_to || '' %>"
+                class="form-control" required>
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">Captcha Status</label>
+            <select name="captcha_status" class="form-select">
+                <option value="Enable" <%=settings.captcha_status==="Enable" ? "selected" : "" %>>Enable</option>
+                <option value="Disable" <%=settings.captcha_status==="Disable" ? "selected" : "" %>>Disable</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="form-label required-field">Working Hours</label>
+        <textarea name="working_hours" class="form-control" rows="2"
+            required><%= settings.working_hours || '' %></textarea>
+    </div>
+
+    <!-- Logo Upload with Drag & Drop -->
+    <div class="form-group">
+        <label class="form-label required-field">Logo</label>
+        <div class="drag-drop-area" id="logoDropArea">
+            <i class="fas fa-cloud-upload-alt"></i>
+            <p>Drag & Drop your logo here or click to browse</p>
+            <button type="button" class="btn btn-sm btn-outline-primary"
+                onclick="document.getElementById('logoInput').click()">Select File</button>
+            <input type="file" name="logo" id="logoInput" accept="image/*" style="display: none;">
+        </div>
+
+        <div class="preview-container" id="logoPreview">
+            <% if (settings.logo) { %>
+                <div class="preview-item">
+                    <img src="<%= settings.logo %>" alt="Logo">
+                    <div class="remove-btn" onclick="removeImage('logo')"><i class="fas fa-times"></i></div>
+                </div>
+                <% } %>
+        </div>
+    </div>
+
+    <!-- Favicon Upload with Drag & Drop -->
+    <div class="form-group">
+        <label class="form-label required-field">Favicon</label>
+        <div class="drag-drop-area" id="faviconDropArea">
+            <i class="fas fa-cloud-upload-alt"></i>
+            <p>Drag & Drop your favicon here or click to browse</p>
+            <button type="button" class="btn btn-sm btn-outline-primary"
+                onclick="document.getElementById('faviconInput').click()">Select File</button>
+            <input type="file" name="fav_icon" id="faviconInput" accept="image/*" style="display: none;">
+        </div>
+
+        <div class="preview-container" id="faviconPreview">
+            <% if (settings.fav_icon) { %>
+                <div class="preview-item">
+                    <img src="<%= settings.fav_icon %>" alt="Favicon">
+                    <div class="remove-btn" onclick="removeImage('favicon')"><i class="fas fa-times"></i></div>
+                </div>
+                <% } %>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="form-label required-field">Address</label>
+        <input type="text" name="address" value="<%= settings.address || '' %>" class="form-control" required>
+    </div>
+
+    <div class="form-group">
+        <label class="form-label">Google Analytics</label>
+        <textarea name="google_analytics" class="form-control" rows="3"
+            placeholder="Paste your Google Analytics code here"><%= settings.google_analytics || '' %></textarea>
+    </div>
+
+    <!-- Color Picker Section -->
+    <h3 class="section-title"><i class="fas fa-palette"></i> Color Scheme</h3>
+
+    <div class="form-grid">
+        <div class="form-group">
+            <label class="form-label">Primary Color</label>
+            <div class="color-picker-container">
+                <div class="color-preview" style=`background-color: <%=settings.theme_primary_color || '#4361ee' %>;`>
+                </div>
+                <input type="color" class="color-input" name="theme_primary_color"
+                    value="<%= settings.theme_primary_color || '#4361ee' %>">
+                <input type="text" class="form-control color-text-input"
+                    value="<%= settings.theme_primary_color || '#4361ee' %>" style="max-width: 120px;">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">Menu Background Color</label>
+            <div class="color-picker-container">
+                <div class="color-preview" style=`background-color: <%=settings.theme_menu_bg_color || '#3f37c9' %>;`>
+                </div>
+                <input type="color" class="color-input" name="theme_menu_bg_color"
+                    value="<%= settings.theme_menu_bg_color || '#3f37c9' %>">
+                <input type="text" class="form-control color-text-input"
+                    value="<%= settings.theme_menu_bg_color || '#3f37c9' %>" style="max-width: 120px;">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">Button Hover Color</label>
+            <div class="color-picker-container">
+                <div class="color-preview" style=`background-color: <%=settings.theme_button_hover_color || '#4cc9f0' %>
+                    ;`></div>
+                <input type="color" class="color-input" name="theme_button_hover_color"
+                    value="<%= settings.theme_button_hover_color || '#4cc9f0' %>">
+                <input type="text" class="form-control color-text-input"
+                    value="<%= settings.theme_button_hover_color || '#4cc9f0' %>" style="max-width: 120px;">
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <label class="form-label">Text Color</label>
+            <div class="color-picker-container">
+                <div class="color-preview" style=`background-color: <%=settings.theme_text_color || '#232323' %>;`>
+                </div>
+                <input type="color" class="color-input" name="theme_text_color"
+                    value="<%= settings.theme_text_color || '#232323' %>">
+                <input type="text" class="form-control color-text-input"
+                    value="<%= settings.theme_text_color || '#232323' %>" style="max-width: 120px;">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">Text Secondary Color</label>
+            <div class="color-picker-container">
+                <div class="color-preview" style=`background-color: <%=settings.theme_text_secondary_color || '#383838'
+                    %>;`></div>
+                <input type="color" class="color-input" name="theme_text_secondary_color"
+                    value="<%= settings.theme_text_secondary_color || '#383838' %>">
+                <input type="text" class="form-control color-text-input"
+                    value="<%= settings.theme_text_secondary_color || '#383838' %>" style="max-width: 120px;">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">Footer Bg Color</label>
+            <div class="color-picker-container">
+                <div class="color-preview" style=`background-color: <%=settings.theme_footer_bg_color || '#12414f' %>;`>
+                </div>
+                <input type="color" class="color-input" name="theme_footer_bg_color"
+                    value="<%= settings.theme_footer_bg_color || '#12414f' %>">
+                <input type="text" class="form-control color-text-input"
+                    value="<%= settings.theme_footer_bg_color || '#12414f' %>" style="max-width: 120px;">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">Footer Text Color</label>
+            <div class="color-picker-container">
+                <div class="color-preview" style=`background-color: <%=settings.theme_footer_text_color || '#8d8d8d' %>
+                    ;`></div>
+                <input type="color" class="color-input" name="theme_footer_text_color"
+                    value="<%= settings.theme_footer_text_color || '#8d8d8d' %>">
+                <input type="text" class="form-control color-text-input"
+                    value="<%= settings.theme_footer_text_color || '#8d8d8d' %>" style="max-width: 120px;">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">Copyright Bg Color</label>
+            <div class="color-picker-container">
+                <div class="color-preview" style=`background-color: <%=settings.theme_copyright_bg_color || '#262626' %>
+                    ;`></div>
+                <input type="color" class="color-input" name="theme_copyright_bg_color"
+                    value="<%= settings.theme_copyright_bg_color || '#262626' %>">
+                <input type="text" class="form-control color-text-input"
+                    value="<%= settings.theme_copyright_bg_color || '#262626' %>" style="max-width: 120px;">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">Copyright Text Color</label>
+            <div class="color-picker-container">
+                <div class="color-preview" style=`background-color: <%=settings.theme_copyright_text_color || '#8d8d8d'
+                    %>
+                    ;`></div>
+                <input type="color" class="color-input" name="theme_copyright_text_color"
+                    value="<%= settings.theme_copyright_text_color || '#8d8d8d' %>">
+                <input type="text" class="form-control color-text-input"
+                    value="<%= settings.theme_copyright_text_color || '#8d8d8d' %>" style="max-width: 120px;">
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <label class="form-label">Border Radius</label>
+            <input type="text" name="theme_border_radius" value="<%= settings.theme_border_radius || '0' %>"
+                class="form-control">
+        </div>
+
+
+    </div>
+
+    <!-- Contact Info Section -->
+    <h3 class="section-title"><i class="fas fa-address-book"></i> Contact Info</h3>
+
+    <div class="form-grid">
+        <div class="form-group">
+            <label class="form-label required-field">Mobile No</label>
+            <input type="text" name="mobile_no" value="<%= settings.mobile_no || '' %>" class="form-control" required>
+        </div>
+
+        <div class="form-group">
+            <label class="form-label required-field">Email</label>
+            <input type="email" name="email" value="<%= settings.email || '' %>" class="form-control" required>
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">Fax</label>
+            <input type="text" name="fax" value="<%= settings.fax || '' %>" class="form-control">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="form-label required-field">Footer About Text</label>
+        <textarea name="footer_about_text" class="form-control" rows="3"
+            required><%= settings.footer_about_text || '' %></textarea>
+    </div>
+
+    <div class="form-group">
+        <label class="form-label required-field">Copyright Text</label>
+        <textarea name="copyright_text" class="form-control" rows="2"
+            required><%= settings.copyright_text || '' %></textarea>
+    </div>
+
+    <!-- Social Links Section -->
+    <h3 class="section-title"><i class="fas fa-share-alt"></i> Social Links</h3>
+
+    <div class="form-grid">
+        <div class="form-group social-input">
+            <label class="form-label">Facebook URL</label>
+            <i class="fab fa-facebook facebook-color"></i>
+            <input type="url" name="facebook_url" value="<%= settings.facebook_url || '' %>" class="form-control"
+                placeholder="https://facebook.com/yourpage">
+        </div>
+
+        <div class="form-group social-input">
+            <label class="form-label">Twitter URL</label>
+            <i class="fab fa-twitter twitter-color"></i>
+            <input type="url" name="twitter_url" value="<%= settings.twitter_url || '' %>" class="form-control"
+                placeholder="https://twitter.com/yourhandle">
+        </div>
+
+        <div class="form-group social-input">
+            <label class="form-label">YouTube URL</label>
+            <i class="fab fa-youtube youtube-color"></i>
+            <input type="url" name="youtube_url" value="<%= settings.youtube_url || '' %>" class="form-control"
+                placeholder="https://youtube.com/yourchannel">
+        </div>
+
+        <div class="form-group social-input">
+            <label class="form-label">Google Plus URL</label>
+            <i class="fab fa-google-plus googleplus-color"></i>
+            <input type="url" name="google_plus" value="<%= settings.google_plus || '' %>" class="form-control"
+                placeholder="https://plus.google.com/yourpage">
+        </div>
+
+        <div class="form-group social-input">
+            <label class="form-label">LinkedIn URL</label>
+            <i class="fab fa-linkedin linkedin-color"></i>
+            <input type="url" name="linkedin_url" value="<%= settings.linkedin_url || '' %>" class="form-control"
+                placeholder="https://linkedin.com/company/yourcompany">
+        </div>
+
+        <div class="form-group social-input">
+            <label class="form-label">Pinterest URL</label>
+            <i class="fab fa-pinterest pinterest-color"></i>
+            <input type="url" name="pinterest_url" value="<%= settings.pinterest_url || '' %>" class="form-control"
+                placeholder="https://pinterest.com/yourprofile">
+        </div>
+
+        <div class="form-group social-input">
+            <label class="form-label">Instagram URL</label>
+            <i class="fab fa-instagram instagram-color"></i>
+            <input type="url" name="instagram_url" value="<%= settings.instagram_url || '' %>" class="form-control"
+                placeholder="https://instagram.com/yourprofile">
+        </div>
+    </div>
+
+    <!-- Submit Button -->
+    <div class="submit-container">
+        <button type="submit" class="btn btn-submit">
+            <i class="fas fa-save"></i> Save All Settings
+        </button>
+    </div>
+</form>

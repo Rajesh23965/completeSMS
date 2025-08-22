@@ -1,0 +1,522 @@
+<!-- views/partials/sidebar.ejs -->
+<aside class="sidebar">
+  <div class="sidebar-header">
+    <h4 class="sidebar-title"">Main</h4></div>
+          
+        <div class=" sidebar-overlay">
+  </div>
+
+  <div class=" sidebar-section">
+    <nav>
+      <button class="menu-item expandable">
+        <img src="/assets/dashboard.png" alt="dashboard image" class="dashboardImage">
+        <a href="/#" class="dash">
+          <span>Dashboard</span>
+        </a>
+      </button>
+
+      <button class="menu-item expandable" data-menu="frontend">
+        <i class="fas fa-globe"></i>
+        <span>Frontend</span>
+        <i class="fas fa-chevron-right expand-icon"></i>
+      </button>
+
+      <div class="submenu" id="frontend-submenu">
+        <a href="/frontend/setting"
+          class="menu-item <%= typeof pageTitle !== 'undefined' && pageTitle === 'Frontend Settings' ? 'active' : '' %>">
+          <i class="fas fa-caret-right"></i> Setting
+        </a>
+        <a href="/frontend/menu" class="menu-item <%= pageTitle === 'Frontend Menu' ? 'active' : '' %>">
+          <i class="fas fa-caret-right"></i> Menu
+        </a>
+        <a href="#" class="menu-item"><i class="fas fa-caret-right"></i> Page Section</a>
+        <a href="#" class="menu-item"><i class="fas fa-caret-right"></i> Manage Page</a>
+        <a href="#" class="menu-item"><i class="fas fa-caret-right"></i> Slider</a>
+        <a href="#" class="menu-item"><i class="fas fa-caret-right"></i> Features</a>
+        <a href="#" class="menu-item"><i class="fas fa-caret-right"></i> Testimonial</a>
+        <a href="#" class="menu-item"><i class="fas fa-caret-right"></i> Service</a>
+        <a href="#" class="menu-item"><i class="fas fa-caret-right"></i> Faq</a>
+        <a href="#" class="menu-item"><i class="fas fa-caret-right"></i> Gallery Category</a>
+        <a href="#" class="menu-item"><i class="fas fa-caret-right"></i> Gallery</a>
+      </div>
+
+      <button class="menu-item expandable" data-menu="reception">
+        <i class="fa-solid fa-signal"></i>
+        <span>Reception</span>
+        <i class="fas fa-chevron-right expand-icon"></i>
+      </button>
+
+      <div class="submenu" id="reception-submenu">
+        <a href="#" class="menu-item"><i class="fas fa-caret-right"></i> Admission Enquiry</a>
+        <a href="#" class="menu-item"><i class="fas fa-caret-right"></i> Postal Record</a>
+        <a href="#" class="menu-item"><i class="fas fa-caret-right"></i> Call Log</a>
+        <a href="#" class="menu-item"><i class="fas fa-caret-right"></i> Visitor Log</a>
+        <a href="#" class="menu-item"><i class="fas fa-caret-right"></i> Complaint</a>
+        <a href="#" class="menu-item"><i class="fas fa-caret-right"></i> Config Reception</a>
+      </div>
+
+      <button class="menu-item expandable" data-menu="admission">
+        <i class="far fa-edit"></i>
+        <span>Admission</span>
+        <i class="fas fa-chevron-right expand-icon"></i>
+      </button>
+
+      <div class="submenu" id="admission-submenu">
+        <a href="#" class="menu-item"><i class="fas fa-caret-right"></i> Create Admission </a>
+        <a href="#" class="menu-item"><i class="fas fa-caret-right"></i> Online Admission </a>
+        <a href="#" class="menu-item"><i class="fas fa-caret-right"></i> Multiple import </a>
+        <a href="#" class="menu-item"><i class="fas fa-caret-right"></i> Category</a>
+      </div>
+
+      <button class="menu-item expandable" data-menu="student-details">
+        <i class="fa-solid fa-graduation-cap"></i>
+        <span>Student Details</span>
+        <i class="fas fa-chevron-right expand-icon"></i>
+      </button>
+
+      <div class="submenu" id="student-details-submenu">
+        <a href="#" class="menu-item"><i class="fas fa-caret-right"></i> Student List </a>
+        <a href="#" class="menu-item"><i class="fas fa-caret-right"></i> Login Deactivate </a>
+      </div>
+
+      <button class="menu-item expandable" data-menu="parent">
+        <i class="fa-solid fa-hands-holding-child"></i>
+        <span>Parents</span>
+        <i class="fas fa-chevron-right expand-icon"></i>
+      </button>
+
+      <div class="submenu" id="parent-submenu">
+        <a href="#" class="menu-item"><i class="fas fa-caret-right"></i> Parent List </a>
+        <a href="#" class="menu-item"><i class="fas fa-caret-right"></i> Add Parent </a>
+        <a href="#" class="menu-item"><i class="fas fa-caret-right"></i> Login Deactivate </a>
+      </div>
+
+      <button class="menu-item expandable" data-menu="employee">
+        <i class="fa-solid fa-users"></i>
+        <span>Employee</span>
+        <i class="fas fa-chevron-right expand-icon"></i>
+      </button>
+
+      <div class="submenu" id="employee-submenu">
+        <a href="#" class="menu-item"><i class="fas fa-caret-right"></i> Employee List </a>
+        <a href="#" class="menu-item"><i class="fas fa-caret-right"></i> Add Department </a>
+        <a href="#" class="menu-item"><i class="fas fa-caret-right"></i> Add Designation </a>
+        <a href="#" class="menu-item"><i class="fas fa-caret-right"></i> Add Employee </a>
+        <a href="#" class="menu-item"><i class="fas fa-caret-right"></i> Login Deactivate </a>
+      </div>
+
+      <button class="menu-item expandable" data-menu="card">
+        <i class="fa-solid fa-id-card"></i>
+        <span>Card Management</span>
+        <i class="fas fa-chevron-right expand-icon"></i>
+      </button>
+
+      <div class="submenu" id="card-submenu">
+        <a href="#" class="menu-item"><i class="fas fa-caret-right"></i> Id Card Template </a>
+        <a href="#" class="menu-item"><i class="fas fa-caret-right"></i> Student Id Card </a>
+        <a href="#" class="menu-item"><i class="fas fa-caret-right"></i> Employee Id Card </a>
+        <a href="#" class="menu-item"><i class="fas fa-caret-right"></i> Admit Card Template </a>
+        <a href="#" class="menu-item"><i class="fas fa-caret-right"></i> Generate Admit Card </a>
+      </div>
+
+      <button class="menu-item expandable" data-menu="certificate">
+        <i class="fa-solid fa-certificate"></i>
+        <span>Certificate</span>
+        <i class="fas fa-chevron-right expand-icon"></i>
+      </button>
+
+      <div class="submenu" id="certificate-submenu">
+        <a href="#" class="menu-item"><i class="fas fa-caret-right"></i> Certificate Template </a>
+        <a href="#" class="menu-item"><i class="fas fa-caret-right"></i> Generate Student </a>
+        <a href="#" class="menu-item"><i class="fas fa-caret-right"></i> Generate Employee </a>
+      </div>
+
+      <button class="menu-item expandable" data-menu="human-resource">
+        <i class="fa-brands fa-watchman-monitoring"></i>
+        <span>Human Resource</span>
+        <i class="fas fa-chevron-right expand-icon"></i>
+      </button>
+
+      <div class="submenu" id="human-resource-submenu">
+
+        <button class="menu-item expandable" data-menu="payroll">
+          <i class="far fa-address-card"></i>
+          <span>Payroll</span>
+          <i class="fas fa-chevron-right expand-icon"></i>
+        </button>
+        <div class="submenu" id="payroll-submenu">
+          <a href="#" class="menu-item"><i class="fas fa-caret-right"></i> Salary Template </a>
+          <a href="#" class="menu-item"><i class="fas fa-caret-right"></i> Salary Assign </a>
+          <a href="#" class="menu-item"><i class="fas fa-caret-right"></i> Salary Payment </a>
+        </div>
+
+        <button class="menu-item expandable" data-menu="advance-salary">
+          <i class="fa-solid fa-wallet"></i>
+          <span>Advance Salary</span>
+          <i class="fas fa-chevron-right expand-icon"></i>
+        </button>
+        <div class="submenu" id="advance-salary-submenu">
+          <a href="#" class="menu-item"><i class="fas fa-caret-right"></i> My Application </a>
+          <a href="#" class="menu-item"><i class="fas fa-caret-right"></i> Manage Application </a>
+        </div>
+        <button class="menu-item expandable" data-menu="leave">
+          <i class="fa-solid fa-person-through-window"></i>
+          <span>Leave </span>
+          <i class="fas fa-chevron-right expand-icon"></i>
+        </button>
+        <div class="submenu" id="leave-submenu">
+          <a href="#" class="menu-item"><i class="fas fa-caret-right"></i>Category </a>
+          <a href="#" class="menu-item"><i class="fas fa-caret-right"></i> My Application </a>
+          <a href="#" class="menu-item"><i class="fas fa-caret-right"></i> Manage Application </a>
+        </div>
+        <a href="#" class="menu-item"><i class="fa-solid fa-award"></i> Award </a>
+      </div>
+
+      <button class="menu-item expandable" data-menu="academic">
+        <i class="fa-solid fa-school"></i>
+        <span>Academic</span>
+        <i class="fas fa-chevron-right expand-icon"></i>
+      </button>
+
+      <div class="submenu" id="academic-submenu">
+
+        <button class="menu-item expandable" data-menu="class-section">
+          <i class="fas fa-tasks"></i>
+          <span>Class & Section</span>
+          <i class="fas fa-chevron-right expand-icon"></i>
+        </button>
+        <div class="submenu" id="class-section-submenu">
+          <a href="#" class="menu-item"><i class="fas fa-caret-right"></i> Controll Class </a>
+          <a href="#" class="menu-item"><i class="fas fa-caret-right"></i> Assign Class Teacher </a>
+        </div>
+
+        <button class="menu-item expandable" data-menu="subject">
+          <i class="fas fa-book-reader"></i>
+          <span>Subject</span>
+          <i class="fas fa-chevron-right expand-icon"></i>
+        </button>
+        <div class="submenu" id="subject-submenu">
+          <a href="#" class="menu-item"><i class="fas fa-caret-right"></i> Subject </a>
+          <a href="#" class="menu-item"><i class="fas fa-caret-right"></i> Class Assign </a>
+        </div>
+        <a href="#" class="menu-item"><i class="fa-solid fa-award"></i> Class Schedule </a>
+        <a href="#" class="menu-item"><i class="fa-solid fa-award"></i> Teacher Schedule </a>
+        <a href="#" class="menu-item"><i class="fa-solid fa-award"></i> Promotion </a>
+      </div>
+
+      <button class="menu-item expandable" data-menu="live-class">
+        <i class="fa-solid fa-headset"></i>
+        <span>Live Class Rooms</span>
+        <i class="fas fa-chevron-right expand-icon"></i>
+      </button>
+
+      <div class="submenu" id="live-class-submenu">
+        <a href="#" class="menu-item"><i class="fas fa-caret-right"></i> Live Class Rooms</a>
+        <a href="#" class="menu-item"><i class="fas fa-caret-right"></i>Live Class Report </a>
+      </div>
+
+      <button class="menu-item expandable" data-menu="attachment-books">
+        <i class="fa-solid fa-cloud-arrow-up"></i>
+        <span>Attachment Books</span>
+        <i class="fas fa-chevron-right expand-icon"></i>
+      </button>
+
+      <div class="submenu" id="attachment-books-submenu">
+        <a href="#" class="menu-item"><i class="fas fa-caret-right"></i> Upload Content</a>
+        <a href="#" class="menu-item"><i class="fas fa-caret-right"></i>Attachment Type </a>
+      </div>
+
+      <button class="menu-item expandable" data-menu="homework">
+        <i class="far fa-edit"></i>
+        <span>Homework</span>
+        <i class="fas fa-chevron-right expand-icon"></i>
+      </button>
+
+      <div class="submenu" id="homework-submenu">
+        <a href="#" class="menu-item"><i class="fas fa-caret-right"></i> Homework</a>
+        <a href="#" class="menu-item"><i class="fas fa-caret-right"></i>Evaluation Report </a>
+      </div>
+
+      <button class="menu-item expandable" data-menu="inventory">
+        <i class="fa-solid fa-cart-flatbed"></i>
+        <span>Inventory</span>
+        <i class="fas fa-chevron-right expand-icon"></i>
+      </button>
+
+      <div class="submenu" id="inventory-submenu">
+        <a href="#" class="menu-item"><i class="fas fa-caret-right"></i> Product</a>
+        <a href="#" class="menu-item"><i class="fas fa-caret-right"></i>Category </a>
+        <a href="#" class="menu-item"><i class="fas fa-caret-right"></i> Store</a>
+        <a href="#" class="menu-item"><i class="fas fa-caret-right"></i>Supplier </a>
+        <a href="#" class="menu-item"><i class="fas fa-caret-right"></i> Unit</a>
+        <a href="#" class="menu-item"><i class="fas fa-caret-right"></i>Purchase </a>
+        <a href="#" class="menu-item"><i class="fas fa-caret-right"></i> Issue</a>
+      </div>
+
+      <button class="menu-item expandable" data-menu="exam">
+        <i class="fa-brands fa-teamspeak"></i>
+        <span>Exam Manage</span>
+        <i class="fas fa-chevron-right expand-icon"></i>
+      </button>
+
+      <div class="submenu" id="exam-submenu">
+
+        <button class="menu-item expandable" data-menu="exam-dis">
+          <i class="fas fa-tasks"></i>
+          <span>Exam</span>
+          <i class="fas fa-chevron-right expand-icon"></i>
+        </button>
+        <div class="submenu" id="exam-dis-submenu">
+          <a href="#" class="menu-item"><i class="fas fa-caret-right"></i> Exam Term </a>
+          <a href="#" class="menu-item"><i class="fas fa-caret-right"></i> Exam Hall </a>
+          <a href="#" class="menu-item"><i class="fas fa-caret-right"></i> Distribution </a>
+          <a href="#" class="menu-item"><i class="fas fa-caret-right"></i> Exam Setup </a>
+        </div>
+
+        <button class="menu-item expandable" data-menu="exam-schedule">
+          <i class="fas fa-book-reader"></i>
+          <span>Exam Schedule</span>
+          <i class="fas fa-chevron-right expand-icon"></i>
+        </button>
+        <div class="submenu" id="exam-schedule-submenu">
+          <a href="#" class="menu-item"><i class="fas fa-caret-right"></i> Schedule </a>
+          <a href="#" class="menu-item"><i class="fas fa-caret-right"></i> Add Schedule </a>
+        </div>
+        <button class="menu-item expandable" data-menu="mark">
+          <i class="fas fa-book-reader"></i>
+          <span>Marks</span>
+          <i class="fas fa-chevron-right expand-icon"></i>
+        </button>
+        <div class="submenu" id="mark-submenu">
+          <a href="#" class="menu-item"><i class="fas fa-caret-right"></i> Mark Entried </a>
+          <a href="#" class="menu-item"><i class="fas fa-caret-right"></i> Grade Range </a>
+        </div>
+      </div>
+
+      <button class="menu-item expandable" data-menu="online-exam">
+        <i class="fa-solid fa-cart-flatbed"></i>
+        <span>Online Exam</span>
+        <i class="fas fa-chevron-right expand-icon"></i>
+      </button>
+
+      <div class="submenu" id="online-exam-submenu">
+        <a href="#" class="menu-item"><i class="fas fa-caret-right"></i> Online Exam</a>
+        <a href="#" class="menu-item"><i class="fas fa-caret-right"></i>Question Bank </a>
+        <a href="#" class="menu-item"><i class="fas fa-caret-right"></i> Question Group</a>
+        <a href="#" class="menu-item"><i class="fas fa-caret-right"></i>Position Generate </a>
+        <a href="#" class="menu-item"><i class="fas fa-caret-right"></i> Exam Result</a>
+      </div>
+
+      <button class="menu-item expandable" data-menu="supervision">
+        <i class="fa-brands fa-teamspeak"></i>
+        <span>Supervision</span>
+        <i class="fas fa-chevron-right expand-icon"></i>
+      </button>
+
+      <div class="submenu" id="supervision-submenu">
+
+        <button class="menu-item expandable" data-menu="hostel">
+          <i class="fas fa-tasks"></i>
+          <span>Hostel</span>
+          <i class="fas fa-chevron-right expand-icon"></i>
+        </button>
+        <div class="submenu" id="hostel-submenu">
+          <a href="#" class="menu-item"><i class="fas fa-caret-right"></i> Hostel Master </a>
+          <a href="#" class="menu-item"><i class="fas fa-caret-right"></i> Hostel Room </a>
+          <a href="#" class="menu-item"><i class="fas fa-caret-right"></i> Allocation Report </a>
+          <a href="#" class="menu-item"><i class="fas fa-caret-right"></i> Category </a>
+        </div>
+
+        <button class="menu-item expandable" data-menu="transport">
+          <i class="fas fa-book-reader"></i>
+          <span>Transport</span>
+          <i class="fas fa-chevron-right expand-icon"></i>
+        </button>
+        <div class="submenu" id="transport-submenu">
+          <a href="#" class="menu-item"><i class="fas fa-caret-right"></i> Route Master </a>
+          <a href="#" class="menu-item"><i class="fas fa-caret-right"></i> Vehicle Master </a>
+          <a href="#" class="menu-item"><i class="fas fa-caret-right"></i> Stop page </a>
+          <a href="#" class="menu-item"><i class="fas fa-caret-right"></i> Assign Vehicle </a>
+          <a href="#" class="menu-item"><i class="fas fa-caret-right"></i> Allocation Report </a>
+        </div>
+      </div>
+
+      <button class="menu-item expandable" data-menu="attendance">
+        <i class="fas fa-chart-bar"></i>
+        <span> Attendance </span>
+        <i class="fas fa-chevron-right expand-icon"></i>
+      </button>
+
+      <div class="submenu" id="attendance-submenu">
+        <a href="#" class="menu-item"><i class="fas fa-caret-right"></i>Student</a>
+        <a href="#" class="menu-item"><i class="fas fa-caret-right"></i>Employee</a>
+        <a href="#" class="menu-item"><i class="fas fa-caret-right"></i>Exam</a>
+      </div>
+
+      <button class="menu-item expandable" data-menu="library">
+        <i class="fas fa-book"></i>
+        <span> Library </span>
+        <i class="fas fa-chevron-right expand-icon"></i>
+      </button>
+
+      <div class="submenu" id="library-submenu">
+        <a href="#" class="menu-item"><i class="fas fa-caret-right"></i>Books</a>
+        <a href="#" class="menu-item"><i class="fas fa-caret-right"></i>Books Category</a>
+        <a href="#" class="menu-item"><i class="fas fa-caret-right"></i>My Issued Book</a>
+        <a href="#" class="menu-item"><i class="fas fa-caret-right"></i> Book Issued / return</a>
+      </div>
+      <button class="menu-item expandable" data-menu="events">
+        <i class="fas fa-calendar-alt"></i>
+        <span> Events </span>
+        <i class="fas fa-chevron-right expand-icon"></i>
+      </button>
+
+      <div class="submenu" id="events-submenu">
+        <a href="#" class="menu-item">Event Type</a>
+        <a href="#" class="menu-item">Events</a>
+      </div>
+
+      <button class="menu-item expandable" data-menu="bulk-sms">
+        <i class="fas fa-bell"></i>
+        <span> Bulk SMS and Email </span>
+        <i class="fas fa-chevron-right expand-icon"></i>
+      </button>
+      <div class="submenu" id="bulk-sms-submenu">
+        <a href="#" class="menu-item"><i class="fas fa-caret-right"></i>Send Sms / Email</a>
+        <a href="#" class="menu-item"><i class="fas fa-caret-right"></i>Sms / Email Report </a>
+        <a href="#" class="menu-item"><i class="fas fa-caret-right"></i>Sms Templates</a>
+        <a href="#" class="menu-item"><i class="fas fa-caret-right"></i>Email Templates</a>
+        <a href="#" class="menu-item"><i class="fas fa-caret-right"></i>Student Birthday Wishes</a>
+        <a href="#" class="menu-item"><i class="fas fa-caret-right"></i>Staff Birthday Wishes </a>
+      </div>
+
+      <button class="menu-item expandable" data-menu="student-accounting">
+        <i class="fas fa-user-graduate"></i>
+        <span> Student Accounting </span>
+        <i class="fas fa-chevron-right expand-icon"></i>
+      </button>
+      <div class="submenu" id="student-accounting-submenu">
+        <a href="#" class="menu-item"><i class="fas fa-caret-right"></i>Fees Type </a>
+        <a href="#" class="menu-item"><i class="fas fa-caret-right"></i>Fees Group</a>
+        <a href="#" class="menu-item"><i class="fas fa-caret-right"></i>Fine Setup </a>
+        <a href="#" class="menu-item"><i class="fas fa-caret-right"></i>Fees Allocation</a>
+        <a href="#" class="menu-item"><i class="fas fa-caret-right"></i>Fees Pay / Invoice </a>
+        <a href="#" class="menu-item"><i class="fas fa-caret-right"></i>Due Fees Invoice</a>
+        <a href="#" class="menu-item"><i class="fas fa-caret-right"></i>Fees Remainder </a>
+      </div>
+
+      <button class="menu-item expandable" data-menu="office-accounting">
+        <i class="fas fa-credit-card"></i>
+        <span>Office Accounting </span>
+        <i class="fas fa-chevron-right expand-icon"></i>
+      </button>
+      <div class="submenu" id="office-accounting-submenu">
+        <a href="#" class="menu-item"><i class="fas fa-caret-right"></i>Account</a>
+        <a href="#" class="menu-item"><i class="fas fa-caret-right"></i>New Deposite</a>
+        <a href="#" class="menu-item"><i class="fas fa-caret-right"></i>New Expense</a>
+        <a href="#" class="menu-item"><i class="fas fa-caret-right"></i>All Transactions</a>
+        <a href="#" class="menu-item"><i class="fas fa-caret-right"></i>Voucher Head</a>
+      </div>
+
+      <button class="menu-item expandable" data-menu="message">
+        <i class="fas fa-envelope"></i>
+        <span>Message</span>
+        <i class="fas fa-chevron-right expand-icon"></i>
+      </button>
+      <div class="submenu" id="message-submenu">
+        <a href="#" class="menu-item"><i class="fas fa-caret-right"></i>Compose</a>
+        <a href="#" class="menu-item"><i class="fas fa-caret-right"></i>Inbox</a>
+        <a href="#" class="menu-item"><i class="fas fa-caret-right"></i>Sent Messages</a>
+        <a href="#" class="menu-item"><i class="fas fa-caret-right"></i>Announcements</a>
+      </div>
+
+      <button class="menu-item expandable" data-menu="reports">
+        <i class="fas fa-chart-line"></i>
+        <span>Reports</span>
+        <i class="fas fa-chevron-right expand-icon"></i>
+      </button>
+
+      <div class="submenu" id="reports-submenu">
+        <button class="menu-item expandable" data-menu="student-reports">
+          <i class="fas fa-tasks"></i>
+          <span>Student Reports</span>
+          <i class="fas fa-chevron-right expand-icon"></i>
+        </button>
+        <div class="submenu" id="student-reports-submenu">
+          <a href="#" class="menu-item"><i class="fas fa-caret-right"></i> Login Credentials </a>
+          <a href="#" class="menu-item"><i class="fas fa-caret-right"></i> Admission Report </a>
+          <a href="#" class="menu-item"><i class="fas fa-caret-right"></i> Class & Section Report </a>
+        </div>
+
+        <button class="menu-item expandable" data-menu="fees-report">
+          <i class="fas fa-book-reader"></i>
+          <span>Fees Report</span>
+          <i class="fas fa-chevron-right expand-icon"></i>
+        </button>
+        <div class="submenu" id="fees-report-submenu">
+          <a href="#" class="menu-item"><i class="fas fa-caret-right"></i> Fees Report </a>
+          <a href="#" class="menu-item"><i class="fas fa-caret-right"></i> Receipts Report </a>
+          <a href="#" class="menu-item"><i class="fas fa-caret-right"></i> Due Fees Report </a>
+          <a href="#" class="menu-item"><i class="fas fa-caret-right"></i> Fine Report </a>
+        </div>
+        <button class="menu-item expandable" data-menu="financial-report">
+          <i class="fas fa-book-reader"></i>
+          <span>Financial Reports</span>
+          <i class="fas fa-chevron-right expand-icon"></i>
+        </button>
+        <div class="submenu" id="financial-report-submenu">
+          <a href="#" class="menu-item"><i class="fas fa-caret-right"></i> Account Report </a>
+          <a href="#" class="menu-item"><i class="fas fa-caret-right"></i> Income Report </a>
+          <a href="#" class="menu-item"><i class="fas fa-caret-right"></i> Expense Report </a>
+          <a href="#" class="menu-item"><i class="fas fa-caret-right"></i> Transitions Report </a>
+          <a href="#" class="menu-item"><i class="fas fa-caret-right"></i> Balance Sheet </a>
+          <a href="#" class="menu-item"><i class="fas fa-caret-right"></i> Income Vs Expense </a>
+        </div>
+        <button class="menu-item expandable" data-menu="attendance-report">
+          <i class="fas fa-book-reader"></i>
+          <span>Attendance Report</span>
+          <i class="fas fa-chevron-right expand-icon"></i>
+        </button>
+        <div class="submenu" id="attendance-report-submenu">
+          <a href="#" class="menu-item"><i class="fas fa-caret-right"></i> Student Reports </a>
+          <a href="#" class="menu-item"><i class="fas fa-caret-right"></i> Student Daily Reports </a>
+          <a href="#" class="menu-item"><i class="fas fa-caret-right"></i> Employee Reports </a>
+          <a href="#" class="menu-item"><i class="fas fa-caret-right"></i> Exam Reports </a>
+        </div>
+        <button class="menu-item expandable" data-menu="fees-report">
+          <i class="fas fa-book-reader"></i>
+          <span>Human Resource</span>
+          <i class="fas fa-chevron-right expand-icon"></i>
+        </button>
+        <div class="submenu" id="fees-report-submenu">
+          <a href="#" class="menu-item"><i class="fas fa-caret-right"></i> Payroll Summary </a>
+          <a href="#" class="menu-item"><i class="fas fa-caret-right"></i> Leave Reports </a>
+        </div>
+        <button class="menu-item expandable" data-menu="fees-report">
+          <i class="fas fa-book-reader"></i>
+          <span>examination</span>
+          <i class="fas fa-chevron-right expand-icon"></i>
+        </button>
+        <div class="submenu" id="fees-report-submenu">
+          <a href="#" class="menu-item"><i class="fas fa-caret-right"></i> Report Card </a>
+          <a href="#" class="menu-item"><i class="fas fa-caret-right"></i> Tabulation Sheet </a>
+          <a href="#" class="menu-item"><i class="fas fa-caret-right"></i> Progress Reports </a>
+        </div>
+      </div>
+
+      <button class="menu-item expandable" data-menu="settings">
+        <i class="fas fa-cog"></i>
+        <span>Settings</span>
+        <i class="fas fa-chevron-right expand-icon"></i>
+      </button>
+      <div class="submenu" id="settings-submenu">
+        <a href="#" class="menu-item"><i class="fas fa-caret-right"></i>General Settings</a>
+        <a href="#" class="menu-item"><i class="fas fa-caret-right"></i>System Student Field</a>
+        <a href="#" class="menu-item"><i class="fas fa-caret-right"></i>School Setting</a>
+        <a href="#" class="menu-item"><i class="fas fa-caret-right"></i>S Student Field</a>
+        <a href="#" class="menu-item"><i class="fas fa-caret-right"></i>System Configuration</a>
+        <a href="#" class="menu-item"><i class="fas fa-caret-right"></i>Backup & Restore</a>
+      </div>
+    </nav>
+  </div>
+</aside>

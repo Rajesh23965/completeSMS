@@ -1,0 +1,24 @@
+<!-- views/dashboard.ejs -->
+<%- include('partials/head') %>
+<%- include('partials/header') %>
+
+<div class="layout">
+  <%- include('partials/sidebar', { 
+    pageTitle: typeof pageTitle !== 'undefined' ? pageTitle : "" , 
+    pageIcon: typeof pageIcon !== 'undefined' ? pageIcon : "" 
+  }) %>
+
+  <main class="main-content">
+    <%- include('partials/subheader', { 
+      title: typeof pageTitle !== 'undefined' ? pageTitle : "Dashboard",
+      icon: typeof pageIcon !== 'undefined' ? pageIcon : "fa-home",
+      breadcrumbs: typeof breadcrumbs !== 'undefined' ? breadcrumbs : [] 
+    }) %>
+
+    <section class="content-body">
+      <%- body %>   <!-- 👈 placeholder for page-specific content -->
+    </section>
+  </main>
+</div>
+
+<%- include('partials/scripts') %>

@@ -1,0 +1,7 @@
+<!-- views/frontend/settings.ejs -->
+<%- include("../dashboard.ejs", { 
+  body: ejs.renderFile(__dirname + "/partials/settingsForm.ejs", { settings: settings }, (err, str) => { 
+    if (err) throw err; 
+    return str; 
+  }) 
+}) %>
