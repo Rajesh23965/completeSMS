@@ -1,0 +1,48 @@
+<!-- views/frontend/gallery/category/galleryCatList.ejs -->
+<div class="card shadow rounded p-3 border">
+    <h5 class="border-b pb-2 mb-3 font-semibold text-gray-700">
+        <i class="fa fa-list"></i> Category List
+    </h5>
+
+    <div class="table-responsive">
+        <table class="table table-bordered w-full">
+            <thead class="bg-gray-50">
+                <tr>
+                    <th class="px-4 py-2">SN</th>
+                    <th class="px-4 py-2">Category Name</th>
+                    <th class="px-4 py-2">Slug</th>
+                    <th class="px-4 py-2 text-center">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% if (galleryCate && galleryCate.length> 0) { %>
+                    <% galleryCate.forEach((c, index)=> { %>
+                        <tr>
+                            <td class="text-center">
+                                <%= index + 1 %>
+                            </td>
+                            <td>
+                                <%= c.cate_name %>
+                            </td>
+                            <td>
+                                <%= c.slug %>
+                            </td>
+                            <td class="text-center">
+                                <button class="btn btn-sm btn-primary btn-edit" data-id="<%= c.id %>">
+                                    <i class="fas fa-pen-nib"></i>
+                                </button>
+                                <button class="btn btn-sm btn-danger btn-delete" data-id="<%= c.id %>">
+                                    <i class="fa-solid fa-trash"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        <% }) %>
+                            <% } else { %>
+                                <tr>
+                                    <td colspan="4" class="text-center text-red-500">No Information Available</td>
+                                </tr>
+                                <% } %>
+            </tbody>
+        </table>
+    </div>
+</div>

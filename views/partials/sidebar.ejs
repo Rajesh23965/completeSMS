@@ -10,7 +10,7 @@
     <nav>
       <button class="menu-item expandable">
         <img src="/assets/dashboard.png" alt="dashboard image" class="dashboardImage">
-        <a href="/#" class="dash">
+        <a href="/" class="dash">
           <span>Dashboard</span>
         </a>
       </button>
@@ -18,7 +18,7 @@
       <button class="menu-item expandable" data-menu="frontend">
         <i class="fas fa-globe"></i>
         <span>Frontend</span>
-        <i class="fas fa-chevron-right expand-icon"></i>
+        <i class="fa-solid fa-plus expand-icon"></i>
       </button>
 
       <div class="submenu" id="frontend-submenu">
@@ -26,24 +26,27 @@
           class="menu-item <%= typeof pageTitle !== 'undefined' && pageTitle === 'Frontend Settings' ? 'active' : '' %>">
           <i class="fas fa-caret-right"></i> Setting
         </a>
-        <a href="/frontend/menu" class="menu-item <%= pageTitle === 'Frontend Menu' ? 'active' : '' %>">
+        <a href="/frontend/menue" class="menu-item <%= pageTitle === 'Frontend Menu' ? 'active' : '' %>">
           <i class="fas fa-caret-right"></i> Menu
         </a>
-        <a href="#" class="menu-item"><i class="fas fa-caret-right"></i> Page Section</a>
-        <a href="#" class="menu-item"><i class="fas fa-caret-right"></i> Manage Page</a>
-        <a href="#" class="menu-item"><i class="fas fa-caret-right"></i> Slider</a>
-        <a href="#" class="menu-item"><i class="fas fa-caret-right"></i> Features</a>
-        <a href="#" class="menu-item"><i class="fas fa-caret-right"></i> Testimonial</a>
-        <a href="#" class="menu-item"><i class="fas fa-caret-right"></i> Service</a>
-        <a href="#" class="menu-item"><i class="fas fa-caret-right"></i> Faq</a>
-        <a href="#" class="menu-item"><i class="fas fa-caret-right"></i> Gallery Category</a>
-        <a href="#" class="menu-item"><i class="fas fa-caret-right"></i> Gallery</a>
+        <a href="/frontend/section"
+          class="menu-item <%= typeof pageTitle !== 'undefined' && pageTitle === 'Frontend Page Section' ? 'active' : '' %>">
+          <i class="fas fa-caret-right"></i> Page Section
+        </a>
+        <a href="/frontend/content" class="menu-item"><i class="fas fa-caret-right"></i> Manage Page</a>
+        <a href="/frontend/slider" class="menu-item"><i class="fas fa-caret-right"></i> Slider</a>
+        <a href="/frontend/features" class="menu-item"><i class="fas fa-caret-right"></i> Features</a>
+        <a href="/frontend/testimonial" class="menu-item"><i class="fas fa-caret-right"></i> Testimonial</a>
+        <a href="/frontend/services" class="menu-item"><i class="fas fa-caret-right"></i> Service</a>
+        <a href="/frontend/faq" class="menu-item"><i class="fas fa-caret-right"></i> Faq</a>
+        <a href="/frontend/gallery/category" class="menu-item"><i class="fas fa-caret-right"></i> Gallery Category</a>
+        <a href="/frontend/gallery" class="menu-item"><i class="fas fa-caret-right"></i> Gallery</a>
       </div>
 
       <button class="menu-item expandable" data-menu="reception">
         <i class="fa-solid fa-signal"></i>
         <span>Reception</span>
-        <i class="fas fa-chevron-right expand-icon"></i>
+        <i class="fa-solid fa-plus expand-icon"></i>
       </button>
 
       <div class="submenu" id="reception-submenu">
@@ -58,7 +61,7 @@
       <button class="menu-item expandable" data-menu="admission">
         <i class="far fa-edit"></i>
         <span>Admission</span>
-        <i class="fas fa-chevron-right expand-icon"></i>
+        <i class="fa-solid fa-plus expand-icon"></i>
       </button>
 
       <div class="submenu" id="admission-submenu">
@@ -71,7 +74,7 @@
       <button class="menu-item expandable" data-menu="student-details">
         <i class="fa-solid fa-graduation-cap"></i>
         <span>Student Details</span>
-        <i class="fas fa-chevron-right expand-icon"></i>
+        <i class="fa-solid fa-plus expand-icon"></i>
       </button>
 
       <div class="submenu" id="student-details-submenu">
@@ -82,7 +85,7 @@
       <button class="menu-item expandable" data-menu="parent">
         <i class="fa-solid fa-hands-holding-child"></i>
         <span>Parents</span>
-        <i class="fas fa-chevron-right expand-icon"></i>
+        <i class="fa-solid fa-plus expand-icon"></i>
       </button>
 
       <div class="submenu" id="parent-submenu">
@@ -94,7 +97,7 @@
       <button class="menu-item expandable" data-menu="employee">
         <i class="fa-solid fa-users"></i>
         <span>Employee</span>
-        <i class="fas fa-chevron-right expand-icon"></i>
+        <i class="fa-solid fa-plus expand-icon"></i>
       </button>
 
       <div class="submenu" id="employee-submenu">
@@ -108,7 +111,7 @@
       <button class="menu-item expandable" data-menu="card">
         <i class="fa-solid fa-id-card"></i>
         <span>Card Management</span>
-        <i class="fas fa-chevron-right expand-icon"></i>
+        <i class="fa-solid fa-plus expand-icon"></i>
       </button>
 
       <div class="submenu" id="card-submenu">
@@ -122,7 +125,7 @@
       <button class="menu-item expandable" data-menu="certificate">
         <i class="fa-solid fa-certificate"></i>
         <span>Certificate</span>
-        <i class="fas fa-chevron-right expand-icon"></i>
+        <i class="fa-solid fa-plus expand-icon"></i>
       </button>
 
       <div class="submenu" id="certificate-submenu">
@@ -134,7 +137,7 @@
       <button class="menu-item expandable" data-menu="human-resource">
         <i class="fa-brands fa-watchman-monitoring"></i>
         <span>Human Resource</span>
-        <i class="fas fa-chevron-right expand-icon"></i>
+        <i class="fa-solid fa-plus expand-icon"></i>
       </button>
 
       <div class="submenu" id="human-resource-submenu">
@@ -142,7 +145,7 @@
         <button class="menu-item expandable" data-menu="payroll">
           <i class="far fa-address-card"></i>
           <span>Payroll</span>
-          <i class="fas fa-chevron-right expand-icon"></i>
+          <i class="fa-solid fa-plus expand-icon"></i>
         </button>
         <div class="submenu" id="payroll-submenu">
           <a href="#" class="menu-item"><i class="fas fa-caret-right"></i> Salary Template </a>
@@ -153,7 +156,7 @@
         <button class="menu-item expandable" data-menu="advance-salary">
           <i class="fa-solid fa-wallet"></i>
           <span>Advance Salary</span>
-          <i class="fas fa-chevron-right expand-icon"></i>
+          <i class="fas fa-solid fa-plus expand-icon"></i>
         </button>
         <div class="submenu" id="advance-salary-submenu">
           <a href="#" class="menu-item"><i class="fas fa-caret-right"></i> My Application </a>
@@ -162,7 +165,7 @@
         <button class="menu-item expandable" data-menu="leave">
           <i class="fa-solid fa-person-through-window"></i>
           <span>Leave </span>
-          <i class="fas fa-chevron-right expand-icon"></i>
+          <i class="fas fa-solid fa-plus expand-icon"></i>
         </button>
         <div class="submenu" id="leave-submenu">
           <a href="#" class="menu-item"><i class="fas fa-caret-right"></i>Category </a>
@@ -175,7 +178,7 @@
       <button class="menu-item expandable" data-menu="academic">
         <i class="fa-solid fa-school"></i>
         <span>Academic</span>
-        <i class="fas fa-chevron-right expand-icon"></i>
+        <i class="fas fa-solid fa-plus expand-icon"></i>
       </button>
 
       <div class="submenu" id="academic-submenu">
@@ -183,7 +186,7 @@
         <button class="menu-item expandable" data-menu="class-section">
           <i class="fas fa-tasks"></i>
           <span>Class & Section</span>
-          <i class="fas fa-chevron-right expand-icon"></i>
+          <i class="fas fa-solid fa-plus expand-icon"></i>
         </button>
         <div class="submenu" id="class-section-submenu">
           <a href="#" class="menu-item"><i class="fas fa-caret-right"></i> Controll Class </a>
@@ -193,7 +196,7 @@
         <button class="menu-item expandable" data-menu="subject">
           <i class="fas fa-book-reader"></i>
           <span>Subject</span>
-          <i class="fas fa-chevron-right expand-icon"></i>
+          <i class="fas fa-solid fa-plus expand-icon"></i>
         </button>
         <div class="submenu" id="subject-submenu">
           <a href="#" class="menu-item"><i class="fas fa-caret-right"></i> Subject </a>
@@ -207,7 +210,7 @@
       <button class="menu-item expandable" data-menu="live-class">
         <i class="fa-solid fa-headset"></i>
         <span>Live Class Rooms</span>
-        <i class="fas fa-chevron-right expand-icon"></i>
+        <i class="fas fa-solid fa-plus expand-icon"></i>
       </button>
 
       <div class="submenu" id="live-class-submenu">
@@ -218,7 +221,7 @@
       <button class="menu-item expandable" data-menu="attachment-books">
         <i class="fa-solid fa-cloud-arrow-up"></i>
         <span>Attachment Books</span>
-        <i class="fas fa-chevron-right expand-icon"></i>
+        <i class="fa-solid fa-plus expand-icon"></i>
       </button>
 
       <div class="submenu" id="attachment-books-submenu">
@@ -229,7 +232,7 @@
       <button class="menu-item expandable" data-menu="homework">
         <i class="far fa-edit"></i>
         <span>Homework</span>
-        <i class="fas fa-chevron-right expand-icon"></i>
+        <i class="fa-solid fa-plus expand-icon"></i>
       </button>
 
       <div class="submenu" id="homework-submenu">
@@ -240,7 +243,7 @@
       <button class="menu-item expandable" data-menu="inventory">
         <i class="fa-solid fa-cart-flatbed"></i>
         <span>Inventory</span>
-        <i class="fas fa-chevron-right expand-icon"></i>
+        <i class="fa-solid fa-plus expand-icon"></i>
       </button>
 
       <div class="submenu" id="inventory-submenu">
@@ -256,7 +259,7 @@
       <button class="menu-item expandable" data-menu="exam">
         <i class="fa-brands fa-teamspeak"></i>
         <span>Exam Manage</span>
-        <i class="fas fa-chevron-right expand-icon"></i>
+        <i class="fa-solid fa-plus expand-icon"></i>
       </button>
 
       <div class="submenu" id="exam-submenu">
@@ -264,7 +267,7 @@
         <button class="menu-item expandable" data-menu="exam-dis">
           <i class="fas fa-tasks"></i>
           <span>Exam</span>
-          <i class="fas fa-chevron-right expand-icon"></i>
+          <i class="fa-solid fa-plus expand-icon"></i>
         </button>
         <div class="submenu" id="exam-dis-submenu">
           <a href="#" class="menu-item"><i class="fas fa-caret-right"></i> Exam Term </a>
@@ -276,7 +279,7 @@
         <button class="menu-item expandable" data-menu="exam-schedule">
           <i class="fas fa-book-reader"></i>
           <span>Exam Schedule</span>
-          <i class="fas fa-chevron-right expand-icon"></i>
+          <i class="fa-solid fa-plus expand-icon"></i>
         </button>
         <div class="submenu" id="exam-schedule-submenu">
           <a href="#" class="menu-item"><i class="fas fa-caret-right"></i> Schedule </a>
@@ -285,7 +288,7 @@
         <button class="menu-item expandable" data-menu="mark">
           <i class="fas fa-book-reader"></i>
           <span>Marks</span>
-          <i class="fas fa-chevron-right expand-icon"></i>
+          <i class="fa-solid fa-plus expand-icon"></i>
         </button>
         <div class="submenu" id="mark-submenu">
           <a href="#" class="menu-item"><i class="fas fa-caret-right"></i> Mark Entried </a>
@@ -296,7 +299,7 @@
       <button class="menu-item expandable" data-menu="online-exam">
         <i class="fa-solid fa-cart-flatbed"></i>
         <span>Online Exam</span>
-        <i class="fas fa-chevron-right expand-icon"></i>
+        <i class="fa-solid fa-plus expand-icon"></i>
       </button>
 
       <div class="submenu" id="online-exam-submenu">
@@ -310,7 +313,7 @@
       <button class="menu-item expandable" data-menu="supervision">
         <i class="fa-brands fa-teamspeak"></i>
         <span>Supervision</span>
-        <i class="fas fa-chevron-right expand-icon"></i>
+        <i class="fa-solid fa-plus expand-icon"></i>
       </button>
 
       <div class="submenu" id="supervision-submenu">
@@ -318,7 +321,7 @@
         <button class="menu-item expandable" data-menu="hostel">
           <i class="fas fa-tasks"></i>
           <span>Hostel</span>
-          <i class="fas fa-chevron-right expand-icon"></i>
+          <i class="fa-solid fa-plus expand-icon"></i>
         </button>
         <div class="submenu" id="hostel-submenu">
           <a href="#" class="menu-item"><i class="fas fa-caret-right"></i> Hostel Master </a>
@@ -330,7 +333,7 @@
         <button class="menu-item expandable" data-menu="transport">
           <i class="fas fa-book-reader"></i>
           <span>Transport</span>
-          <i class="fas fa-chevron-right expand-icon"></i>
+          <i class="fa-solid fa-plus expand-icon"></i>
         </button>
         <div class="submenu" id="transport-submenu">
           <a href="#" class="menu-item"><i class="fas fa-caret-right"></i> Route Master </a>
@@ -344,7 +347,7 @@
       <button class="menu-item expandable" data-menu="attendance">
         <i class="fas fa-chart-bar"></i>
         <span> Attendance </span>
-        <i class="fas fa-chevron-right expand-icon"></i>
+        <i class="fa-solid fa-plus expand-icon"></i>
       </button>
 
       <div class="submenu" id="attendance-submenu">
@@ -356,7 +359,7 @@
       <button class="menu-item expandable" data-menu="library">
         <i class="fas fa-book"></i>
         <span> Library </span>
-        <i class="fas fa-chevron-right expand-icon"></i>
+        <i class="fa-solid fa-plus expand-icon"></i>
       </button>
 
       <div class="submenu" id="library-submenu">
@@ -368,7 +371,7 @@
       <button class="menu-item expandable" data-menu="events">
         <i class="fas fa-calendar-alt"></i>
         <span> Events </span>
-        <i class="fas fa-chevron-right expand-icon"></i>
+        <i class="fa-solid fa-plus expand-icon"></i>
       </button>
 
       <div class="submenu" id="events-submenu">
@@ -379,7 +382,7 @@
       <button class="menu-item expandable" data-menu="bulk-sms">
         <i class="fas fa-bell"></i>
         <span> Bulk SMS and Email </span>
-        <i class="fas fa-chevron-right expand-icon"></i>
+        <i class="fa-solid fa-plus expand-icon"></i>
       </button>
       <div class="submenu" id="bulk-sms-submenu">
         <a href="#" class="menu-item"><i class="fas fa-caret-right"></i>Send Sms / Email</a>
@@ -393,7 +396,7 @@
       <button class="menu-item expandable" data-menu="student-accounting">
         <i class="fas fa-user-graduate"></i>
         <span> Student Accounting </span>
-        <i class="fas fa-chevron-right expand-icon"></i>
+        <i class="fa-solid fa-plus expand-icon"></i>
       </button>
       <div class="submenu" id="student-accounting-submenu">
         <a href="#" class="menu-item"><i class="fas fa-caret-right"></i>Fees Type </a>
@@ -408,7 +411,7 @@
       <button class="menu-item expandable" data-menu="office-accounting">
         <i class="fas fa-credit-card"></i>
         <span>Office Accounting </span>
-        <i class="fas fa-chevron-right expand-icon"></i>
+        <i class="fa-solid fa-plus expand-icon"></i>
       </button>
       <div class="submenu" id="office-accounting-submenu">
         <a href="#" class="menu-item"><i class="fas fa-caret-right"></i>Account</a>
@@ -421,7 +424,7 @@
       <button class="menu-item expandable" data-menu="message">
         <i class="fas fa-envelope"></i>
         <span>Message</span>
-        <i class="fas fa-chevron-right expand-icon"></i>
+        <i class="fa-solid fa-plus expand-icon"></i>
       </button>
       <div class="submenu" id="message-submenu">
         <a href="#" class="menu-item"><i class="fas fa-caret-right"></i>Compose</a>
@@ -433,14 +436,14 @@
       <button class="menu-item expandable" data-menu="reports">
         <i class="fas fa-chart-line"></i>
         <span>Reports</span>
-        <i class="fas fa-chevron-right expand-icon"></i>
+        <i class="fa-solid fa-plus expand-icon"></i>
       </button>
 
       <div class="submenu" id="reports-submenu">
         <button class="menu-item expandable" data-menu="student-reports">
           <i class="fas fa-tasks"></i>
           <span>Student Reports</span>
-          <i class="fas fa-chevron-right expand-icon"></i>
+          <i class="fa-solid fa-plus expand-icon"></i>
         </button>
         <div class="submenu" id="student-reports-submenu">
           <a href="#" class="menu-item"><i class="fas fa-caret-right"></i> Login Credentials </a>
@@ -451,7 +454,7 @@
         <button class="menu-item expandable" data-menu="fees-report">
           <i class="fas fa-book-reader"></i>
           <span>Fees Report</span>
-          <i class="fas fa-chevron-right expand-icon"></i>
+          <i class="fa-solid fa-plus expand-icon"></i>
         </button>
         <div class="submenu" id="fees-report-submenu">
           <a href="#" class="menu-item"><i class="fas fa-caret-right"></i> Fees Report </a>
@@ -462,7 +465,7 @@
         <button class="menu-item expandable" data-menu="financial-report">
           <i class="fas fa-book-reader"></i>
           <span>Financial Reports</span>
-          <i class="fas fa-chevron-right expand-icon"></i>
+          <i class="fa-solid fa-plus expand-icon"></i>
         </button>
         <div class="submenu" id="financial-report-submenu">
           <a href="#" class="menu-item"><i class="fas fa-caret-right"></i> Account Report </a>
@@ -475,7 +478,7 @@
         <button class="menu-item expandable" data-menu="attendance-report">
           <i class="fas fa-book-reader"></i>
           <span>Attendance Report</span>
-          <i class="fas fa-chevron-right expand-icon"></i>
+          <i class="fa-solid fa-plus expand-icon"></i>
         </button>
         <div class="submenu" id="attendance-report-submenu">
           <a href="#" class="menu-item"><i class="fas fa-caret-right"></i> Student Reports </a>
@@ -486,7 +489,7 @@
         <button class="menu-item expandable" data-menu="fees-report">
           <i class="fas fa-book-reader"></i>
           <span>Human Resource</span>
-          <i class="fas fa-chevron-right expand-icon"></i>
+          <i class="fa-solid fa-plus expand-icon"></i>
         </button>
         <div class="submenu" id="fees-report-submenu">
           <a href="#" class="menu-item"><i class="fas fa-caret-right"></i> Payroll Summary </a>
@@ -495,7 +498,7 @@
         <button class="menu-item expandable" data-menu="fees-report">
           <i class="fas fa-book-reader"></i>
           <span>examination</span>
-          <i class="fas fa-chevron-right expand-icon"></i>
+          <i class="fa-solid fa-plus expand-icon"></i>
         </button>
         <div class="submenu" id="fees-report-submenu">
           <a href="#" class="menu-item"><i class="fas fa-caret-right"></i> Report Card </a>
@@ -507,7 +510,7 @@
       <button class="menu-item expandable" data-menu="settings">
         <i class="fas fa-cog"></i>
         <span>Settings</span>
-        <i class="fas fa-chevron-right expand-icon"></i>
+        <i class="fa-solid fa-plus expand-icon"></i>
       </button>
       <div class="submenu" id="settings-submenu">
         <a href="#" class="menu-item"><i class="fas fa-caret-right"></i>General Settings</a>

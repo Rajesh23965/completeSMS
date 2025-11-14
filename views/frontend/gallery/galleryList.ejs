@@ -1,0 +1,86 @@
+<!-- views/frontend/gallery/galleryList.ejs -->
+<div class="card shadow rounded p-3 border">
+    <div class="table-responsive">
+        <table class="table table-bordered w-full">
+            <thead class="bg-gray-50">
+                <tr>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">SN</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Thumb
+                        Image
+                    </th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Gallery
+                        Title
+                    </th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"> Category
+                    </th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Description
+                    </th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"> Uploaded
+                    </th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Show</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <% gallery.forEach((s, index)=> { %>
+                    <tr>
+                        <td class="text-center">
+                            <%= s.id %>
+                        </td>
+                        <td class="text-center">
+                            <% if (s.thumbimage) { %>
+                                <img src="/uploads/gallery/<%= s.thumbimage %>" alt="Thumb iMage" class="img-rounded"
+                                    style="height: 50px; object-fit: cover;">
+                                <% } else { %>
+                                    No Photo
+                                    <% } %>
+                        </td>
+                        <td class="text-center">
+                            <%= s.title %>
+                        </td>
+                        <td class="text-center">
+                            <%= s.category_name %>
+                        </td>
+
+                        <td class="text-center">
+                            <%= s.description %>
+                        </td>
+
+                        <td class="text-center">
+                            <%= s.upload_count %>
+                        </td>
+
+                        <td id="toggle-container-<%=s.id%>">
+                            <button
+                                class="btn btn-sm btn-toggle-publish <%= s.show_website === 'Enable' ? 'btn-success' : 'btn-danger' %>"
+                                data-id="<%=s.id%>" data-current-status="<%= s.show_website %>">
+                                <i
+                                    class="fas <%= s.show_website === 'Enable' ? 'fa-toggle-on' : 'fa-toggle-off' %>"></i>
+                                <%= s.show_website %>
+                            </button>
+                        </td>
+
+                        <td>
+                            <div class="action-buttons">
+                                <a href="/frontend/gallery/album/<%= s.id %>" class="btn btn-sm btn-link"
+                                    data-bs-toggle="tooltip" data-bs-placement="top" title="Add Photos / Videos">
+
+                                    <i class="fas fa-photo-video fa-2x"></i>
+                                </a>
+
+                                <button class="btn btn-sm btn-primary btn-edit" data-id="<%=s.id%>">
+                                    <i class="fas fa-pen-nib"></i>
+                                </button>
+                                <button class="btn btn-sm btn-danger btn-delete" data-id="<%=s.id%>">
+                                    <i class="fa-solid fa-trash"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                    <% }) %>
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -1,0 +1,66 @@
+<!-- views/frontend/partials/menuForm.ejs -->
+<div id="alertMessage" class="alert-message" style="display: none;"></div>
+
+<form id="menuForm" class="menue-form ">
+  <input type="hidden" name="id" value="<%= menu.id || '' %>" />
+
+  <div class="mb-3">
+    <label class="form-label">Title</label>
+    <input type="text" name="title" class="form-control" value="<%= menu.title || '' %>" required />
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label">Position</label>
+    <input type="number" name="position" class="form-control" value="<%= menu.position || '' %>" required />
+  </div>
+
+  <div class="form-check form-switch mb-3">
+    <input class="form-check-input" type="checkbox" id="publish" name="publish" <%=menu.publish==='Enable' ? 'checked'
+      : '' %> />
+    <label class="form-check-label" for="publish">Publish</label>
+  </div>
+
+  <div class="form-check form-switch mb-3">
+    <input class="form-check-input" type="checkbox" id="target_new_window" name="target_new_window"
+      <%=menu.target_new_window ? 'checked' : '' %> />
+    <label class="form-check-label" for="target_new_window">Open in New Window</label>
+  </div>
+
+  <div class="form-check form-switch mb-3">
+    <input class="form-check-input" type="checkbox" id="external_url" name="external_url" <%=menu.external_url
+      ? 'checked' : '' %> />
+    <label class="form-check-label" for="external_url">Use External Link</label>
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label">External Link</label>
+    <input type="text" name="external_link" id="external_link" class="form-control"
+      value="<%= menu.external_link || '' %>" <%=menu.external_url ? '' : 'disabled' %> />
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label">Parent Menu</label>
+    <select name="sub_menu" class="form-select">
+      <option value="">Select Parent Menu</option>
+      <% if (Array.isArray(menus)) { %>
+        <% menus.forEach(m=> { %>
+          <% if (!menu.id || menu.id !==m.id) { %>
+            <option value="<%= m.id %>" <%=menu.sub_menu && parseInt(menu.sub_menu)===parseInt(m.id) ? 'selected' : ''
+              %>>
+              <%= m.title %>
+            </option>
+            <% } %>
+              <% }) %>
+                <% } %>
+    </select>
+
+  </div>
+
+  <button type="submit" class="btn btn-primary">
+    <%= typeof editing !=='undefined' && editing ? 'Update' : 'Save' %>
+  </button>
+
+  <% if (typeof editing !=='undefined' && editing) { %>
+    <button type="button" id="cancelEdit" class="btn btn-secondary ms-2">Cancel</button>
+    <% } %>
+</form>

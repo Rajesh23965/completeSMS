@@ -65,7 +65,7 @@
             <input type="file" name="logo" id="logoInput" accept="image/*" style="display: none;">
         </div>
 
-        <div class="preview-container" id="logoPreview">
+        <div class="drop-area" id="logoPreview">
             <% if (settings.logo) { %>
                 <div class="preview-item">
                     <img src="<%= settings.logo %>" alt="Logo">
@@ -86,7 +86,7 @@
             <input type="file" name="fav_icon" id="faviconInput" accept="image/*" style="display: none;">
         </div>
 
-        <div class="preview-container" id="faviconPreview">
+        <div class="drop-area" id="faviconPreview">
             <% if (settings.fav_icon) { %>
                 <div class="preview-item">
                     <img src="<%= settings.fav_icon %>" alt="Favicon">
@@ -107,6 +107,7 @@
             placeholder="Paste your Google Analytics code here"><%= settings.google_analytics || '' %></textarea>
     </div>
 
+
     <!-- Color Picker Section -->
     <h3 class="section-title"><i class="fas fa-palette"></i> Color Scheme</h3>
 
@@ -114,7 +115,7 @@
         <div class="form-group">
             <label class="form-label">Primary Color</label>
             <div class="color-picker-container">
-                <div class="color-preview" style=`background-color: <%=settings.theme_primary_color || '#4361ee' %>;`>
+                <div class="color-preview" data-color="<%= settings.theme_primary_color || '#4361ee' %>">
                 </div>
                 <input type="color" class="color-input" name="theme_primary_color"
                     value="<%= settings.theme_primary_color || '#4361ee' %>">
@@ -126,7 +127,8 @@
         <div class="form-group">
             <label class="form-label">Menu Background Color</label>
             <div class="color-picker-container">
-                <div class="color-preview" style=`background-color: <%=settings.theme_menu_bg_color || '#3f37c9' %>;`>
+                
+                     <div class="color-preview" data-color="<%= settings.theme_menu_bg_color || '#3f37c9' %>">
                 </div>
                 <input type="color" class="color-input" name="theme_menu_bg_color"
                     value="<%= settings.theme_menu_bg_color || '#3f37c9' %>">
@@ -138,8 +140,8 @@
         <div class="form-group">
             <label class="form-label">Button Hover Color</label>
             <div class="color-picker-container">
-                <div class="color-preview" style=`background-color: <%=settings.theme_button_hover_color || '#4cc9f0' %>
-                    ;`></div>
+                <div class="color-preview"
+                    data-color="<%= settings.theme_button_hover_color || '#4cc9f0' %>;"></div>
                 <input type="color" class="color-input" name="theme_button_hover_color"
                     value="<%= settings.theme_button_hover_color || '#4cc9f0' %>">
                 <input type="text" class="form-control color-text-input"
@@ -147,11 +149,10 @@
             </div>
         </div>
 
-
         <div class="form-group">
             <label class="form-label">Text Color</label>
             <div class="color-picker-container">
-                <div class="color-preview" style=`background-color: <%=settings.theme_text_color || '#232323' %>;`>
+                <div class="color-preview" data-color="<%= settings.theme_text_color || '#232323' %>;">
                 </div>
                 <input type="color" class="color-input" name="theme_text_color"
                     value="<%= settings.theme_text_color || '#232323' %>">
@@ -163,8 +164,8 @@
         <div class="form-group">
             <label class="form-label">Text Secondary Color</label>
             <div class="color-picker-container">
-                <div class="color-preview" style=`background-color: <%=settings.theme_text_secondary_color || '#383838'
-                    %>;`></div>
+                <div class="color-preview"
+                    data-color="<%= settings.theme_text_secondary_color || '#383838' %>;"></div>
                 <input type="color" class="color-input" name="theme_text_secondary_color"
                     value="<%= settings.theme_text_secondary_color || '#383838' %>">
                 <input type="text" class="form-control color-text-input"
@@ -175,8 +176,8 @@
         <div class="form-group">
             <label class="form-label">Footer Bg Color</label>
             <div class="color-picker-container">
-                <div class="color-preview" style=`background-color: <%=settings.theme_footer_bg_color || '#12414f' %>;`>
-                </div>
+                <div class="color-preview"
+                    data-color=" <%= settings.theme_footer_bg_color || '#12414f' %>;"></div>
                 <input type="color" class="color-input" name="theme_footer_bg_color"
                     value="<%= settings.theme_footer_bg_color || '#12414f' %>">
                 <input type="text" class="form-control color-text-input"
@@ -187,8 +188,8 @@
         <div class="form-group">
             <label class="form-label">Footer Text Color</label>
             <div class="color-picker-container">
-                <div class="color-preview" style=`background-color: <%=settings.theme_footer_text_color || '#8d8d8d' %>
-                    ;`></div>
+                <div class="color-preview"
+                    data-color=" <%= settings.theme_footer_text_color || '#8d8d8d' %>;"></div>
                 <input type="color" class="color-input" name="theme_footer_text_color"
                     value="<%= settings.theme_footer_text_color || '#8d8d8d' %>">
                 <input type="text" class="form-control color-text-input"
@@ -199,8 +200,8 @@
         <div class="form-group">
             <label class="form-label">Copyright Bg Color</label>
             <div class="color-picker-container">
-                <div class="color-preview" style=`background-color: <%=settings.theme_copyright_bg_color || '#262626' %>
-                    ;`></div>
+                <div class="color-preview"
+                    data-color="<%= settings.theme_copyright_bg_color || '#262626' %>;"></div>
                 <input type="color" class="color-input" name="theme_copyright_bg_color"
                     value="<%= settings.theme_copyright_bg_color || '#262626' %>">
                 <input type="text" class="form-control color-text-input"
@@ -211,9 +212,8 @@
         <div class="form-group">
             <label class="form-label">Copyright Text Color</label>
             <div class="color-picker-container">
-                <div class="color-preview" style=`background-color: <%=settings.theme_copyright_text_color || '#8d8d8d'
-                    %>
-                    ;`></div>
+                <div class="color-preview"
+                    data-color=" <%= settings.theme_copyright_text_color || '#8d8d8d' %>;"></div>
                 <input type="color" class="color-input" name="theme_copyright_text_color"
                     value="<%= settings.theme_copyright_text_color || '#8d8d8d' %>">
                 <input type="text" class="form-control color-text-input"
@@ -221,14 +221,11 @@
             </div>
         </div>
 
-
         <div class="form-group">
             <label class="form-label">Border Radius</label>
             <input type="text" name="theme_border_radius" value="<%= settings.theme_border_radius || '0' %>"
                 class="form-control">
         </div>
-
-
     </div>
 
     <!-- Contact Info Section -->

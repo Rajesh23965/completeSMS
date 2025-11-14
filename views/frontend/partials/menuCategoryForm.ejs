@@ -1,0 +1,62 @@
+<!-- views/frontend/partials/menuCategoryForm.ejs -->
+<div id="alertMessage" class="alert-message" style="display: none;"></div>
+
+
+<form id="menuCategoryForm" class="menue_cate">
+  <!-- Hidden ID for edit -->
+  <input type="hidden" name="id" value="<%= category ? category.id || '' : '' %>" />
+
+  <!-- Select Menu -->
+  <div class="mb-3">
+    <label for="menu_id" class="form-label">Select Menu</label>
+    <select name="menu_id" id="menu_id" class="form-select" required>
+      <option value="">Select Menu</option>
+      <% if (Array.isArray(menus)) { %>
+        <% menus.forEach(m=> { %>
+          <option value="<%= m.id %>" <%=category && category.menu_id && parseInt(category.menu_id)===parseInt(m.id)
+            ? 'selected' : '' %>>
+            <%= m.title %>
+          </option>
+          <% }) %>
+            <% } %>
+    </select>
+  </div>
+
+  <!-- Category Title -->
+  <div class="mb-3">
+    <label for="menu_category_title" class="form-label">Category Title</label>
+    <input type="text" name="menu_category_title" class="form-control"
+      value="<%= category ? category.menu_category_title || '' : '' %>" required />
+  </div>
+
+  <!-- Category URL -->
+  <div class="mb-3">
+    <label for="menu_category_url" class="form-label">URL</label>
+    <input type="text" name="menu_category_url" class="form-control"
+      value="<%= category ? category.menu_category_url || '' : '' %>" />
+  </div>
+
+  <!-- Position -->
+  <div class="mb-3">
+    <label for="position" class="form-label">Position</label>
+    <input type="number" name="position" class="form-control" value="<%= category ? category.position || 0 : 0 %>" />
+  </div>
+
+  <!-- Status -->
+  <div class="mb-3">
+    <label for="status" class="form-label">Status</label>
+    <select name="status" class="form-select">
+      <option value="Enable" <%=category && category.status==='Enable' ? 'selected' : '' %>>Enable</option>
+      <option value="Disable" <%=category && category.status==='Disable' ? 'selected' : '' %>>Disable</option>
+    </select>
+  </div>
+
+  <!-- Submit Button -->
+  <button type="submit" class="btn btn-primary">
+    <%= typeof editing !=='undefined' && editing ? 'Update' : 'Save' %>
+  </button>
+
+  <% if (typeof editing !=='undefined' && editing) { %>
+    <button type="button" id="cancelCategory" class="btn btn-secondary ms-2">Cancel</button>
+    <% } %>
+</form>

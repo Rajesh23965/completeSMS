@@ -1,0 +1,19 @@
+<!-- views/frontend/sections/events.ejs -->
+
+<form id="eventsForm" action="/frontend/section/events" method="POST" enctype="application/x-www-form-urlencoded">
+    <input type="hidden" name="id" value="<%= event?.id || '' %>">
+
+    <div class="mb-3">
+        <label class="required-field">Title</label>
+        <input type="text" name="title" value="<%= event?.title || '' %>" class="form-control" required>
+    </div>
+
+    <div class="mb-3">
+        <label class=""> Description</label>
+        <textarea name="description" id="description" class="form-control"><%= event?.description || '' %></textarea>
+    </div>
+
+
+    <button type="submit" class="btn btn-primary">Save</button>
+
+</form>

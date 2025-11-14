@@ -1,0 +1,54 @@
+<!-- views/frontend/sections/home-services.ejs -->
+
+<form action="/frontend/section/home-services" method="POST" enctype="application/x-www-form-urlencoded">
+
+    <!-- Hidden ID for Update -->
+    <input type="hidden" name="id" value="<%= services?.id || '' %>">
+
+    <!-- CTA Title -->
+    <div class="mb-3">
+        <label class="required-field"> Title</label>
+        <input type="text" name="title" value="<%= services?.title || '' %>" class="form-control" required>
+    </div>
+
+    <!-- Description -->
+    <div class="mb-3">
+        <label class="required-field">Description</label>
+        <textarea name="description" class="form-control"><%= services?.description || '' %></textarea>
+    </div>
+
+    <!-- Title Text Color -->
+    <div class="mb-3">
+        <label class="form-label required-field">Title Text Color</label>
+        <div class="d-flex align-items-center gap-2">
+            <input type="color" class="form-control form-control-color" name="title_text_color"
+                value="<%= services?.title_text_color || '#12414f' %>">
+            <input type="text" class="form-control" value="<%= services?.title_text_color || '#12414f' %>"
+                style="max-width:120px;">
+        </div>
+    </div>
+
+    <!-- Background Color -->
+    <div class="mb-3">
+        <label class="form-label required-field">Background Color</label>
+        <div class="color-picker-container">
+            <input type="color" class="color-input form-control form-control-color" name="background_color"
+                value="<%= services?.background_color || '#12414f' %>">
+            <input type="text" class="form-control color-text-input"
+                value="<%= services?.background_color || '#12414f' %>" style="max-width: 120px;">
+        </div>
+    </div>
+
+
+    <!-- Show on Website -->
+    <div class="form-check form-switch mb-3">
+        <!-- FIX 1: Add hidden input to send "Disable" if the checkbox is unchecked -->
+        <input type="hidden" name="show_website" value="Disable">
+        <input class="form-check-input" type="checkbox" id="showWebsite" name="show_website" value="Enable"
+            <%=services?.show_website==='Enable' ? 'checked' : '' %> >
+        <label class="form-check-label" for="showWebsite">Show Website</label>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Save</button>
+
+</form>

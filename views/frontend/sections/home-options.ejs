@@ -1,0 +1,30 @@
+<!-- views/frontend/sections/home-options.ejs -->
+
+<form action="/frontend/section/home-options" method="POST" enctype="application/x-www-form-urlencoded">
+<!-- FIX: Changed homeoptions to options to match the variable passed in the route (res.render) -->
+<input type="hidden" name="id" value="<%= options?.id || '' %>">
+
+<!-- Page Title -->
+
+<div class="mb-3">
+<label class="required-field">Page Title</label>
+<input type="text" name="page_title" value="<%= options?.page_title || '' %>" class="form-control">
+</div>
+
+<!-- Meta Keyword -->
+
+<div class="mb-3">
+<label class=""> Meta Keyword</label>
+<input type="text" name="meta_keyword" value="<%= options?.meta_keyword || '0' %>" class="form-control">
+</div>
+
+<!-- Meta Description -->
+
+<div class="mb-3">
+<label class=""> Meta Description</label>
+<textarea name="meta_description" class="form-control"><%= options?.meta_description || '' %></textarea>
+</div>
+
+<button type="submit" class="btn btn-primary">Save</button>
+
+</form>

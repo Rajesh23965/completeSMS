@@ -7,6 +7,16 @@ import { fileURLToPath } from 'url';
 import MySQLStoreModule from 'express-mysql-session';
 const MySQLStore = MySQLStoreModule(session);
 import settingRoute from "./routes/SettingRoutes/settingRoutes.js"
+import menuRoutes from "./routes/MenueRoutes/menuRoutes.js";
+import pageRoute from "./routes/PageSection/pageRoutes.js"
+import sliderRoutes from "./routes/SliderRoutes/sliderRoutes.js"
+import featureRoutes from "./routes/FeaturesRoutes/features.js"
+import testimonialRoutes from "./routes/Testimonial/Testimonial.js";
+import serviceRoutes from "./routes/ServiceRoute/ServiceRoute.js";
+import faqRoutes from "./routes/FrontendFaq/FrontendFaq.js";
+import galleryCatRoutes from "./routes/GalleryCate/GalleryCateRoutes.js";
+import galleryRoutes from "./routes/GalleryRoutes/GalleryRoutes.js"
+import galleryUploadRoutes  from "./routes/GalleryRoutes/galleryUploadRoutes.js"
 
 const app = express();
 
@@ -23,6 +33,7 @@ const corsOptions = {
 app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
 // Set EJS as view engine
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -67,8 +78,8 @@ app.use(session({
     }
 }));
 app.use((req, res, next) => {
-  res.locals.baseUrl = req.protocol + '://' + req.get('host');
-  next();
+    res.locals.baseUrl = req.protocol + '://' + req.get('host');
+    next();
 });
 
 // Routes
@@ -79,13 +90,23 @@ app.get('/', (req, res) => {
         pageTitle: 'Dashboard',
         pageIcon: 'fa-tachometer-alt',
         breadcrumbs: [{ label: '', href: '/' }],
-        baseUrl: req.protocol + '://' + req.get('host'), // 
+        baseUrl: req.protocol + '://' + req.get('host'),
         breadcrumbs: [{ label: '', href: '/' }],
-        body:"All"
+        body: "All"
     });
 });
 
-app.use("/frontend",settingRoute);
+app.use("/frontend", settingRoute);
+app.use("/frontend", menuRoutes);
+app.use("/frontend", pageRoute);
+app.use("/frontend", sliderRoutes);
+app.use("/frontend", featureRoutes);
+app.use("/frontend", testimonialRoutes);
+app.use("/frontend", serviceRoutes);
+app.use("/frontend", faqRoutes);
+app.use("/frontend", galleryCatRoutes);
+app.use("/frontend", galleryRoutes);
+app.use("/frontend", galleryUploadRoutes);
 
 export default app;
 

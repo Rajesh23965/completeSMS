@@ -1,0 +1,64 @@
+<!-- views/frontend/sections/admission.ejs -->
+
+<form action="/frontend/section/online-admission" method="POST" enctype="multipart/form-data">
+    <input type="hidden" name="id" value="<%= onAdmission?.id || '' %>">
+
+    <!-- ===================== Title & Description ===================== -->
+    <div class="mb-3">
+        <label class="required-field">Title</label>
+        <input type="text" name="title" value="<%= onAdmission?.title || '' %>" class="form-control" required>
+    </div>
+
+    <div class="mb-3">
+        <label class="required-field">Description</label>
+        <textarea name="description" class="form-control"><%= onAdmission?.description || '' %></textarea>
+    </div>
+
+    <!-- =====================Terms And Condition Title & Description ===================== -->
+    <div class="mb-3">
+        <label class="required-field">Terms Conditions Title</label>
+        <input type="text" name="terms_con_title" value="<%= onAdmission?.terms_con_title || '' %>" class="form-control"
+            required>
+    </div>
+
+    <div class="mb-3">
+        <label class="required-field">Terms Conditions Description</label>
+        <textarea name="terms_con_description"
+            class="form-control"><%= onAdmission?.terms_con_description || '' %></textarea>
+    </div>
+
+
+
+    <!-- ===================== Online Admission Fee ===================== -->
+    <% const admissionFee=onAdmission?.admissionFee || []; %>
+        <!-- ========== Widget 1 ========== -->
+        <h5 class="headers-line mt-4"><i class="fas fa-th-large"></i> Online Addmission Fee</h5>
+        <div class="card p-3 mb-3">
+            <div class="mb-3">
+                <label class="form-label required-field">Status</label>
+                <select class="form-select" name="admissionFee[0][status]">
+                    <option value="">Select</option>
+                    <option value="free" <%=admissionFee[0]?.status==='free' ? 'selected' : '' %>>Free
+                    </option>
+                    <option value="pay" <%=admissionFee[0]?.status==='pay' ? 'selected' : '' %>
+                        >Pay</option>
+                </select>
+            </div>
+
+            This section is readonly mode af
+            <div class="mb-3">
+                <label class="form-label required-field">Class</label>
+                <input type="text" readonly class="form-control" name="admissionFee[0][class]"
+                    value="<%= admissionFee[0]?.class || '' %>" placeholder="Enter class name">
+            </div>
+            <div class="mb-3">
+                <label class="form-label required-field">Widget Icon</label>
+                <input type="text" class="form-control" name="widgets[0][widget_icon]"
+                    value="<%= admissionFee[0]?.widget_icon || '' %>" placeholder="fa fa-user">
+            </div>
+
+        </div>
+
+
+        <button type="submit" class="btn btn-primary">Save</button>
+</form>

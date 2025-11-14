@@ -1,0 +1,47 @@
+<!-- views/frontend/features/featuresUI.ejs -->
+
+<form id="featuresForm" class="feature-form" action="/frontend/features/save" method="POST"
+    enctype="application/x-www-form-urlencoded">
+    <% if (feature && feature.id) { %>
+        <input type="hidden" name="id" value="<%= feature.id %>">
+        <% } %>
+
+            <div class="form-group mb-3">
+                <label for="title" class="form-label ">Title</label>
+                <input type="text" id="title" name="title" class="form-control" value="<%= feature.title || '' %>"
+                    required>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4 ">
+                <!-- Button One -->
+                <div class="form-group mb-3">
+                    <label for="button_text" class="form-label required-field">Button Text</label>
+                    <input type="text" id="button_text" name="button_text" class="form-control"
+                        value="<%= feature.button_text || '' %>">
+                </div>
+                <div class="form-group mb-3">
+                    <label for="button_url" class="form-label required-field">Button URL</label>
+                    <input type="text" id="button_url" name="button_url" class="form-control"
+                        value="<%= feature.button_url || '' %>">
+                </div>
+
+                <!-- Button Two -->
+                <div class="form-group mb-3">
+                    <label for="icon" class="form-label required-field">Icon</label>
+                    <input type="text" id="icon" name="icon" class="form-control" value="<%= feature.icon || '' %>">
+                </div>
+
+                <div class="form-group mb-3">
+                    <label for="description" class="form-label required-field">Description</label>
+                    <textarea id="description" name="description" class="form-control" rows="3"
+                        required><%= feature.description || '' %></textarea>
+                </div>
+
+            </div>
+
+
+            <button type="submit"
+                class="btn btn-primary bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">
+                Save
+            </button>
+</form>

@@ -1,0 +1,18 @@
+<!-- views/frontend/sections/faq.ejs -->
+<form id="faqForm" action="/frontend/section/faq" method="POST" enctype="application/x-www-form-urlencoded">
+    <input type="hidden" name="id" value="<%= faq?.id || '' %>">
+
+    <div class="mb-3">
+        <label class="required-field">Title</label>
+        <input type="text" name="title" value="<%= faq?.title || '' %>" class="form-control" required>
+    </div>
+
+    <div class="mb-3">
+        <label class=""> Description</label>
+        <textarea name="description" id="description" class="form-control"><%= faq?.description || '' %></textarea>
+    </div>
+
+
+    <button type="submit" class="btn btn-primary">Save</button>
+
+</form>

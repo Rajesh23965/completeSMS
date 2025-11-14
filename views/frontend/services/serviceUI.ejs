@@ -1,0 +1,36 @@
+<!-- views/frontend/service/serviceUI.ejs -->
+
+<form id="serviceForm" class="service-form" action="/frontend/services/save" method="POST"
+    enctype="application/x-www-form-urlencoded">
+    <% if (service && service.id) { %>
+        <input type="hidden" name="id" value="<%= service.id %>">
+        <% } %>
+
+            <div class="form-group mb-3">
+                <label for="title" class="form-label ">Title</label>
+                <input type="text" id="title" name="title" class="form-control" value="<%= service.title || '' %>"
+                    required>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4 ">
+
+                <!-- Button Two -->
+                <div class="form-group mb-3">
+                    <label for="icon" class="form-label required-field">Icon</label>
+                    <input type="text" id="icon" name="icon" class="form-control" value="<%= service.icon || '' %>">
+                </div>
+
+                <div class="form-group mb-3">
+                    <label for="description" class="form-label required-field">Description</label>
+                    <textarea id="description" name="description" class="form-control" rows="3"
+                        required><%= service.description || '' %></textarea>
+                </div>
+
+            </div>
+
+
+            <button type="submit"
+                class="btn btn-primary bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">
+                Save
+            </button>
+</form>

@@ -3,7 +3,7 @@ import ejs from "ejs";
 import path from "path";
 
 
-/*Save CMS settings - API endpoint*/
+/*Save CMS settings*/
 export const saveSettings = async (req, res) => {
   try {
     const settingData = req.body;
@@ -35,21 +35,6 @@ export const saveSettings = async (req, res) => {
 };
 
 
-/* Get CMS settings (API endpoint) */
-export const getSettings = async (req, res) => {
-  try {
-    const rows = await Settings.get();
-    const settings = rows[0] || {};
-    res.status(200).json({ success: true, data: settings });
-  } catch (error) {
-    console.error("Error fetching settings:", error);
-    res.status(500).json({
-      success: false,
-      message: "Failed to fetch settings",
-      error: error.message
-    });
-  }
-};
 
 /*Render settings form page*/
 export const renderSettingsForm = async (req, res) => {
@@ -107,7 +92,7 @@ export const saveSettingsForm = async (req, res) => {
         path.join(process.cwd(), "views/frontend/partials/settingsForm.ejs"),
         { settings }
       ),
-      message: "✅ Settings saved successfully!"
+      message: "Settings saved successfully!"
     });
 
   } catch (error) {
@@ -125,16 +110,20 @@ export const saveSettingsForm = async (req, res) => {
         path.join(process.cwd(), "views/frontend/partials/settingsForm.ejs"),
         { settings: req.body } // repopulate form with user input
       ),
-      message: "❌ Error saving settings: " + error.message
+      message: "Error saving settings: " + error.message
     });
   }
 };
 
 
-/*Handle form submission with file uploads - API version*/
+/*Handle form submission with file uploads */
 export const saveSettingsAPI = async (req, res) => {
   try {
-    let settingData = req.body;
+    const rows = await Settings.get();
+    const current = rows[0] || {};
+
+    // Start with current settings
+    let settingData = { ...current, ...req.body };
 
     // Handle uploaded files
     if (req.files) {
@@ -160,6 +149,90 @@ export const saveSettingsAPI = async (req, res) => {
     res.status(500).json({
       success: false,
       message: "Failed to save settings",
+      error: error.message
+    });
+  }
+};
+
+
+/* Get CMS settings  */
+export const getSettings = async (req, res) => {
+  try {
+    const rows = await Settings.get();
+    const settings = rows[0] || {};
+    res.status(200).json({ success: true, data: settings });
+  } catch (error) {
+    console.error("Error fetching settings:", error);
+    res.status(500).json({
+      success: false,
+      message: "Failed to fetch settings",
+      error: error.message
+    });
+  }
+};
+
+
+/*Remove logo*/
+export const removeLogo = async (req, res) => {
+  try {
+    // First get current settings to find the logo path
+    const [rows] = await Settings.get();
+    const currentSettings = rows[0];
+
+    // Delete the physical file if it exists
+    if (currentSettings && currentSettings.logo) {
+      const filePath = path.join(process.cwd(), 'public', currentSettings.logo);
+      if (fs.existsSync(filePath)) {
+        fs.unlinkSync(filePath);
+      }
+    }
+
+    // Remove logo from database
+    const result = await Settings.removeLogo();
+
+    res.status(200).json({
+      success: true,
+      message: "Logo removed successfully",
+      data: result
+    });
+  } catch (error) {
+    console.error("Error removing logo:", error);
+    res.status(500).json({
+      success: false,
+      message: "Failed to remove logo",
+      error: error.message
+    });
+  }
+};
+
+/*Remove favicon*/
+export const removeFavicon = async (req, res) => {
+  try {
+    // First get current settings to find the favicon path
+    const [rows] = await Settings.get();
+    const currentSettings = rows[0];
+
+    // Delete the physical file if it exists
+    if (currentSettings && currentSettings.fav_icon) {
+      const filePath = path.join(process.cwd(), 'public', currentSettings.fav_icon);
+      if (fs.existsSync(filePath)) {
+        fs.unlinkSync(filePath);
+      }
+    }
+
+    // Remove favicon from database
+    const result = await Settings.removeFavicon();
+
+    res.status(200).json({
+      success: true,
+      message: "Favicon removed successfully",
+      data: result
+    });
+  } catch (error) {
+    console.error("Error removing favicon:", error);
+    res.status(500).json({
+      success: false,
+      message: "Failed to remove favicon",
       error: error.message
     });
   }

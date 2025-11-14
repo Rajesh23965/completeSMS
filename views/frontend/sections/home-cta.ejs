@@ -1,0 +1,69 @@
+<!-- views/frontend/sections/home-cta.ejs -->
+
+<form action="/frontend/section/home-cta" method="POST" enctype="application/x-www-form-urlencoded">
+
+<!-- Hidden ID for Update -->
+<input type="hidden" name="id" value="<%= cta?.id || '' %>">
+
+<!-- CTA Title -->
+<div class="mb-3">
+    <label class="required-field">CTA Title</label>
+    <input type="text" name="cta_title" value="<%= cta?.cta_title || '' %>" class="form-control" required>
+</div>
+
+<!-- Mobile Number -->
+<div class="mb-3">
+    <label class="required-field">Mobile Number</label>
+    <!-- Using type="text" for better compatibility with different phone number formats, but validating as number in controller/model if strict integer is required -->
+    <input type="text" name="mobile_no" value="<%= cta?.mobile_no || '' %>" class="form-control" required>
+</div>
+
+<!-- Button Text -->
+<div class="mb-3">
+    <label class="required-field">Button Text</label>
+    <input type="text" name="button_text" value="<%= cta?.button_text || 'Contact Us' %>" class="form-control"
+        required>
+</div>
+
+<!-- Button URL -->
+<div class="mb-3">
+    <label class="required-field">Button URL</label>
+    <input type="url" name="button_url" value="<%= cta?.button_url || '#' %>" class="form-control">
+</div>
+
+<!-- Background Color -->
+<div class="mb-3">
+    <label class="form-label required-field">Background Color</label>
+    <div class="color-picker-container">
+        <input type="color" class="color-input form-control form-control-color" name="background_color"
+            value="<%= cta?.background_color || '#12414f' %>">
+        <input type="text" class="form-control color-text-input" value="<%= cta?.background_color || '#12414f' %>"
+            style="max-width: 120px;">
+    </div>
+</div>
+
+
+<!-- Text Color -->
+<div class="mb-3">
+    <label class="form-label required-field">Text Color</label>
+    <div class="color-picker-container">
+        <!-- Ensure cta is optional in access -->
+        <input type="color" class="color-input form-control form-control-color" name="text_color"
+            value="<%= cta?.text_color || '#12414f' %>">
+        <input type="text" class="form-control color-text-input" value="<%= cta?.text_color || '#12414f' %>"
+            style="max-width: 120px;">
+    </div>
+</div>
+
+<!-- Show on Website -->
+<div class="form-check form-switch mb-3">
+    <!-- FIX 1: Add hidden input to send "Disable" if the checkbox is unchecked -->
+    <input type="hidden" name="show_website" value="Disable">
+    <input class="form-check-input" type="checkbox" id="showWebsite" name="show_website" value="Enable"
+        <%= cta?.show_website === 'Enable' ? 'checked' : '' %> >
+    <label class="form-check-label" for="showWebsite">Show Website</label>
+</div>
+
+<button type="submit" class="btn btn-primary">Save</button>
+
+</form>

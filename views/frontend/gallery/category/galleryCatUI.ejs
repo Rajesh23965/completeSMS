@@ -1,0 +1,22 @@
+<!-- views/frontend/gallery/category/galleryCatUI.ejs -->
+<div class="card shadow rounded p-3 border">
+  <h5 class="border-b pb-2 mb-3 font-semibold text-gray-700">
+    <i class="fa fa-edit"></i> Add Category
+  </h5>
+
+  <form id="galleryCatForm" action="/frontend/gallery/category/save" method="POST" enctype="application/x-www-form-urlencoded">
+    <% if (galleryCat && galleryCat.id) { %>
+      <input type="hidden" name="id" value="<%= galleryCat.id %>">
+    <% } %>
+
+    <div class="mb-3">
+      <label for="cate_name" class="form-label font-medium">Category Name <span class="text-red-500">*</span></label>
+      <input type="text" id="cate_name" name="cate_name" class="form-control border-gray-300 rounded w-full p-2" required
+        value="<%= galleryCat ? galleryCat.cate_name : '' %>">
+    </div>
+
+    <button type="submit" class="btn btn-success flex items-center gap-1 mt-2">
+      <i class="fa fa-save"></i> Save
+    </button>
+  </form>
+</div>

@@ -1,0 +1,198 @@
+<form action="/frontend/section/home-statistics" method="POST" enctype="multipart/form-data">
+    <input type="hidden" name="id" value="<%= statistics?.id || '' %>">
+
+    <!-- ===================== Title & Description ===================== -->
+    <div class="mb-3">
+        <label class="required-field">Title</label>
+        <input type="text" name="title" value="<%= statistics?.title || '' %>" class="form-control" required>
+    </div>
+
+    <div class="mb-3">
+        <label class="required-field">Description</label>
+        <textarea name="description" class="form-control"><%= statistics?.description || '' %></textarea>
+    </div>
+
+    <!-- ===================== Photo Upload ===================== -->
+    <div class="form-group mb-3">
+        <label class="form-label required-field">Photo</label>
+        <div class="drag-drop-area text-center p-3 border border-2 border-dashed rounded" id="statisticsPhotoDropArea"
+            style="cursor:pointer;">
+            <i class="fas fa-cloud-upload-alt fa-2x mb-2 text-secondary"></i>
+            <p class="mb-2">Drag & Drop your photo here or click to browse</p>
+            <button type="button" class="btn btn-sm btn-outline-primary"
+                onclick="document.getElementById('statisticsPhotoInput').click()">Select File</button>
+            <input type="file" name="photo" id="statisticsPhotoInput" accept="image/*" style="display:none;">
+        </div>
+
+        <div class="drop-area mt-3" id="statisticsPhotoPreview">
+            <% if (statistics?.photo) { %>
+                <div class="preview-item position-relative d-inline-block">
+                    <img src="/uploads/statistics/<%= statistics.photo %>" alt="Current photo"
+                        style="max-width:200px; max-height:150px; border-radius:8px; border:1px solid #ddd;">
+                    <button type="button" class="btn btn-danger btn-sm remove-current-photo"
+                        style="position:absolute;top:5px;right:5px;" onclick="removeImage('statisticsPhoto')">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <input type="hidden" name="current_photo" value="<%= statistics.photo %>">
+                <% } %>
+        </div>
+    </div>
+
+    <!-- ===================== Color Pickers ===================== -->
+    <div class="mb-3">
+        <label class="form-label required-field">Title Text Color</label>
+        <div class="d-flex align-items-center gap-2">
+            <input type="color" class="form-control form-control-color" name="title_text_color"
+                value="<%= statistics?.title_text_color || '#12414f' %>">
+            <input type="text" class="form-control" value="<%= statistics?.title_text_color || '#12414f' %>"
+                style="max-width:120px;">
+        </div>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label required-field">Description Text Color</label>
+        <div class="d-flex align-items-center gap-2">
+            <input type="color" class="form-control form-control-color" name="description_text_color"
+                value="<%= statistics?.description_text_color || '#6c757d' %>">
+            <input type="text" class="form-control" value="<%= statistics?.description_text_color || '#6c757d' %>"
+                style="max-width:120px;">
+        </div>
+    </div>
+
+
+    <!-- ===================== WIDGETS SECTION ===================== -->
+    <% const widgets=statistics?.widgets || []; %>
+        <!-- ========== Widget 1 ========== -->
+        <h5 class="headers-line mt-4"><i class="fas fa-th-large"></i> Widget 1</h5>
+        <div class="card p-3 mb-3">
+            <div class="mb-3">
+                <label class="form-label required-field">Widget Title</label>
+                <input type="text" class="form-control" name="widgets[0][widget_title]"
+                    value="<%= widgets[0]?.widget_title || '' %>" placeholder="Enter widget title">
+            </div>
+            <div class="mb-3">
+                <label class="form-label required-field">Widget Icon</label>
+                <input type="text" class="form-control" name="widgets[0][widget_icon]"
+                    value="<%= widgets[0]?.widget_icon || '' %>" placeholder="fa fa-user">
+            </div>
+            <div class="mb-3">
+                <label class="form-label required-field">Statistics Type</label>
+                <select class="form-select" name="widgets[0][statistics_type]">
+                    <option value="">Select</option>
+                    <option value="branch" <%=widgets[0]?.statistics_type==='branch' ? 'selected' : '' %>>Branch
+                    </option>
+                    <option value="employees" <%=widgets[0]?.statistics_type==='employees' ? 'selected' : '' %>
+                        >Employees</option>
+                    <option value="teacher" <%=widgets[0]?.statistics_type==='teacher' ? 'selected' : '' %>>Teacher
+                    </option>
+                    <option value="parents" <%=widgets[0]?.statistics_type==='parents' ? 'selected' : '' %>>Parents
+                    </option>
+                    <option value="student" <%=widgets[0]?.statistics_type==='student' ? 'selected' : '' %>>Student
+                    </option>
+                </select>
+            </div>
+        </div>
+
+        <!-- ========== Widget 2 ========== -->
+        <h5 class="headers-line mt-4"><i class="fas fa-th-large"></i> Widget 2</h5>
+        <div class="card p-3 mb-3">
+            <div class="mb-3">
+                <label class="form-label required-field">Widget Title</label>
+                <input type="text" class="form-control" name="widgets[1][widget_title]"
+                    value="<%= widgets[1]?.widget_title || '' %>" placeholder="Enter widget title">
+            </div>
+            <div class="mb-3">
+                <label class="form-label required-field">Widget Icon</label>
+                <input type="text" class="form-control" name="widgets[1][widget_icon]"
+                    value="<%= widgets[1]?.widget_icon || '' %>" placeholder="fa fa-star">
+            </div>
+            <div class="mb-3">
+                <label class="form-label required-field">Statistics Type</label>
+                <select class="form-select" name="widgets[1][statistics_type]">
+                    <option value="">Select</option>
+                    <option value="teacher" <%=widgets[1]?.statistics_type==='teacher' ? 'selected' : '' %>>Teacher
+                    </option>
+                    <option value="parents" <%=widgets[1]?.statistics_type==='parents' ? 'selected' : '' %>>Parents
+                    </option>
+                    <option value="student" <%=widgets[1]?.statistics_type==='student' ? 'selected' : '' %>>Student
+                    <option value="classes" <%=widgets[1]?.statistics_type==='classes' ? 'selected' : '' %>>Classes
+                    <option value="section" <%=widgets[1]?.statistics_type==='section' ? 'selected' : '' %>>Section
+                    <option value="live_class" <%=widgets[1]?.statistics_type==='live_class' ? 'selected' : '' %>>Live
+                        Class
+                    </option>
+                </select>
+            </div>
+        </div>
+
+        <!-- ========== Widget 3 ========== -->
+        <h5 class="headers-line mt-4"><i class="fas fa-th-large"></i> Widget 3</h5>
+        <div class="card p-3 mb-3">
+            <div class="mb-3">
+                <label class="form-label required-field">Widget Title</label>
+                <input type="text" class="form-control" name="widgets[2][widget_title]"
+                    value="<%= widgets[2]?.widget_title || '' %>" placeholder="Enter widget title">
+            </div>
+            <div class="mb-3">
+                <label class="form-label required-field">Widget Icon</label>
+                <input type="text" class="form-control" name="widgets[2][widget_icon]"
+                    value="<%= widgets[2]?.widget_icon || '' %>" placeholder="fa fa-briefcase">
+            </div>
+            <div class="mb-3">
+                <label class="form-label required-field">Statistics Type</label>
+                <select class="form-select" name="widgets[2][statistics_type]">
+                    <option value="">Select</option>
+                    <option value="classes" <%=widgets[2]?.statistics_type==='classes' ? 'selected' : '' %>>Classes
+                    </option>
+                    <option value="section" <%=widgets[2]?.statistics_type==='section' ? 'selected' : '' %>>Section
+                    </option>
+                    <option value="live_class" <%=widgets[2]?.statistics_type==='live_class' ? 'selected' : '' %>
+                        >Live Class</option>
+                    <option value="subjects" <%=widgets[2]?.statistics_type==='subjects' ? 'selected' : '' %>
+                        >Subjects</option>
+                    <option value="exam" <%=widgets[2]?.statistics_type==='exam' ? 'selected' : '' %>
+                        >Exam</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- ========== Widget 4 ========== -->
+        <h5 class="headers-line mt-4"><i class="fas fa-th-large"></i> Widget 4</h5>
+        <div class="card p-3 mb-3">
+            <div class="mb-3">
+                <label class="form-label required-field">Widget Title</label>
+                <input type="text" class="form-control" name="widgets[3][widget_title]"
+                    value="<%= widgets[3]?.widget_title || '' %>" placeholder="Enter widget title">
+            </div>
+            <div class="mb-3">
+                <label class="form-label required-field">Widget Icon</label>
+                <input type="text" class="form-control" name="widgets[3][widget_icon]"
+                    value="<%= widgets[3]?.widget_icon || '' %>" placeholder="fa fa-trophy">
+            </div>
+            <div class="mb-3">
+                <label class="form-label required-field">Statistics Type</label>
+                <select class="form-select" name="widgets[3][statistics_type]">
+                    <option value="">Select</option>
+                    <option value="section" <%=widgets[3]?.statistics_type==='section' ? 'selected' : '' %>>Section
+                    </option>
+                    <option value="live_class" <%=widgets[3]?.statistics_type==='live_class' ? 'selected' : '' %>>Live
+                        Class</option>
+                    <option value="subjects" <%=widgets[3]?.statistics_type==='subjects' ? 'selected' : '' %>
+                        >Subjects</option>
+                    <option value="exam" <%=widgets[3]?.statistics_type==='exam' ? 'selected' : '' %>
+                        >Exam</option>
+                    <option value="books" <%=widgets[3]?.statistics_type==='books' ? 'selected' : '' %>
+                        >Books</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- ===================== Show Website ===================== -->
+        <div class="form-check form-switch mb-5">
+            <input class="form-check-input" type="checkbox" id="showWebsite" name="show_website" value="Enable"
+                <%=statistics?.show_website==='Enable' ? 'checked' : '' %>>
+            <label class="form-check-label" for="showWebsite">Show Website</label>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Save</button>
+</form>

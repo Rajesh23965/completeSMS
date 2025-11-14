@@ -1,24 +1,39 @@
 <!-- views/dashboard.ejs -->
 <%- include('partials/head') %>
-<%- include('partials/header') %>
+  <%- include('partials/header') %>
 
-<div class="layout">
-  <%- include('partials/sidebar', { 
-    pageTitle: typeof pageTitle !== 'undefined' ? pageTitle : "" , 
-    pageIcon: typeof pageIcon !== 'undefined' ? pageIcon : "" 
-  }) %>
+    <div class="layout">
+      <%- include('partials/sidebar', { pageTitle: typeof pageTitle !=='undefined' ? pageTitle : "" , pageIcon: typeof
+        pageIcon !=='undefined' ? pageIcon : "" }) %>
 
-  <main class="main-content">
-    <%- include('partials/subheader', { 
-      title: typeof pageTitle !== 'undefined' ? pageTitle : "Dashboard",
-      icon: typeof pageIcon !== 'undefined' ? pageIcon : "fa-home",
-      breadcrumbs: typeof breadcrumbs !== 'undefined' ? breadcrumbs : [] 
-    }) %>
+        <main class="main-content ">
+          <%- include('partials/subheader', { title: typeof pageTitle !=='undefined' ? pageTitle : "Dashboard" , icon:
+            typeof pageIcon !=='undefined' ? pageIcon : "fa-home" , breadcrumbs: typeof breadcrumbs !=='undefined' ?
+            breadcrumbs : [] }) %>
 
-    <section class="content-body">
-      <%- body %>   <!-- 👈 placeholder for page-specific content -->
-    </section>
-  </main>
-</div>
+            <section class="content-body">
+              <%- body %>
+            </section>
 
-<%- include('partials/scripts') %>
+            <!-- PopUp Modal For toggle or delete   -->
+            <div id="customConfirmModal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+              <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content text-center p-4">
+                  <div class="modal-body">
+                    <div class="mx-auto my-3"><i class="fas fa-exclamation-triangle fa-5x text-danger"></i></div>
+                    <h4 class="text-secondary font-weight-bold my-4">Are You Sure?</h4>
+                    <p id="confirmModalText" class="text-dark">Do You Want To Delete This Information?</p>
+                    <div class="d-flex justify-content-center gap-3 mt-4">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+
+                      <button type="button" id="confirmContinueBtn" class="btn btn-primary">Yes, Continue</button>
+                    </div>
+                    <p class="amt small mt-3">*Note: This data will be permanently deleted</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+        </main>
+    </div>
+
+    <%- include('partials/scripts') %>

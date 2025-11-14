@@ -1,9 +1,11 @@
 import express from "express";
-import { 
-    getSettings, 
-    renderSettingsForm, 
+import {
+    getSettings,
+    renderSettingsForm,
     saveSettingsForm,
-    saveSettingsAPI 
+    saveSettingsAPI,
+    removeLogo,
+    removeFavicon
 } from "../../controllers/SettingController/settingController.js";
 import { uploadFiles } from "../../config/upload.js";
 
@@ -20,5 +22,12 @@ router.post("/api/save", uploadFiles, saveSettingsAPI);
 
 /* Get Settings (API endpoint) */
 router.get("/api", getSettings);
+
+/* Remove logo (API endpoint) */
+router.delete("/api/remove-logo", removeLogo);
+
+/* Remove favicon (API endpoint) */
+router.delete("/api/remove-favicon", removeFavicon);
+
 
 export default router;

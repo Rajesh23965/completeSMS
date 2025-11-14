@@ -1,0 +1,55 @@
+<!-- views/frontend/sections/gallery.ejs -->
+
+<form action="/frontend/section/gallery" method="POST" enctype="multipart/form-data">
+    <input type="hidden" name="id" value="<%= gallery?.id || '' %>">
+
+    <!-- Page Title -->
+    <div class="mb-3">
+        <label class="required-field">Page Title</label>
+        <input type="text" name="page_title" value="<%= gallery?.page_title || '' %>" class="form-control">
+    </div>
+
+    <!--Banner Photo -->
+    <div class="form-group mb-3">
+        <label class="form-label required-field">Banner Photo</label>
+        <div class="drag-drop-area text-center p-3 border border-2 border-dashed rounded" id="galleryPhotoDropArea"
+            style="cursor: pointer;">
+            <i class="fas fa-cloud-upload-alt fa-2x mb-2 text-secondary"></i>
+            <p class="mb-2">Drag & Drop your photo here or click to browse</p>
+            <button type="button" class="btn btn-sm btn-outline-primary"
+                onclick="document.getElementById('galleryPhotoInput').click()">Select File</button>
+            <input type="file" name="photo" id="galleryPhotoInput" accept="image/*" style="display: none;">
+        </div>
+
+        <div class="drop-area mt-3" id="galleryPhotoPreview">
+            <% if (gallery?.photo) { %>
+                <div class="preview-item position-relative d-inline-block">
+                    <img src="/uploads/gallery/<%= gallery.photo %>" alt="Current photo"
+                        style="max-width:200px; max-height:150px; border-radius:8px; border:1px solid #ddd;">
+                    <button type="button" class="btn btn-danger btn-sm remove-current-photo"
+                        style="position:absolute;top:5px;right:5px;" onclick="removeImage('galleryPhoto')">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <input type="hidden" name="current_photo" value="<%= gallery.photo %>">
+                <% } %>
+        </div>
+    </div>
+
+
+    <!-- Meta Keyword -->
+    <div class="mb-3">
+        <label class=""> Meta Keyword</label>
+        <input type="text" name="meta_keyword" value="<%= gallery?.meta_keyword || '' %>" class="form-control">
+    </div>
+
+    <!-- Meta Description -->
+    <div class="mb-3">
+        <label class=""> Meta Description</label>
+        <textarea name="meta_description" class="form-control"><%= gallery?.meta_description || '' %></textarea>
+    </div>
+
+
+
+    <button type="submit" class="btn btn-primary">Save</button>
+</form>

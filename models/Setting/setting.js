@@ -47,4 +47,28 @@ export class Settings {
             throw error;
         }
     }
+
+    //Remove Logo
+    static async removeLogo() {
+        const query = `UPDATE settings SET logo = NULL  WHERE id = 1`;
+        try {
+            const [result] = await pool.query(query);
+            return result;
+        } catch (error) {
+            console.error("Error removing logo", error);
+            throw error;
+        }
+    }
+    //Remove Favicon
+    static async removeFavicon() {
+        const query = `UPDATE settings SET fav_icon = NULL WHERE id = 1`;
+        try {
+            const [result] = await pool.query(query);
+            return result;
+        } catch (error) {
+            console.error("Error removing favicon", error);
+            throw error;
+        }
+    }
+
 }

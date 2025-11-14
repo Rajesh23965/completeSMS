@@ -1,0 +1,7 @@
+<!-- views/frontend/menue.ejs -->
+<%- include("../dashboard.ejs", { 
+  body: ejs.renderFile(__dirname + "/partials/menuForm.ejs", { menue: menue }, (err, str) => { 
+    if (err) throw err; 
+    return str; 
+  }) 
+}) %>

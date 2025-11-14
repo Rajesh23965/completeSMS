@@ -1,0 +1,30 @@
+<!-- views/frontend/sections/aboutus-cta.ejs -->
+
+<form action="/frontend/section/aboutus-cta" method="POST" enctype="application/x-www-form-urlencoded">
+
+<!-- Hidden ID for Update -->
+<input type="hidden" name="id" value="<%= cta?.id || '' %>">
+
+<!-- CTA Title -->
+<div class="mb-3">
+    <label class="required-field">CTA Title</label>
+    <input type="text" name="cta_title" value="<%= cta?.cta_title || '' %>" class="form-control" required>
+</div>
+
+<!-- Button Text -->
+<div class="mb-3">
+    <label class="required-field">Button Text</label>
+    <input type="text" name="button_text" value="<%= cta?.button_text || 'Contact Our Office' %>" class="form-control"
+        required>
+</div>
+
+<!-- Button URL -->
+<div class="mb-3">
+    <label class="required-field">Button URL</label>
+    <input type="text" name="button_url" value="<%= cta?.button_url || '#' %>" class="form-control">
+</div>
+
+
+<button type="submit" class="btn btn-primary">Save</button>
+
+</form>

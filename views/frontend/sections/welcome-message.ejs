@@ -1,0 +1,75 @@
+<!-- views/frontend/sections/welcomeMessage.ejs -->
+
+<form action="/frontend/section/welcome-message" method="POST" enctype="multipart/form-data">
+
+  <input type="hidden" name="id" value="<%= welcome?.id || '' %>">
+
+  <div class="mb-3">
+    <label class="required-field">Title</label>
+    <input type="text" name="title" value="<%= welcome?.title || '' %>" class="form-control" required>
+  </div>
+
+  <div class="mb-3">
+    <label class="required-field">Subtitle</label>
+    <input type="text" name="subtitle" value="<%= welcome?.subtitle || '' %>" class="form-control">
+  </div>
+
+  <!-- Description  -->
+  <div class="mb-3">
+    <label class="required-field">Description</label>
+    <textarea name="description" class="form-control"><%= welcome?.description || '' %></textarea>
+  </div>
+
+  <!-- Photo -->
+  <div class="form-group mb-3">
+    <label class="form-label required-field">Photo</label>
+
+    <!-- Upload Area -->
+    <div class="drag-drop-area text-center p-3 border border-2 border-dashed rounded" id="photoDropArea"
+      style="cursor: pointer;">
+      <i class="fas fa-cloud-upload-alt fa-2x mb-2 text-secondary"></i>
+      <p class="mb-2">Drag & Drop your photo here or click to browse</p>
+      <button type="button" class="btn btn-sm btn-outline-primary"
+        onclick="document.getElementById('photoInput').click()">Select File</button>
+      <small class="text-muted d-block mt-2">Supports: JPG, PNG, WebP, GIF</small>
+      <input type="file" name="photo" id="photoInput" accept="image/*" style="display: none;">
+    </div>
+
+    <!-- Preview Area -->
+    <div class="drop-area mt-3" id="photoPreview">
+      <% if (welcome?.photo) { %>
+        <div class="preview-item position-relative d-inline-block">
+          <img src="/uploads/welcome/<%= welcome.photo %>" alt="Current photo"
+            style="max-width: 200px; max-height: 150px; border-radius: 8px; border: 1px solid #ddd;">
+          <button type="button" class="btn btn-danger btn-sm remove-current-photo"
+            style="position: absolute; top: 5px; right: 5px;" onclick="removeImage('photo')">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+        <input type="hidden" name="current_photo" value="<%= welcome.photo %>">
+        <% } %>
+    </div>
+  </div>
+
+
+  <!-- Title Text Color -->
+  <div class="mb-3">
+    <label class="form-label required-field">Title Text Color</label>
+    <div class="color-picker-container">
+      <input type="color" class="color-input form-control form-control-color" name="title_text_color"
+        value="<%= welcome.title_text_color || '#12414f' %>">
+      <input type="text" class="form-control color-text-input" value="<%= welcome.title_text_color || '#12414f' %>"
+        style="max-width: 120px;">
+    </div>
+  </div>
+
+  <!-- Show Website Field -->
+  <div class="form-check form-switch mb-3">
+    <input class="form-check-input" type="checkbox" id="showWebsite" name="show_website" value="Enable"
+      <%=welcome?.show_website==='Enable' ? 'checked' : '' %> >
+    <label class="form-check-label" for="showWebsite">Show Website</label>
+  </div>
+
+
+  <button type="submit" class="btn btn-primary">Save</button>
+</form>

@@ -68,27 +68,47 @@ class Sidebar {
         if (!submenu) return;
 
         const isExpanded = button.classList.contains('expanded');
+        const icon = button.querySelector('.expand-icon');
 
-        // Close all other submenus
-        this.closeAllSubmenus();
+        // ❌ REMOVE unconditional closeAllSubmenus()
+        // ✅ Only close siblings, not everything
+        const otherMenus = document.querySelectorAll(`.menu-item.expandable:not([data-menu="${menuId}"])`);
+        otherMenus.forEach(item => {
+            item.classList.remove('expanded');
+            const otherSubmenu = document.getElementById(`${item.getAttribute('data-menu')}-submenu`);
+            if (otherSubmenu) {
+                otherSubmenu.classList.remove('open');
+                otherSubmenu.style.maxHeight = '0px';
+            }
+            const otherIcon = item.querySelector('.expand-icon');
+            if (otherIcon) {
+                otherIcon.classList.remove('fa-minus');
+                otherIcon.classList.add('fa-plus');
+            }
+        });
 
         if (!isExpanded) {
-            // Open this submenu
             button.classList.add('expanded');
             submenu.classList.add('open');
-
-            // Set the max-height dynamically based on content
             submenu.style.maxHeight = submenu.scrollHeight + 'px';
 
-            // Add active state to parent menu item
+            if (icon) {
+                icon.classList.remove('fa-plus');
+                icon.classList.add('fa-minus');
+            }
             this.setActiveMenuItem(button);
         } else {
-            // Close this submenu
             button.classList.remove('expanded');
             submenu.classList.remove('open');
             submenu.style.maxHeight = '0px';
+
+            if (icon) {
+                icon.classList.remove('fa-minus');
+                icon.classList.add('fa-plus');
+            }
         }
     }
+
 
     closeAllSubmenus() {
         const expandedItems = document.querySelectorAll('.menu-item.expanded');

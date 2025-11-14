@@ -1,0 +1,98 @@
+<!-- views/frontend/slider/sliderUI.ejs -->
+
+<form id="sliderForm" class="slider-form" action="/frontend/slider/save" method="POST" enctype="multipart/form-data">
+    <% if (slider && slider.id) { %>
+        <input type="hidden" name="id" value="<%= slider.id %>">
+        <% } %>
+
+            <div class="form-group mb-3">
+                <label for="title" class="form-label ">Title</label>
+                <input type="text" id="title" name="title" class="form-control" value="<%= slider.title || '' %>"
+                    required>
+            </div>
+
+            <div class="form-group mb-3">
+                <label for="description" class="form-label required-field">Description</label>
+                <textarea id="description" name="description" class="form-control" rows="3"
+                    required><%= slider.description || '' %></textarea>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4 ">
+                <!-- Button One -->
+                <div class="form-group mb-3">
+                    <label for="button_text_one" class="form-label required-field">Button 1 Text</label>
+                    <input type="text" id="button_text_one" name="button_text_one" class="form-control"
+                        value="<%= slider.button_text_one || '' %>">
+                </div>
+                <div class="form-group mb-3">
+                    <label for="button_url_one" class="form-label required-field">Button 1 URL</label>
+                    <input type="text" id="button_url_one" name="button_url_one" class="form-control"
+                        value="<%= slider.button_url_one || '' %>">
+                </div>
+
+                <!-- Button Two -->
+                <div class="form-group mb-3">
+                    <label for="button_text_two" class="form-label required-field">Button 2 Text</label>
+                    <input type="text" id="button_text_two" name="button_text_two" class="form-control"
+                        value="<%= slider.button_text_two || '' %>">
+                </div>
+                <div class="form-group mb-3">
+                    <label for="button_url_two" class="form-label required-field">Button 2 URL</label>
+                    <input type="text" id="button_url_two" name="button_url_two" class="form-control"
+                        value="<%= slider.button_url_two || '' %>">
+                </div>
+            </div>
+
+            <div class="form-group mb-3">
+                <label for="position" class="form-label required-field">Position</label>
+                <select id="position" name="position" class="form-control" required>
+                    <% const currentPosition=slider.position || 'center' ; %>
+                        <% ['left', 'center' , 'right' ].forEach(option=> { %>
+                            <option value="<%= option %>" <%=currentPosition===option ? 'selected' : '' %>>
+                                <%= option.charAt(0).toUpperCase() + option.slice(1) %>
+                            </option>
+                            <% }); %>
+                </select>
+            </div>
+
+
+            <!-- Photo -->
+            <div class="form-group mb-3">
+                <label class="form-label required-field required-field">Photo</label>
+                <div class="drag-drop-area text-center p-3 border border-2 border-dashed rounded"
+                    id="sliderPhotoDropArea" style="cursor: pointer;">
+                    <i class="fas fa-cloud-upload-alt fa-2x mb-2 text-secondary"></i>
+                    <p class="mb-2">Drag & Drop your photo here or click to browse</p>
+                    <button type="button" class="btn btn-sm btn-outline-primary"
+                        onclick="document.getElementById('sliderPhotoInput').click()">Select File</button>
+                    <input type="file" name="photo" id="sliderPhotoInput" accept="image/*" style="display: none;">
+                </div>
+
+                <div class="drop-area mt-3" id="sliderPhotoPreview">
+                    <% if (slider?.photo) { %>
+                        <div class="preview-item position-relative d-inline-block">
+                            <img src="/uploads/slider/<%= slider.photo %>" alt="Current photo"
+                                style="max-width:200px; max-height:150px; border-radius:8px; border:1px solid #ddd;">
+                            <button type="button" class="btn btn-danger btn-sm remove-current-photo"
+                                style="position:absolute;top:5px;right:5px;" onclick="removeImage('sliderPhoto')">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                        <input type="hidden" name="current_photo" value="<%= slider.photo %>">
+                        <% } %>
+                </div>
+            </div>
+
+
+            <div class="form-check form-switch mb-3">
+                <!-- FIX 1: Add hidden input to send "Disable" if the checkbox is unchecked -->
+                <input type="hidden" name="show_website" value="Disable">
+                <input class="form-check-input" type="checkbox" id="showWebsite" name="show_website" value="Enable"
+                    <%=slider?.show_website==='Enable' ? 'checked' : '' %> >
+                <label class="form-check-label" for="showWebsite">Show Website</label>
+            </div>
+            <button type="submit"
+                class="btn btn-primary bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">
+                Save Slider
+            </button>
+</form>

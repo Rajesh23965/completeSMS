@@ -1,0 +1,78 @@
+<!-- views/frontend/gallery/galleryUI.ejs -->
+<div class="card shadow rounded p-3 border">
+    <form id="galleryForm" action="/frontend/gallery" method="POST" enctype="multipart/form-data">
+        <% if (gallery && gallery.id) { %>
+            <input type="hidden" name="id" value="<%= gallery.id %>">
+            <% } %>
+
+                <div class="form-group mb-3">
+                    <label for="title" class="form-label required-field">Title</label>
+                    <input type="text" id="title" name="title" class="form-control" value="<%= gallery.title || '' %>"
+                        required>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4 ">
+
+                    <div class="form-group mb-3">
+                        <label for="description" class="form-label required-field">Description</label>
+                        <input type="text" id="description" name="description" class="form-control"
+                            value="<%= gallery.description || '' %>">
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="category_id" class="form-label required-field">Category</label>
+                        <select id="category_id" name="category_id" class="form-control" required>
+                            <option value="">-- Select Category --</option>
+                            <% if (typeof categories !=='undefined' && categories.length) { %>
+                                <% categories.forEach(cat=> { %>
+                                    <option value="<%= cat.id %>" <%=(gallery.category_id &&
+                                        gallery.category_id==cat.id) ? 'selected' : '' %>>
+                                        <%= cat.cate_name %>
+                                    </option>
+                                    <% }); %>
+                                        <% } %>
+                        </select>
+                    </div>
+
+
+                    <div class="form-group mb-3">
+                        <label class="form-label required-field required-field">Thumb Image</label>
+                        <div class="drag-drop-area text-center p-3 border border-2 border-dashed rounded"
+                            id="galleryPhotoDropArea" style="cursor: pointer;"> <i
+                                class="fas fa-cloud-upload-alt fa-2x mb-2 text-secondary"></i>
+                            <p class="mb-2">Drag & Drop your photo here or click to browse</p>
+                            <button type="button" class="btn btn-sm btn-outline-primary"
+                                onclick="document.getElementById('galleryPhotoInput').click()">Select File</button>
+                            <input type="file" name="thumbimage" id="galleryPhotoInput" accept="image/*"
+                                style="display: none;">
+                        </div>
+
+                        <div class="drop-area mt-3" id="galleryPhotoPreview">
+                            <% if (gallery?.thumbimage) { %>
+                                <div class="preview-item position-relative d-inline-block">
+                                    <img src="/uploads/gallery/<%= gallery.thumbimage %>" alt="Current photo"
+                                        style="max-width:200px; max-height:150px; border-radius:8px; border:1px solid #ddd;">
+                                    <button type="button" class="btn btn-danger btn-sm remove-current-photo"
+                                        style="position:absolute;top:5px;right:5px;"
+                                        onclick="removeImage('galleryPhoto')"> <i class="fas fa-times"></i>
+                                    </button>
+                                </div>
+                                <input type="hidden" name="current_thumbimage" value="<%= gallery.thumbimage %>">
+                                <% } %>
+                        </div>
+                    </div>
+
+
+                </div>
+
+                <div class="form-check form-switch mb-3">
+                    <input type="hidden" name="show_website" value="Disable">
+                    <input class="form-check-input" type="checkbox" id="showWebsite" name="show_website" value="Enable"
+                        <%=gallery?.show_website==='Enable' ? 'checked' : '' %> >
+                    <label class="form-check-label" for="showWebsite">Show Website</label>
+                </div>
+
+                <button type="submit" class="btn btn-success flex items-center gap-1 mt-2">
+                    <i class="fa fa-save"></i> Save
+                </button>
+    </form>
+</div>

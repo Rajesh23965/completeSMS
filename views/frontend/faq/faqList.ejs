@@ -1,0 +1,80 @@
+<!-- views/frontend/faq/faqList.ejs -->
+<div class="faq-form">
+    <div class="table-responsive ">
+        <table class="table min-w-full divide-y divide-gray-200">
+            <thead class="bg-gray-50">
+                <tr>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">SN</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Title
+                    </th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Action
+                    </th>
+                </tr>
+            </thead>
+            <div class=" d-flex justify-content-between align-items-center mb-3 p-2 border-bottom">
+                <div class="d-flex align-items-center gap-2">
+                    <select id="rowsPerPage" class="form-select w-auto">
+                        <% [5, 10, 25, 50].forEach(option=> { %>
+                            <option value="<%= option %>" <%=currentLimit===option ? "selected" : "" %>><%= option %>
+                            </option>
+                            <% }); %>
+                    </select>
+                    <span>rows per page</span>
+                </div>
+                <div class="d-flex align-items-center gap-2">
+                    <input id="searchBox" class="form-control" placeholder="Search..." value="<%= search || '' %>">
+                </div>
+            </div>
+            <tbody>
+                <% faq.forEach((f, index)=> { %>
+                    <tr>
+                        <td class="text-center">
+                            <%= f.id %>
+                        </td>
+                        <td class="text-left">
+                            <%= f.title%>
+                        </td>
+
+
+                        <td>
+                            <div class="action-buttons">
+                                <button class="btn btn-sm btn-primary btn-edit" data-id="<%=f.id%>">
+                                    <i class="fas fa-pen-nib"></i>
+                                </button>
+                                <button class="btn btn-sm btn-danger btn-delete" data-id="<%=f.id%>">
+                                    <i class="fa-solid fa-trash"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                    <% }) %>
+            </tbody>
+        </table>
+        <!-- Pagination -->
+        <div class="pagination-controls d-flex justify-content-end align-items-center gap-2 mt-3">
+            <a href="#" data-page="<%= pagination.page - 1 %>"
+                class="page-link btn btn-sm btn-outline-primary <%= pagination.page <= 1 ? 'disabled' : '' %>">
+                <i class="fas fa-chevron-left"></i>
+            </a>
+
+            <span class="btn btn-sm btn-light">
+                Page <%= pagination.page %> of <%= pagination.totalPages %>
+            </span>
+
+            <% // Optional: Add links for specific page numbers for better navigation %>
+                <% for (let i=1; i <=pagination.totalPages; i++) { %>
+                    <a href="#" data-page="<%= i %>"
+                        class="page-link btn btn-sm <%= i === pagination.page ? 'btn-primary' : 'btn-outline-primary' %> <%= i === pagination.page ? 'active' : '' %>">
+                        <%= i %>
+                    </a>
+                    <% } %>
+
+                        <a href="#" data-page="<%= pagination.page + 1 %>"
+                            class="page-link btn btn-sm btn-outline-primary <%= pagination.page >= pagination.totalPages ? 'disabled' : '' %>">
+                            <i class="fas fa-chevron-right"></i>
+                        </a>
+        </div>
+
+
+    </div>
+</div>

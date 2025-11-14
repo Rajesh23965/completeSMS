@@ -1,0 +1,51 @@
+<form action="/frontend/section/about" method="POST" enctype="multipart/form-data" id="aboutUsForm">
+    <input type="hidden" name="id" value="<%= about?.id || '' %>">
+
+    <!-- Title -->
+    <div class="mb-3">
+        <label class="required-field">Title</label>
+        <input type="text" name="title" value="<%= about?.title || '' %>" class="form-control" required>
+    </div>
+
+    <div class="mb-3">
+        <label class="required-field">Subtitle</label>
+        <!-- FIX: Ensured the correct subtitle value is used -->
+        <input type="text" name="subtitle" value="<%= about?.subtitle || '' %>" class="form-control" required>
+    </div>
+
+
+    <div class="mb-3">
+        <label class="required-field"> Content</label>
+        <textarea name="description" id="description" class="form-control"><%= about?.description || '' %></textarea>
+    </div>
+
+    <!--About Photo -->
+    <div class="form-group mb-3">
+        <label class="form-label required-field">About Photo</label>
+        <div class="drag-drop-area text-center p-3 border border-2 border-dashed rounded" id="aboutUsAboutPhotoDropArea"
+            style="cursor: pointer;">
+            <i class="fas fa-cloud-upload-alt fa-2x mb-2 text-secondary"></i>
+            <p class="mb-2">Drag & Drop your photo here or click to browse</p>
+            <button type="button" class="btn btn-sm btn-outline-primary"
+                onclick="document.getElementById('aboutUsAboutPhotoInput').click()">Select File</button>
+            <input type="file" name="photo" id="aboutUsAboutPhotoInput" accept="image/*" style="display: none;">
+        </div>
+
+        <div class="drop-area mt-3" id="aboutUsAboutPhotoPreview">
+            <!-- FIX: Changed ID from 'aboutUsAboutPreview' to 'aboutUsAboutPhotoPreview' to match JS -->
+            <% if (about?.photo) { %>
+                <div class="preview-item position-relative d-inline-block">
+                    <img src="/uploads/about/<%= about.photo %>" alt="Current photo"
+                        style="max-width:200px; max-height:150px; border-radius:8px; border:1px solid #ddd;">
+                    <button type="button" class="btn btn-danger btn-sm remove-current-photo"
+                        style="position:absolute;top:5px;right:5px;" onclick="removeImage('aboutUsAboutPhoto')">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <input type="hidden" name="current_photo" value="<%= about.photo %>">
+                <% } %>
+        </div>
+    </div>
+    
+    <button type="submit" class="btn btn-primary">Save</button>
+</form>
