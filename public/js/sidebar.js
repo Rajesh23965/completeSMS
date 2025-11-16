@@ -49,6 +49,11 @@ class Sidebar {
             }
         });
 
+        if (this.sidebar) {
+            this.sidebar.addEventListener('mouseenter', () => this.handleMouseEnter());
+            this.sidebar.addEventListener('mouseleave', () => this.handleMouseLeave());
+        }
+
         // Handle window resize for responsive behavior
         window.addEventListener('resize', () => this.handleResize());
 
@@ -57,6 +62,9 @@ class Sidebar {
         document.addEventListener('webkitfullscreenchange', () => this.handleFullscreenChange());
         document.addEventListener('mozfullscreenchange', () => this.handleFullscreenChange());
         document.addEventListener('MSFullscreenChange', () => this.handleFullscreenChange());
+
+
+
     }
 
     toggleSubmenu(event) {
@@ -70,8 +78,7 @@ class Sidebar {
         const isExpanded = button.classList.contains('expanded');
         const icon = button.querySelector('.expand-icon');
 
-        // ❌ REMOVE unconditional closeAllSubmenus()
-        // ✅ Only close siblings, not everything
+
         const otherMenus = document.querySelectorAll(`.menu-item.expandable:not([data-menu="${menuId}"])`);
         otherMenus.forEach(item => {
             item.classList.remove('expanded');
@@ -124,7 +131,7 @@ class Sidebar {
         });
     }
 
-    toggleSidebar() {
+   toggleSidebar() {
         if (this.isMobile) {
             // Mobile behavior - full show/hide
             this.isSidebarOpen = !this.isSidebarOpen; // track state
@@ -138,8 +145,15 @@ class Sidebar {
 
             // Update toggle icon
             const icon = this.sidebarToggle.querySelector('i');
-            icon.classList.toggle('fa-indent');
-            icon.classList.toggle('fa-bars');
+            if (icon) {
+                 icon.classList.toggle('fa-indent');
+                 icon.classList.toggle('fa-bars');
+            }
+            
+            // CRITICAL FIX: Close all submenus when entering collapsed mode
+            if (this.sidebar.classList.contains('collapsed')) {
+                this.closeAllSubmenus();
+            }
         }
     }
 
@@ -330,6 +344,20 @@ class Sidebar {
             }
         }, 100);
     }
+
+handleMouseEnter() {
+        // Only apply hover expansion if NOT mobile AND sidebar is currently collapsed
+        if (!this.isMobile && this.sidebar.classList.contains('collapsed')) {
+            this.sidebar.classList.add('hover-expanded');
+        }
+    }
+
+    handleMouseLeave() {
+        if (!this.isMobile) {
+            this.sidebar.classList.remove('hover-expanded');
+        }
+    }
+
 }
 
 // Initialize sidebar

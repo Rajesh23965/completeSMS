@@ -66,22 +66,82 @@ export class GalleryUpload {
         }
     }
 
+    static async getContentByAlbumId(albumId, page = 1, limit = 10, search = "") {
+        try {
+            limit = parseInt(limit) || 10;
+            const offset = parseInt(page - 1) * limit;
+
+            // Base WHERE clause to filter by albumId
+            let whereClause = "WHERE album_id = ?";
+            const queryParams = [albumId, limit, offset]; // Initial parameters: [albumId, LIMIT, OFFSET]
+
+            if (search) {
+                // Assuming search applies to type and url
+                whereClause += " AND (type LIKE ? OR url LIKE ?)";
+                // Adjust parameters: [albumId, search%, search%, LIMIT, OFFSET]
+                queryParams.splice(1, 0, `%${search}%`, `%${search}%`);
+            }
+
+            // Parameters for total count query
+            const totalCountParams = search ? [albumId, `%${search}%`, `%${search}%`] : [albumId];
+
+            // 1. Get the total count of records
+            const [countRows] = await pool.query(`
+                SELECT COUNT(*) as total
+                FROM gallery_upload
+                ${whereClause}
+            `, totalCountParams);
+
+            const totalRecords = countRows[0].total;
+            const totalPages = Math.ceil(totalRecords / limit);
+
+            // 2. Get the paginated data
+            const [rows] = await pool.query(`
+                SELECT *
+                FROM gallery_upload
+                ${whereClause}
+                ORDER BY id DESC
+                LIMIT ?
+                OFFSET ?
+            `, queryParams);
+
+            return {
+                data: rows,
+                pagination: {
+                    totalRecords,
+                    totalPages,
+                    currentPage: parseInt(page),
+                    limit: limit,
+                }
+            };
+
+        } catch (error) {
+            console.error("Error fetching album content data", error);
+            return {
+                data: [],
+                pagination: { totalRecords: 0, totalPages: 0, currentPage: parseInt(page), limit: parseInt(limit) || 10 }
+            };
+        }
+    }
+
     static async getById(id) {
         const [rows] = await pool.query(`SELECT * FROM gallery_upload WHERE id = ?`, [id]);
 
         return rows[0] || null;
     }
-
     static async save(data) {
+        // Retrieve album_id from data, which is passed from the modal form's hidden input
+        const albumId = data.album_id || null;
+
         if (data.id) {
             await pool.query(`
         UPDATE gallery_upload
-        SET thumbimage = ?, type = ?, url = ? WHERE id  = ?
-        `, [data.thumbimage, data.type, data.url, data.id]);
+        SET thumbimage = ?, type = ?, url = ?, album_id = ? WHERE id  = ?
+        `, [data.thumbimage, data.type, data.url, albumId, data.id]);
         } else {
             await pool.query(`
-            INSERT INTO gallery_upload (thumbimage, type, url) VALUES (?,?,?)
-            `, [data.thumbimage, data.type, data.url])
+            INSERT INTO gallery_upload (thumbimage, type, url, album_id) VALUES (?,?,?,?)
+            `, [data.thumbimage, data.type, data.url, albumId])
         }
     }
 

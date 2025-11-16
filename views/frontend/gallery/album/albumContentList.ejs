@@ -1,0 +1,94 @@
+<!-- views/frontend/gallery/album/albumContentList.ejs -->
+<div class="card mb-4">
+    <div class="card-body">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <div class="d-flex align-items-center">
+                <select class="form-select form-select-sm" id="contentRowsPerPage" data-album-id="<%= albumId %>"
+                    style="width: auto;">
+                    <% [5, 10, 25, 50].forEach(num=> { %>
+                        <option value="<%= num %>" <%=currentLimit==num ? 'selected' : '' %>><%= num %>
+                        </option>
+                        <% }) %>
+                </select>
+            </div>
+            <div class="d-flex align-items-center">
+                <input type="text" class="form-control form-control-sm" id="contentSearchBox"
+                    data-album-id="<%= albumId %>" value="<%= search %>" placeholder="Type and hit Enter">
+            </div>
+        </div>
+
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th style="width: 50px;">SI</th>
+                        <th style="width: 150px;">Thumb Image</th>
+                        <th style="width: 100px;">Type</th>
+                        <th>Video Url</th>
+                        <th style="width: 150px;">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% if (content.length> 0) { %>
+                        <% content.forEach((item, index)=> { %>
+                            <tr>
+                                <td>
+                                    <%= ((pagination.page - 1) * currentLimit) + index + 1 %>
+                                </td>
+                                <td>
+                                    <% if (item.thumbimage) { %>
+                                        <img src="/uploads/gallery-album/<%= item.thumbimage %>" alt="Thumb"
+                                            style="max-width: 100px; height: auto;">
+                                        <% } else { %>
+                                            -
+                                            <% } %>
+                                </td>
+                                <td>
+                                    <%= item.type %>
+                                </td>
+                                <td>
+                                    <%= item.url || '-' %>
+                                </td>
+                                <td>
+                                    <button class="btn btn-sm btn-danger btn-content-delete" data-id="<%= item.id %>"
+                                        title="Delete"><i class="fas fa-trash"></i></button>
+                                </td>
+                            </tr>
+                            <% }) %>
+                                <% } else { %>
+                                    <tr>
+                                        <td colspan="5" class="text-center">No media content found in this album.</td>
+                                    </tr>
+                                    <% } %>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="d-flex justify-content-between align-items-center">
+            <div class="text-muted small">
+                Showing <%= Math.min((pagination.page - 1) * currentLimit + 1, pagination.totalRecords) %>
+                    to <%= Math.min(pagination.page * currentLimit, pagination.totalRecords) %>
+                        of <%= pagination.totalRecords %> entries
+            </div>
+            <nav>
+                <ul class="pagination pagination-sm m-0">
+                    <li class="page-item <%= !pagination.hasPreviousPage ? 'disabled' : '' %>">
+                        <a class="page-link content-page-link" href="#"
+                            data-page="<%= pagination.page - 1 %>">Previous</a>
+                    </li>
+                    <% for (let i=1; i <=pagination.totalPages; i++) { %>
+                        <li class="page-item <%= pagination.page === i ? 'active' : '' %>">
+                            <a class="page-link content-page-link" href="#" data-page="<%= i %>">
+                                <%= i %>
+                            </a>
+                        </li>
+                        <% } %>
+                            <li class="page-item <%= !pagination.hasNextPage ? 'disabled' : '' %>">
+                                <a class="page-link content-page-link" href="#"
+                                    data-page="<%= pagination.page + 1 %>">Next</a>
+                            </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</div>

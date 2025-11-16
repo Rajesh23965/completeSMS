@@ -38,27 +38,11 @@ export const renderPageSection = async (req, res) => {
       categoriesByMenu[cat.menu_id].push(cat);
     });
 
-    const welcome = await WelcomeMessage.get();
-    const teachers = await Teachers.get();
-    const homeoptions = await HomeOptions.get();
-    const homecta = await HomeCta.get();
-    const statistics = await HomeStatistics.get()
-    const services = await HomeServices.get();
-    const testimonial = await HomeTestimonial.get();
-    const eoption = await EventOptions.get();
 
     const formPath = path.join(process.cwd(), "views/frontend/partials/pageSection.ejs");
     const formHtml = await ejs.renderFile(formPath, {
       menus,
       categoriesByMenu,
-      welcome,
-      teachers,
-      homeoptions,
-      homecta,
-      statistics,
-      services,
-      testimonial,
-      eoption
     });
 
     res.render("dashboard", {
