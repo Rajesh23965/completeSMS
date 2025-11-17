@@ -1,0 +1,425 @@
+<!-- Assuming Bootstrap 4/5 for classes like d-flex, nav-tabs, form-control, etc. -->
+<div id="alertMessage" class="alert-message alert alert-info" style="display: none;"></div>
+
+<div class="d-flex page-section">
+  <!-- Sidebar Menus -->
+  <div class="menu-sidebar page-section">
+    <ul class="menu-list">
+      <li class="menu-item menu-item-setting active" data-tab-id="schoolDetails">
+        <a href="javascript:void(0)" class="menu-link">
+          <i class="fas fa-school"></i>
+          <span class="menu-text">School Details</span>
+        </a>
+      </li>
+      <li class="menu-item menu-item-setting" data-tab-id="liveClassSettings">
+        <a href="javascript:void(0)" class="menu-link">
+          <i class="fas fa-video"></i>
+          <span class="menu-text">Live Class Settings</span>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+  <!-- Content Area -->
+  <div class="content-area">
+
+    <div class="tab-content-setting active" data-content-id="schoolDetails">
+
+      <div class="setting-header">
+        <h3 class="setting-title"><i class="fas fa-school"></i> School Setting</h3>
+      </div>
+
+      <div class="setting-body">
+        <!-- Main Tabs for School Details -->
+        <ul class="nav nav-tabs menu-tabs" id="schoolSettingTabs">
+          <li class="nav-item">
+            <a class="nav-link active" data-toggle="tab" href="#generalSettingTab">General Setting</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#registrationSettingTab">Registration Setting</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#feesSettingTab">Fees Setting</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#logoSettingTab">Logo Setting</a>
+          </li>
+        </ul>
+
+        <div class="tab-content" id="schoolSettingTabContent">
+
+          <!-- General Setting Tab Content -->
+          <div class="tab-pane fade show active" id="generalSettingTab" role="tabpanel">
+            <h4>General Setting</h4>
+            <form id="generalSettingsForm" method="POST" action="/school_settings">
+              <div class="form-group row">
+                <label for="branchName" class="col-sm-4 col-form-label">Branch Name *</label>
+                <div class="col-sm-8">
+                  <input type="text" class="form-control" name="branch_name" id="branchName"
+                    value="<%= settings.branch_name || 'Demo School' %>" required>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="schoolName" class="col-sm-4 col-form-label">School Name *</label>
+                <div class="col-sm-8">
+                  <input type="text" class="form-control" name="school_name" id="schoolName"
+                    value="<%= settings.school_name %>" required>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="email" class="col-sm-4 col-form-label">Email *</label>
+                <div class="col-sm-8">
+                  <input type="email" class="form-control" name="email" id="email"
+                    value="<%= settings.email || 'demo@gmail.com' %>" required>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="mobileNo" class="col-sm-4 col-form-label">Mobile No</label>
+                <div class="col-sm-8">
+                  <input type="text" class="form-control" name="mobile_no" id="mobileNo"
+                    value="<%= settings.mobile_no || '9812345678' %>">
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="currency" class="col-sm-4 col-form-label">Currency *</label>
+                <div class="col-sm-8">
+                  <input type="text" class="form-control" name="currency" id="currency"
+                    value="<%= settings.currency || 'NPR' %>" required>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="currencySymbol" class="col-sm-4 col-form-label">Currency Symbol *</label>
+                <div class="col-sm-8">
+                  <input type="text" class="form-control" name="currency_symbol" id="currencySymbol"
+                    value="<%= settings.currency_symbol || 'Rs.' %>" required>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="city" class="col-sm-4 col-form-label">City</label>
+                <div class="col-sm-8">
+                  <input type="text" class="form-control" name="city" id="city"
+                    value="<%= settings.city || 'Kathmandu' %>">
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="state" class="col-sm-4 col-form-label">State</label>
+                <div class="col-sm-8">
+                  <input type="text" class="form-control" name="state" id="state"
+                    value="<%= settings.state || 'Bagmati' %>">
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="address" class="col-sm-4 col-form-label">Address</label>
+                <div class="col-sm-8">
+                  <input type="text" class="form-control" name="address" id="address"
+                    value="<%= settings.address || 'Kathmandu' %>">
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="language" class="col-sm-4 col-form-label">Language *</label>
+                <div class="col-sm-8">
+                  <select class="form-control" name="language" id="language" required>
+                    <option value="English" <%=settings.language==='English' ? 'selected' : '' %>>English</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="timezone" class="col-sm-4 col-form-label">Timezone *</label>
+                <div class="col-sm-8">
+                  <select class="form-control" name="timezone" id="timezone" required>
+                    <option value="(GMT+05:45) Asia, Kathmandu" <%=settings.timezone==='(GMT+05:45) Asia, Kathmandu'
+                      ? 'selected' : '' %>>(GMT+05:45) Asia, Kathmandu</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="weekends" class="col-sm-4 col-form-label">Weekends *</label>
+                <div class="col-sm-8">
+                  <select class="form-control" name="weekends" id="weekends" required>
+                    <option value="Sunday" <%=settings.weekends==='Sunday' ? 'selected' : '' %>>Sunday</option>
+                    <option value="Monday" <%=settings.weekends==='Monday' ? 'selected' : '' %>>Monday</option>
+                    <option value="Tuesday" <%=settings.weekends==='Tuesday' ? 'selected' : '' %>>Tuesday</option>
+                    <option value="Wednesday" <%=settings.weekends==='Wednesday' ? 'selected' : '' %>>Wednesday</option>
+                    <option value="Thursday" <%=settings.weekends==='Thursday' ? 'selected' : '' %>>Thursday</option>
+                    <option value="Friday" <%=settings.weekends==='Friday' ? 'selected' : '' %>>Friday</option>
+                    <option value="Saturday" <%=settings.weekends==='Saturday' ? 'selected' : '' %>>Saturday</option>
+                  </select>
+                </div>
+              </div>
+
+              <!-- Unique Roll Radio Buttons -->
+              <div class="form-group row">
+                <label class="col-sm-4 col-form-label">Unique Roll</label>
+                <div class="col-sm-8 d-flex align-items-center">
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="unique_roll_type" id="rollClassesWise"
+                      value="Classes Wise" <%=settings.unique_roll_type==='Classes Wise' ? 'checked' : '' %>>
+                    <label class="form-check-label" for="rollClassesWise">Classes Wise</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="unique_roll_type" id="rollSectionWise"
+                      value="Section Wise" <%=settings.unique_roll_type==='Section Wise' ? 'checked' : '' %>>
+                    <label class="form-check-label" for="rollSectionWise">Section Wise</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="unique_roll_type" id="rollDisabled"
+                      value="Disabled" <%=settings.unique_roll_type==='Disabled' ? 'checked' : '' %>>
+                    <label class="form-check-label" for="rollDisabled">Disabled</label>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Teacher Restricted Checkbox -->
+              <div class="form-group row">
+                <div class="col-sm-4"></div>
+                <div class="col-sm-8">
+                  <div class="form-check">
+                    <input class="form-check-input toggle-setting" type="checkbox" data-key="teacher_restricted"
+                      id="teacherRestricted" <%=settings.teacher_restricted==='1' ? 'checked' : '' %>>
+                    <label class="form-check-label" for="teacherRestricted">Teacher Restricted</label>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group text-right">
+                <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Save</button>
+              </div>
+            </form>
+          </div>
+
+          <!-- Registration Setting Tab Content -->
+          <div class="tab-pane fade" id="registrationSettingTab" role="tabpanel">
+            <h4>Registration Setting</h4>
+            <div class="setting-group">
+              <h5>Register No Prefix</h5>
+              <div class="form-group">
+                <div class="form-check">
+                  <input class="form-check-input toggle-setting" type="checkbox" data-key="reg_prefix_auto_enabled"
+                    id="regPrefixAuto" <%=settings.reg_prefix_auto_enabled==='1' ? 'checked' : '' %>>
+                  <label class="form-check-label" for="regPrefixAuto">Enable Student Admission Registration No Prefix
+                    Auto.</label>
+                </div>
+              </div>
+
+              <div class="form-group row">
+                <label for="regInstitutionPrefix" class="col-sm-4 col-form-label">Institution Code (Prefix) *</label>
+                <div class="col-sm-8">
+                  <input type="text" class="form-control" name="reg_institution_prefix" id="regInstitutionPrefix"
+                    value="<%= settings.reg_institution_prefix || 'DEMO-' %>" required>
+                </div>
+              </div>
+
+              <div class="form-group row">
+                <label for="regStartNumber" class="col-sm-4 col-form-label">Register No Start From *</label>
+                <div class="col-sm-8">
+                  <input type="number" class="form-control" name="reg_start_number" id="regStartNumber"
+                    value="<%= settings.reg_start_number || '1' %>" required>
+                </div>
+              </div>
+
+              <div class="form-group row">
+                <label for="regDigitCount" class="col-sm-4 col-form-label">Register No Digit *</label>
+                <div class="col-sm-8">
+                  <select name="" id="" class="form-control">
+                    <option value="1" <%=settings.reg_digit_count==='1' ? 'selected' : '' %>>1</option>
+                    <option value="2" <%=settings.reg_digit_count==='2' ? 'selected' : '' %>>2</option>
+                    <option value="3" <%=settings.reg_digit_count==='3' ? 'selected' : '' %>>3</option>
+                    <option value="4" <%=settings.reg_digit_count==='4' ? 'selected' : '' %>>4</option>
+                    <option value="5" <%=settings.reg_digit_count==='5' ? 'selected' : '' %>>5</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div class="setting-group mt-5">
+              <h5>Automatically Generate Login Details</h5>
+              <div class="form-group">
+                <div class="form-check">
+                  <input class="form-check-input toggle-setting" type="checkbox" data-key="auto_gen_student_login"
+                    id="autoGenStudentLogin" <%=settings.auto_gen_student_login==='1' ? 'checked' : '' %>>
+                  <label class="form-check-label" for="autoGenStudentLogin">Automatically Generate Student Login
+                    Details.</label>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="studentUsernamePrefix" class="col-sm-4 col-form-label">Username Prefix *</label>
+                <div class="col-sm-8">
+                  <input type="text" class="form-control" name="student_username_prefix" id="studentUsernamePrefix"
+                    value="<%= settings.student_username_prefix || 'STD' %>" required>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="studentDefaultPassword" class="col-sm-4 col-form-label">Default Password *</label>
+                <div class="col-sm-8">
+                  <input type="text" class="form-control" name="student_default_password" id="studentDefaultPassword"
+                    value="<%= settings.student_default_password || '12345' %>" required>
+                </div>
+              </div>
+
+              <hr>
+
+              <div class="form-group">
+                <div class="form-check">
+                  <input class="form-check-input toggle-setting" type="checkbox" data-key="auto_gen_guardian_login"
+                    id="autoGenGuardianLogin" <%=settings.auto_gen_guardian_login==='1' ? 'checked' : '' %>>
+                  <label class="form-check-label" for="autoGenGuardianLogin">Automatically Generate Guardian Login
+                    Details.</label>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="guardianUsernamePrefix" class="col-sm-4 col-form-label">Username Prefix *</label>
+                <div class="col-sm-8">
+                  <input type="text" class="form-control" name="guardian_username_prefix" id="guardianUsernamePrefix"
+                    value="<%= settings.guardian_username_prefix || 'GUA' %>" required>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="guardianDefaultPassword" class="col-sm-4 col-form-label">Default Password *</label>
+                <div class="col-sm-8">
+                  <input type="text" class="form-control" name="guardian_default_password" id="guardianDefaultPassword"
+                    value="<%= settings.guardian_default_password || 'password' %>" required>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group text-right">
+              <button type="submit" form="generalSettingsForm" class="btn btn-primary"><i class="fas fa-save"></i> Save
+                Registration</button>
+            </div>
+          </div>
+
+          <!-- Fees Setting Tab Content -->
+          <div class="tab-pane fade" id="feesSettingTab" role="tabpanel">
+            <h4>Fees Setting</h4>
+            <div class="setting-group">
+              <h5>Offline Payments Setting</h5>
+              <div class="form-group row">
+                <label for="offlinePayments" class="col-sm-4 col-form-label">Offline Payments</label>
+                <div class="col-sm-8">
+                  <select class="form-control" name="offline_payments_status" id="offlinePayments">
+                    <option value="Enabled" <%=settings.offline_payments_status==='Enabled' ? 'selected' : '' %>>Enabled
+                    </option>
+                    <option value="Disabled" <%=settings.offline_payments_status==='Disabled' ? 'selected' : '' %>
+                      >Disabled</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div class="setting-group mt-5">
+              <h5>Fees Carry Forward Setting</h5>
+              <div class="form-group row">
+                <label for="dueDays" class="col-sm-4 col-form-label">Due Days</label>
+                <div class="col-sm-8">
+                  <input type="number" class="form-control" name="due_days" id="dueDays"
+                    value="<%= settings.due_days || '30' %>">
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="form-check">
+                  <input class="form-check-input toggle-setting" type="checkbox" data-key="due_fees_fine_enabled"
+                    id="dueFeesFine" <%=settings.due_fees_fine_enabled==='1' ? 'checked' : '' %>>
+                  <label class="form-check-label" for="dueFeesFine">Due Fees Calculation With Fine</label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Logo Setting Tab Content -->
+          <div class="tab-pane fade" id="logoSettingTab" role="tabpanel">
+            <h4>Logo Setting</h4>
+            <form id="logoSettingsForm" method="POST" action="/school_settings/logo" enctype="multipart/form-data">
+              <div class="row">
+
+                <!-- System Logo -->
+                <div class="col-md-3 text-center">
+                  <h6>System Logo</h6>
+                  <div class="logo-preview-box">
+                    <img src="<%= settings.logo_system_path %>" alt="System Logo" class="img-fluid mb-2">
+                    <!-- FIX: Changed name from 'logo' to 'system_logo' -->
+                    <input type="file" name="system_logo" id="systemLogoUpload" accept="image/*">
+                    <input type="hidden" name="old_logo_system_path" value="<%= settings.logo_system_path %>">
+                  </div>
+                  <p class="text-muted"><small>Max 50MB. PNG/JPG recommended.</small></p>
+                </div>
+
+                <!-- Text Logo (Used as Favicon placeholder in upload.js) -->
+                <div class="col-md-3 text-center">
+                  <h6>Text Logo</h6>
+                  <div class="logo-preview-box">
+                    <img src="<%= settings.logo_text_path  %>" alt="Text Logo" class="img-fluid mb-2">
+                    <!-- FIX: Changed name from 'fav_icon' to 'text_logo' -->
+                    <input type="file" name="text_logo" id="textLogoUpload" accept="image/*">
+                    <input type="hidden" name="old_logo_text_path" value="<%= settings.logo_text_path %>">
+                  </div>
+                  <p class="text-muted"><small>Used in report headers.</small></p>
+                </div>
+
+                <!-- Printing Logo -->
+                <div class="col-md-3 text-center">
+                  <h6>Printing Logo</h6>
+                  <div class="logo-preview-box">
+                    <img src="<%= settings.logo_printing_path %>" alt="Printing Logo" class="img-fluid mb-2">
+                    <!-- FIX: Changed name from 'printing_logo' to 'print_logo' -->
+                    <input type="file" name="print_logo" id="printingLogoUpload" accept="image/*">
+                    <input type="hidden" name="old_logo_printing_path" value="<%= settings.logo_printing_path %>">
+                  </div>
+                </div>
+
+                <!-- Report Card Logo -->
+                <div class="col-md-3 text-center">
+                  <h6>Report Card</h6>
+                  <div class="logo-preview-box">
+                    <img src="<%= settings.logo_report_card_path  %>" alt="Report Card Logo" class="img-fluid mb-2">
+                    <!-- FIX: Changed name from 'report_card_logo' to 'report_card' -->
+                    <input type="file" name="report_card" id="reportCardLogoUpload" accept="image/*">
+                    <input type="hidden" name="old_logo_report_card_path" value="<%= settings.logo_report_card_path %>">
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group text-right mt-4">
+                <button type="submit" class="btn btn-primary"><i class="fas fa-upload"></i> Upload Logos</button>
+              </div>
+            </form>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  /* Basic styling for EJS content to resemble the image structure */
+  .form-group.row {
+    margin-bottom: 15px;
+  }
+
+  .col-form-label {
+    font-weight: 500;
+  }
+
+  .setting-group h5 {
+    border-bottom: 2px solid #eee;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+  }
+
+  .logo-preview-box {
+    border: 1px solid #ddd;
+    padding: 10px;
+    border-radius: 5px;
+    min-height: 150px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .logo-preview-box img {
+    max-width: 100%;
+    max-height: 100px;
+    object-fit: contain;
+  }
+</style>

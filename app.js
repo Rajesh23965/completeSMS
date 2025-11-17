@@ -17,6 +17,7 @@ import faqRoutes from "./routes/FrontendFaq/FrontendFaq.js";
 import galleryCatRoutes from "./routes/GalleryCate/GalleryCateRoutes.js";
 import galleryRoutes from "./routes/GalleryRoutes/GalleryRoutes.js"
 import galleryUploadRoutes  from "./routes/GalleryRoutes/galleryUploadRoutes.js"
+import settingRoutes from "./routes/Settings/settingRoutes.js"
 
 const app = express();
 
@@ -107,6 +108,7 @@ app.use("/frontend", faqRoutes);
 app.use("/frontend", galleryCatRoutes);
 app.use("/frontend", galleryRoutes);
 app.use("/frontend", galleryUploadRoutes);
+app.use("/school_settings", settingRoutes);
 
 export default app;
 

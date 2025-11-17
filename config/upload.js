@@ -36,14 +36,18 @@ const createUploader = (folder) => {
     "text/plain"
   ];
 
-  const fileFilter = (req, file, cb) => {
+ const fileFilter = (req, file, cb) => {
     const isMimeAllowed = allowedMimeTypes.includes(file.mimetype);
     if (isMimeAllowed) {
       cb(null, true);
     } else {
-      cb(new Error(`Unsupported file type: ${file.mimetype}`));
+      // Use the error name for custom handling in the controller/router
+      const err = new Error(`Unsupported file type: ${file.mimetype}`);
+      err.code = 'FILE_TYPE_UNSUPPORTED';
+      cb(err);
     }
   };
+
 
   return multer({
     storage: storage,
@@ -56,12 +60,21 @@ const createUploader = (folder) => {
 
 // Create upload middleware for settings
 const settingsUpload = createUploader('settings');
+const settingsUploader = createUploader('settings');
 
 // Middleware for multiple file uploads
 export const uploadFiles = settingsUpload.fields([
   { name: "logo", maxCount: 1 },
   { name: "fav_icon", maxCount: 1 }
 ]);
+// The field names expected by the router for logo settings:
+export const settingsLogoUpload = settingsUploader.fields([
+  { name: "system_logo", maxCount: 1 }, // Field name used for System Logo
+  { name: "text_logo", maxCount: 1 },   // Field name used for Text Logo (or Fav Icon)
+  { name: "print_logo", maxCount: 1 },  // Field name used for Printing Logo
+  { name: "report_card", maxCount: 1 }  // Field name used for Report Card Logo
+]);
+
 export const welcomeUpload = createUploader('welcome');
 export const teacherUpload = createUploader('teacher');
 export const statisticsUpload = createUploader('statistics');
@@ -77,5 +90,5 @@ export const slider = createUploader('slider');
 export const testimonial = createUploader('testimonial');
 export const frontgallery = createUploader('gallery');
 export const galleryUpload = createUploader('gallery-album');
-export default settingsUpload;
 
+export default settingsUpload;
