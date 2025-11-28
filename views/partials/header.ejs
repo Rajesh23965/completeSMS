@@ -1,62 +1,61 @@
+<!-- views/partials/header.ejs -->
 <header class="header">
+
     <div class="header-left">
         <img src="/assets/default.png" alt="Logo" class="logo">
 
+        <!-- Sidebar Toggle -->
         <div class="icon-box" id="sidebar-toggle">
             <i class="fas fa-bars"></i>
         </div>
 
-        <div class="icon-box" id="fullscreen-toggle">
-            <i class="fas fa-expand"></i>
+        <!-- Full Screen -->
+        <div class="icon-box">
+            <i class="fas fa-expand" id="fullscreen-toggle"></i>
             <span class="tooltip-text">Screen toggle</span>
         </div>
 
-        <button class="dropdown-trigger icon-box">
-            <i class="fas fa-th"></i>
-        </button>
-
-
         <!-- App Grid -->
-        <div class="dropdown-menu header-menubox qk-menu">
+        <div class="icon-box dropdown-trigger" data-dropdown="appsMenu">
+            <i class="fas fa-th"></i>
+        </div>
+
+        <div id="appsMenu" class="dropdown-menu header-menubox">
             <div class="qk-menu-p">
                 <div class="menu-icon-grid">
-                    <a href="https://demo.mrtschool.org/student/add"><i class="fas fa-users"></i> Student Admission</a>
-                    <a href="https://demo.mrtschool.org/payroll"><i class="fas fa-donate"></i> Salary Payment</a>
-                    <a href="https://demo.mrtschool.org/leave"><i class="fas fa-fill-drip"></i> Leave Application</a>
-                    <a href="https://demo.mrtschool.org/live_class"><i class="fas fa-video"></i> Live Class Rooms</a>
-                    <a href="https://demo.mrtschool.org/fees/due_invoice"><i class="fas fa-hand-holding-usd"></i> Due
-                        Fees Invoice</a>
-                    <a href="https://demo.mrtschool.org/fees/invoice_list"><i class="fab fa-wpforms"></i> Fees Pay /
-                        Invoice</a>
+                    <a href="#"><i class="fas fa-users"></i> Student Admission</a>
+                    <a href="#"><i class="fas fa-donate"></i> Salary Payment</a>
+                    <a href="#"><i class="fas fa-fill-drip"></i> Leave Application</a>
+                    <a href="#"><i class="fas fa-video"></i> Live Class Rooms</a>
+                    <a href="#"><i class="fas fa-hand-holding-usd"></i> Due Fees</a>
+                    <a href="#"><i class="fab fa-wpforms"></i> Fees Invoice</a>
                 </div>
             </div>
         </div>
 
-        <!-- Search -->
+        <!-- Search Box -->
         <div class="search-box">
             <input type="text" placeholder="Search">
             <i class="fas fa-search"></i>
         </div>
     </div>
 
-
     <div class="header-right">
-        <!-- Home -->
+
+        <!-- Home Page -->
         <div class="icon-box">
-            <a href="https://app.ithomedemo.com.np" target="_blank" class="header-menu-icon">
+            <a href="/" target="_blank" class="header-menu-icon">
                 <i class="fas fa-globe"></i>
                 <span class="tooltip-text">Visit Home Page</span>
             </a>
         </div>
 
-
-
         <!-- Academic Session -->
-        <div class="icon-box dropdown-trigger">
+        <div class="icon-box dropdown-trigger" data-dropdown="sessionMenu">
             <i class="fas fa-calendar"></i>
-            <span class="tooltip-text">Academic Calander</span>
         </div>
-        <div class="dropdown-menu">
+
+        <div id="sessionMenu" class="dropdown-menu">
             <ul class="dropdown-user">
                 <li><strong>Academic Session</strong></li>
                 <li>2078</li>
@@ -64,15 +63,15 @@
                 <li>2080</li>
                 <li>2081</li>
                 <li>2082</li>
-                <li>2083</li>
             </ul>
         </div>
 
         <!-- Language -->
-        <div class="icon-box dropdown-trigger">
+        <div class="icon-box dropdown-trigger" data-dropdown="langMenu">
             <i class="fas fa-flag"></i>
         </div>
-        <div class="dropdown-menu">
+
+        <div id="langMenu" class="dropdown-menu">
             <ul class="dropdown-user">
                 <li><strong>Language</strong></li>
                 <li>English</li>
@@ -81,59 +80,40 @@
         </div>
 
         <!-- Notifications -->
-        <div class="icon-box dropdown-trigger">
+        <div class="icon-box dropdown-trigger" data-dropdown="notifyMenu">
             <i class="fas fa-bell"></i>
-            <span class="tooltip-text">Notification</span>
         </div>
-        <div class="dropdown-menu">
-            <i class="fas fa-bell"></i>
-            <span>Notification</span>
-            <p class="">You do not have any message</p>
+
+        <div id="notifyMenu" class="dropdown-menu">
+            <p>You do not have any message</p>
         </div>
 
         <!-- User Profile -->
-        <div id="userbox" class="userbox open">
-            <a href="#" data-toggle="dropdown" aria-expanded="true">
-                <figure class="profile-picture">
-                    <img src="/assets/demo.jpeg" alt="user-image" class="img-circle" height="35">
-                </figure>
-            </a>
-            <div class="dropdown-menu">
-                <ul class="dropdown-user list-unstyled">
-                    <li class="user-p-box">
-                        <div class="dw-user-box ">
-                            <div class="u-img">
-                                <img src="/assets/demo.jpeg" alt="Logo" class="u-img">
-                            </div>
+        <div class="userbox">
+            <div class="icon-box dropdown-trigger" data-dropdown="userMenu">
+                <img src="/assets/demo.jpeg" class="profile-img" height="35">
+            </div>
+
+            <div id="userMenu" class="dropdown-menu user-dropdown">
+                <ul class="dropdown-user">
+                    <li>
+                        <div class="dw-user-box">
+                            <img src="/assets/demo.jpeg" class="u-img">
                             <div class="u-text">
-                                <h2 class="">Demo Admin</h2>
+                                <h2>Demo Admin</h2>
                                 <p class="text-muted">Admin</p>
-                                <a href=""><i class="fas fa-sign-out-alt"></i> Logout</a>
                             </div>
                         </div>
                     </li>
-                    <li class=""></li>
-
-                    <li class="">
-                        <i class="fas fa-user-shield"></i><span>Profile</span>
-                    </li>
-                    <li class="">
-                        <i class="fas fa-mars-stroke-h"></i><span>Reset Password</span>
-                    </li>
-                    <li class="">
-                        <i class="far fa-envelope"></i><span>Mailbox</span>
-                    </li>
-                    <li class="school-setting">
-                        <i class="fas fa-school"></i><span>School Settings</span>
-                    </li>
-                    </li>
-                    <li class="school-setting">
-                        <i class="fas fa-sign-out-alt"></i><span>Logout</span>
-                    </li>
-
+                    <li><i class="fas fa-user-shield"></i> Profile</li>
+                    <li><i class="fas fa-mars-stroke-h"></i> Reset Password</li>
+                    <li><i class="far fa-envelope"></i> Mailbox</li>
+                    <li><i class="fas fa-school"></i> School Settings</li>
+                    <li><i class="fas fa-sign-out-alt"></i> Logout</li>
+                </ul>
             </div>
         </div>
+
     </div>
-    </div>
-    </div>
+
 </header>

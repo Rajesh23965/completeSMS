@@ -16,14 +16,15 @@ import serviceRoutes from "./routes/ServiceRoute/ServiceRoute.js";
 import faqRoutes from "./routes/FrontendFaq/FrontendFaq.js";
 import galleryCatRoutes from "./routes/GalleryCate/GalleryCateRoutes.js";
 import galleryRoutes from "./routes/GalleryRoutes/GalleryRoutes.js"
-import galleryUploadRoutes  from "./routes/GalleryRoutes/galleryUploadRoutes.js"
-import settingRoutes from "./routes/Settings/settingRoutes.js"
+import galleryUploadRoutes from "./routes/GalleryRoutes/galleryUploadRoutes.js"
+import settingRoutes from "./routes/Settings/settingRoutes.js";
+import topbarRoutes from "./routes/Topbar/Topbar.routes.js";
 
 const app = express();
 
 //Middleware
 const corsOptions = {
-    origin: process.env.FRONTEND_URL || 'http://localhost:5173',
+    origin: process.env.FRONTEND_URL || 'http://localhost:3000',
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
@@ -39,11 +40,13 @@ app.use(express.urlencoded({ extended: true }));
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+// Set EJS as view engine for admin panel
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
-// Static files
+// Static files - serve both public and website folders
 app.use(express.static(path.join(__dirname, 'public')));
+app.use('/website', express.static(path.join(__dirname, 'public/website')));
 
 
 app.use(cookieParser());
@@ -83,20 +86,9 @@ app.use((req, res, next) => {
     next();
 });
 
-// Routes
 
-app.get('/', (req, res) => {
-    res.render('dashboard', {
-        title: 'Dashboard',
-        pageTitle: 'Dashboard',
-        pageIcon: 'fa-tachometer-alt',
-        breadcrumbs: [{ label: '', href: '/' }],
-        baseUrl: req.protocol + '://' + req.get('host'),
-        breadcrumbs: [{ label: '', href: '/' }],
-        body: "All"
-    });
-});
 
+app.use("/frontend", topbarRoutes);
 app.use("/frontend", settingRoute);
 app.use("/frontend", menuRoutes);
 app.use("/frontend", pageRoute);
@@ -109,6 +101,35 @@ app.use("/frontend", galleryCatRoutes);
 app.use("/frontend", galleryRoutes);
 app.use("/frontend", galleryUploadRoutes);
 app.use("/school_settings", settingRoutes);
+
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public/website', 'index.html'));
+});
+
+app.get('/about', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public/website', 'about.html'));
+});
+
+app.get('/services', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public/website', 'services.html'));
+});
+
+app.get('/contact', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public/website', 'contact.html'));
+});
+
+// Admin route (keep EJS for admin panel)
+app.get('/admin', (req, res) => {
+    res.render('dashboard', {
+        title: 'Dashboard',
+        pageTitle: 'Dashboard',
+        pageIcon: 'fa-tachometer-alt',
+        breadcrumbs: [{ label: '', href: '/' }],
+        baseUrl: req.protocol + '://' + req.get('host'),
+        body: "All"
+    });
+});
+
 
 export default app;
 

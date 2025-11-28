@@ -1,0 +1,152 @@
+<!-- views/frontend/partials/topbarUI.ejs -->
+
+<div class="topbar-card settings-form">
+    <div class="topbar-title">Topbar Settings</div>
+
+    <form id="topbarForm" action="/frontend/save" method="POST">
+        <div id="itemsContainer">
+
+            <% if (topbar && topbar.length) { %>
+                <% topbar.forEach(item=> { %>
+
+                    <div class="item-row row p-3 mb-4 border rounded" style="background:#f9f9f9;"
+                        data-id="<%= item.id %>">
+
+                        <input type="hidden" name="id[]" value="<%= item.id %>">
+
+                        <!-- TYPE -->
+                        <div class="col-md-2">
+                            <label class="fw-bold">Type</label>
+                            <select name="type[]" class="form-select">
+                                <option value="email" <%=item.type==='email' ?'selected':''%>>Email</option>
+                                <option value="phone" <%=item.type==='phone' ?'selected':''%>>Phone</option>
+                                <option value="address" <%=item.type==='address' ?'selected':''%>>Address</option>
+                                <option value="social" <%=item.type==='social' ?'selected':''%>>Social</option>
+                                <option value="button" <%=item.type==='button' ?'selected':''%>>Button</option>
+                                <option value="toggle" <%=item.type==='toggle' ?'selected':''%>>Toggle</option>
+                                <option value="custom" <%=item.type==='custom' ?'selected':''%>>Custom</option>
+                            </select>
+                        </div>
+
+                        <!-- SECTION -->
+                        <div class="col-md-2">
+                            <label class="fw-bold">Section</label>
+                            <input type="number" name="section[]" min="1" max="12" class="form-control"
+                                value="<%= item.section %>">
+                        </div>
+
+                        <!-- POSITION -->
+                        <div class="col-md-2">
+                            <label class="fw-bold">Position</label>
+                            <select name="position[]" class="form-select">
+                                <option value="start" <%=item.position==='start' ?'selected':''%>>Start</option>
+                                <option value="center" <%=item.position==='center' ?'selected':''%>>Center</option>
+                                <option value="end" <%=item.position==='end' ?'selected':''%>>End</option>
+                                <option value="between" <%=item.position==='between' ?'selected':''%>>Between</option>
+                                <option value="around" <%=item.position==='around' ?'selected':''%>>Around</option>
+                            </select>
+                        </div>
+
+                        <!-- ORDER -->
+                        <div class="col-md-2">
+                            <label class="fw-bold">Order</label>
+                            <input type="number" name="order_no[]" min="1" max="200" class="form-control"
+                                value="<%= item.order_no %>">
+                        </div>
+
+                        <!-- TEXT -->
+                        <div class="col-md-2">
+                            <label class="fw-bold">Text</label>
+                            <input type="text" name="text[]" class="form-control" value="<%= item.text %>" required>
+                        </div>
+
+                        <!-- ICON -->
+                        <div class="col-md-2">
+                            <label class="fw-bold">Icon</label>
+                            <input type="text" name="icon[]" class="form-control" value="<%= item.icon %>">
+                        </div>
+
+                        <!-- URL -->
+                        <div class="col-md-2">
+                            <label class="fw-bold">URL</label>
+                            <input type="text" name="url[]" class="form-control" value="<%= item.url %>">
+                        </div>
+
+                        <!-- BORDER -->
+                        <div class="col-md-2 mt-3">
+                            <label class="fw-bold">Border (px solid red)</label>
+                            <input type="text" name="border[]" class="form-control" value="<%= item.border %>">
+                        </div>
+
+                        <!-- RADIUS -->
+                        <div class="col-md-1 mt-3">
+                            <label class="fw-bold">Radius (px)</label>
+                            <input type="text" name="radius[]" class="form-control" value="<%= item.radius %>">
+                        </div>
+
+                        <!-- DEVICE -->
+                        <div class="col-md-2 mt-3">
+                            <label class="fw-bold">Device</label>
+                            <select name="device[]" class="form-select">
+                                <option value="both" <%=item.device==='both' ?'selected':''%>>Both</option>
+                                <option value="desktop" <%=item.device==='desktop' ?'selected':''%>>Desktop</option>
+                                <option value="mobile" <%=item.device==='mobile' ?'selected':''%>>Mobile</option>
+                            </select>
+                        </div>
+
+                        <!-- VISIBILITY SWITCH -->
+                        <div class="col-md-2 mt-3">
+                            <label class="fw-bold d-block">Visible</label>
+                            <label class="switch">
+                                <input type="checkbox" name="visibility[]" <%=item.visibility ? "checked" : "" %>
+                                >
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+
+
+
+
+                        <!-- DELETE -->
+                        <div class="col-md-2 mt-3">
+                            <button type="button" class="btn btn-danger removeItemBtn fw-bold" data-id="<%= item.id %>">
+                                <i class="fa-solid fa-xmark"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <% }) %>
+                        <% } %>
+
+        </div>
+
+        <button type="button" id="addItemBtn" class="btn btn-dark add-btn mb-3">+ Add New</button>
+
+        <button type="submit" class="btn btn-primary w-100 py-2">Save Topbar</button>
+
+    </form>
+
+    <form action="/frontend/save-date-settings" method="POST">
+
+        <div class="col-md-4 mb-4">
+            <small class="form-text text-muted">Show Website</small>
+
+            <label class="switch">
+                <input type="checkbox" name="showDate" value="1" <%=topbarDate.showDate ? 'checked' : '' %>>
+                <span class="slider"></span>
+            </label>
+        </div>
+
+        <div class="col-md-4 mb-4">
+            <label class="fw-bold d-block">Default Language</label>
+            <select name="language" class="form-select">
+                <option value="english" <%=topbarDate.language==='english' ? 'selected' : '' %>>English
+                </option>
+                <option value="nepali" <%=topbarDate.language==='nepali' ? 'selected' : '' %>>Nepali
+                </option>
+            </select>
+        </div>
+
+        <button type="submit" class="btn btn-success w-100 py-2">Save Date</button>
+    </form>
+</div>

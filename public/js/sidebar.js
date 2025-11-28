@@ -1,3 +1,4 @@
+//public/sidebar.js
 class Sidebar {
     constructor() {
         this.sidebar = document.querySelector('.sidebar');

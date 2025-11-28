@@ -4,10 +4,7 @@ import pool from "../../config/database.js";
 const CURRENT_SCHOOL_ID = 1;
 
 export class SettingMainModel {
-    /**
-     * Fetches all settings for the current school and transforms them into a single object.
-     * @returns {Promise<Object>} A key-value object of all settings.
-     */
+ 
     static async getSettings() {
         const query = `
             SELECT setting_key, setting_value 
@@ -31,11 +28,7 @@ export class SettingMainModel {
         }
     }
 
-    /**
-     * Updates multiple settings at once (e.g., General Settings form submission).
-     * This uses a transaction to ensure all updates succeed or fail together.
-     * @param {Object} settingsData - Key-value pairs of settings to update.
-     */
+
     static async updateSettings(settingsData) {
         const connection = await pool.getConnection();
         await connection.beginTransaction();

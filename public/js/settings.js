@@ -1,93 +1,61 @@
-// public/js/settings.js
-
 document.addEventListener("DOMContentLoaded", async () => {
+
+  // Fetch settings from API
+  let settings = {};
   try {
     const res = await fetch("/frontend/api");
     const data = await res.json();
-
-    if (data.success && data.data) {
-      const settings = data.data;
-
-      // Fill inputs
-      Object.keys(settings).forEach(key => {
-        const field = document.querySelector(`[name="${key}"]`);
-        if (field) {
-          if (field.type === "file") {
-            return;
-          }
-
-          if (field.tagName === "INPUT" || field.tagName === "TEXTAREA") {
-            field.value = settings[key] || "";
-          } else if (field.tagName === "SELECT") {
-            [...field.options].forEach(opt => {
-              if (opt.value === settings[key]) {
-                opt.selected = true;
-              }
-            });
-          }
-        }
-      });
-
-      // Update color previews with actual database values
-      document.querySelectorAll(".color-picker-container").forEach(container => {
-        const colorInput = container.querySelector(".color-input");
-        const textInput = container.querySelector(".color-text-input");
-        const preview = container.querySelector(".color-preview");
-
-        if (colorInput && preview) {
-          // Use the actual value from the form input (which was set from DB)
-          preview.style.backgroundColor = colorInput.value;
-        }
-        if (colorInput && textInput) {
-          textInput.value = colorInput.value;
-        }
-      });
-
-      // Logo preview
-      if (settings.logo) {
-        const dropArea = document.getElementById("logoDropArea");
-        if (dropArea) {
-          dropArea.innerHTML = `
-            <div class="preview-item">
-              <img src="${settings.logo}" alt="Logo">
-              <div class="overlay">
-                <span class="file-name">${settings.logo.split('/').pop()}</span>
-                <div class="remove-btn">Remove</div>
-              </div>
-            </div>`;
-        }
-      }
-
-      // Favicon preview
-      if (settings.fav_icon) {
-        const dropArea = document.getElementById("faviconDropArea");
-        if (dropArea) {
-          dropArea.innerHTML = `
-            <div class="preview-item">
-              <img src="${settings.fav_icon}" alt="Favicon">
-              <div class="overlay">
-                <span class="file-name">${settings.fav_icon.split('/').pop()}</span>
-                <div class="remove-btn">Remove</div>
-              </div>
-            </div>`;
-        }
-      }
-    }
+    if (data.success && data.data) settings = data.data;
   } catch (err) {
     console.error("Error loading settings:", err);
   }
-});
 
+  // Fill normal inputs
+  Object.keys(settings).forEach(key => {
+    const field = document.querySelector(`[name="${key}"]`);
+    if (!field) return;
 
-document.addEventListener("DOMContentLoaded", () => {
+    if (field.type === "file") return;
+
+    if (field.tagName === "INPUT" || field.tagName === "TEXTAREA") {
+      field.value = settings[key] || "";
+    } else if (field.tagName === "SELECT") {
+      [...field.options].forEach(opt => {
+        if (opt.value === settings[key]) opt.selected = true;
+      });
+    }
+  });
+
+  // Setup drag & drop with preview areas
+  setupDragDrop(
+    document.getElementById("leftLogoDropArea"),
+    document.getElementById("leftLogoInput"),
+    document.getElementById("leftLogoPreview")
+  );
+
+  setupDragDrop(
+    document.getElementById("rightLogoDropArea"),
+    document.getElementById("rightLogoInput"),
+    document.getElementById("rightLogoPreview")
+  );
+
+  setupDragDrop(
+    document.getElementById("faviconDropArea"),
+    document.getElementById("faviconInput"),
+    document.getElementById("faviconPreview")
+  );
+
+  // Populate previews if logos/fav_icon already exist
+  if (settings.left_logo) populatePreview("leftLogoPreview", settings.left_logo, "left_logo");
+  if (settings.right_logo) populatePreview("rightLogoPreview", settings.right_logo, "right_logo");
+  if (settings.fav_icon) populatePreview("faviconPreview", settings.fav_icon, "favicon");
+
+  // Settings form submit
   const settingsForm = document.getElementById("settingsForm");
   const alertBox = document.getElementById("alertMessage");
 
   function showAlert(message, type = "success") {
-    alertBox.innerHTML = `
-      <span>${message}</span>
-      <button id="alertOkBtn">OK</button>
-    `;
+    alertBox.innerHTML = `<span>${message}</span><button id="alertOkBtn">OK</button>`;
     alertBox.className = `alert-message ${type} show`;
     alertBox.style.display = "flex";
 
@@ -121,37 +89,17 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Make color pickers interactive
-  document.querySelectorAll(".color-input").forEach(input => {
-    input.addEventListener("input", function () {
-      const container = this.closest(".color-picker-container");
-      const preview = container.querySelector(".color-preview");
-      const textInput = container.querySelector(".color-text-input");
-
-      preview.style.backgroundColor = this.value;
-      textInput.value = this.value;
-    });
-  });
-
-  document.querySelectorAll(".color-text-input").forEach(input => {
-    input.addEventListener("input", function () {
-      const container = this.closest(".color-picker-container");
-      const colorInput = container.querySelector(".color-input");
-      const preview = container.querySelector(".color-preview");
-
-      // Validate hex color
-      if (/^#([0-9A-F]{3}){1,2}$/i.test(this.value)) {
-        colorInput.value = this.value;
-        preview.style.backgroundColor = this.value;
-      }
-    });
-  });
-  document.addEventListener("DOMContentLoaded", () => {
-    // Update all color previews with their data-color values
-    document.querySelectorAll('.color-preview').forEach(preview => {
-      const color = preview.getAttribute('data-color');
-      preview.style.backgroundColor = color;
-    });
-  });
 });
 
+
+function populatePreview(previewId, filePath, key) {
+  const previewArea = document.getElementById(previewId);
+  if (!previewArea) return;
+
+  previewArea.innerHTML = `
+    <div class="preview-item">
+      <img src="${filePath}" alt="${key}">
+      <div class="remove-btn" onclick="removeImage('${key}')"><i class="fas fa-times"></i></div>
+    </div>
+  `;
+}

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My CMS Website</title>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="/website/css/topbar.css">
+  <link rel="stylesheet" href="/website/css/header.css">   <!-- HEADER CSS -->
+</head>
+
+<body>
+
+  <!-- PAGE LOADER -->
+<div id="pageLoader">
+    <div class="spinner"></div>
+</div>
+
+  <div class="top-bar" id="top-bar"></div>
+
+  <!-- HEADER -->
+  <header class="cms-header" id="cms-header">
+      <div class="header-inner">
+          
+          <!-- LEFT LOGO -->
+          <a href="/" class="header-logo navbar-brand">
+              <img id="leftLogo" alt="Left Logo" class="leftlogo">
+          </a>
+
+          <!-- MENU -->
+          <nav class="main-menu" id="mainMenu"></nav>
+
+          <!-- RIGHT LOGO -->
+          <a href="/" class="header-logo" id="rightLogo">
+              <!-- <img id="" > -->
+          </a>
+
+          <!-- MOBILE BUTTON -->
+          <div class="mobile-toggle" id="mobileToggle">
+              <i class="fa fa-bars"></i>
+          </div>
+      </div>
+  </header>
+
+  <script src="/website/js/topbar.js"></script>
+  <script src="/website/js/header.js"></script> <!-- NEW FILE -->
+</body>
+</html>

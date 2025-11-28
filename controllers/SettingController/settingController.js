@@ -9,8 +9,11 @@ export const saveSettings = async (req, res) => {
     const settingData = req.body;
 
     if (req.files) {
-      if (req.files["logo"]) {
-        settingData.logo = "/uploads/" + req.files["logo"][0].filename;
+      if (req.files["left_logo"]) {
+        settingData.logo = "/uploads/" + req.files["left_logo"][0].filename;
+      }
+      if (req.files["right_logo"]) {
+        settingData.right_logo = "/uploades/" + req.files["right_logo"][0].filename;
       }
       if (req.files["fav_icon"]) {
         settingData.fav_icon = "/uploads/" + req.files["fav_icon"][0].filename;
@@ -65,8 +68,11 @@ export const saveSettingsForm = async (req, res) => {
 
     // Handle uploaded files
     if (req.files) {
-      if (req.files["logo"]) {
-        settingData.logo = "/uploads/" + req.files["logo"][0].filename;
+      if (req.files["left_logo"]) {
+        settingData.left_logo = "/uploads/" + req.files["left_logo"][0].filename;
+      }
+      if (req.files["right_logo"]) {
+        settingData.right_logo = "/uploads/" + req.files["right_logo"][0].filename;
       }
       if (req.files["fav_icon"]) {
         settingData.fav_icon = "/uploads/" + req.files["fav_icon"][0].filename;
@@ -127,8 +133,11 @@ export const saveSettingsAPI = async (req, res) => {
 
     // Handle uploaded files
     if (req.files) {
-      if (req.files["logo"]) {
-        settingData.logo = "/uploads/settings/" + req.files["logo"][0].filename;
+      if (req.files["left_logo"]) {
+        settingData.left_logo = "/uploads/settings/" + req.files["left_logo"][0].filename;
+      }
+      if (req.files["right_logo"]) {
+        settingData.right_logo = "/uploads/settings/" + req.files["right_logo"][0].filename;
       }
       if (req.files["fav_icon"]) {
         settingData.fav_icon = "/uploads/settings/" + req.files["fav_icon"][0].filename;
@@ -177,13 +186,17 @@ export const removeLogo = async (req, res) => {
   try {
     // First get current settings to find the logo path
     const [rows] = await Settings.get();
-    const currentSettings = rows[0];
+    const current = rows[0];
 
-    // Delete the physical file if it exists
-    if (currentSettings && currentSettings.logo) {
-      const filePath = path.join(process.cwd(), 'public', currentSettings.logo);
-      if (fs.existsSync(filePath)) {
-        fs.unlinkSync(filePath);
+    if (current) {
+      if (current.left_logo) {
+        const leftPath = path.join(process.cwd(), "public", current.left_logo);
+        if (fs.existsSync(leftPath)) fs.unlinkSync(leftPath);
+      }
+
+      if (current.right_logo) {
+        const rightPath = path.join(process.cwd(), "public", current.right_logo);
+        if (fs.existsSync(rightPath)) fs.unlinkSync(rightPath);
       }
     }
 

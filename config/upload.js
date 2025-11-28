@@ -64,7 +64,8 @@ const settingsUploader = createUploader('settings');
 
 // Middleware for multiple file uploads
 export const uploadFiles = settingsUpload.fields([
-  { name: "logo", maxCount: 1 },
+  { name: "left_logo", maxCount: 1 },
+  { name: "right_logo", maxCount: 1 },
   { name: "fav_icon", maxCount: 1 }
 ]);
 // The field names expected by the router for logo settings:

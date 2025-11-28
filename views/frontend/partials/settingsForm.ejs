@@ -54,22 +54,43 @@
             required><%= settings.working_hours || '' %></textarea>
     </div>
 
-    <!-- Logo Upload with Drag & Drop -->
+    <!--  Left Logo Upload with Drag & Drop -->
     <div class="form-group">
-        <label class="form-label required-field">Logo</label>
-        <div class="drag-drop-area" id="logoDropArea">
+        <label class="form-label required-field"> Left Logo</label>
+        <div class="drag-drop-area" id="leftLogoDropArea">
             <i class="fas fa-cloud-upload-alt"></i>
-            <p>Drag & Drop your logo here or click to browse</p>
+            <p>Drag & Drop your left logo here or click to browse</p>
             <button type="button" class="btn btn-sm btn-outline-primary"
-                onclick="document.getElementById('logoInput').click()">Select File</button>
-            <input type="file" name="logo" id="logoInput" accept="image/*" style="display: none;">
+                onclick="document.getElementById('leftLogoInput').click()">Select File</button>
+            <input type="file" name="left_logo" id="leftLogoInput" accept="image/*" style="display: none;">
         </div>
 
-        <div class="drop-area" id="logoPreview">
-            <% if (settings.logo) { %>
+        <div class="drop-area" id="leftLogoPreview">
+            <% if (settings.left_logo) { %>
                 <div class="preview-item">
-                    <img src="<%= settings.logo %>" alt="Logo">
-                    <div class="remove-btn" onclick="removeImage('logo')"><i class="fas fa-times"></i></div>
+                    <img src="<%= settings.left_logo %>" alt="Left Logo">
+                    <div class="remove-btn" onclick="removeImage('left_logo')"><i class="fas fa-times"></i></div>
+                </div>
+                <% } %>
+        </div>
+    </div>
+
+    <!--  Right Logo Upload with Drag & Drop -->
+    <div class="form-group">
+        <label class="form-label required-field"> Right Logo</label>
+        <div class="drag-drop-area" id="rightLogoDropArea">
+            <i class="fas fa-cloud-upload-alt"></i>
+            <p>Drag & Drop your right logo here or click to browse</p>
+            <button type="button" class="btn btn-sm btn-outline-primary"
+                onclick="document.getElementById('rightLogoInput').click()">Select File</button>
+            <input type="file" name="right_logo" id="rightLogoInput" accept="image/*" style="display: none;">
+        </div>
+
+        <div class="drop-area" id="rightLogoPreview">
+            <% if (settings.right_logo) { %>
+                <div class="preview-item">
+                    <img src="<%= settings.right_logo %>" alt="Right Logo">
+                    <div class="remove-btn" onclick="removeImage('right_logo')"><i class="fas fa-times"></i></div>
                 </div>
                 <% } %>
         </div>
@@ -127,8 +148,8 @@
         <div class="form-group">
             <label class="form-label">Menu Background Color</label>
             <div class="color-picker-container">
-                
-                     <div class="color-preview" data-color="<%= settings.theme_menu_bg_color || '#3f37c9' %>">
+
+                <div class="color-preview" data-color="<%= settings.theme_menu_bg_color || '#3f37c9' %>">
                 </div>
                 <input type="color" class="color-input" name="theme_menu_bg_color"
                     value="<%= settings.theme_menu_bg_color || '#3f37c9' %>">
@@ -140,8 +161,7 @@
         <div class="form-group">
             <label class="form-label">Button Hover Color</label>
             <div class="color-picker-container">
-                <div class="color-preview"
-                    data-color="<%= settings.theme_button_hover_color || '#4cc9f0' %>;"></div>
+                <div class="color-preview" data-color="<%= settings.theme_button_hover_color || '#4cc9f0' %>;"></div>
                 <input type="color" class="color-input" name="theme_button_hover_color"
                     value="<%= settings.theme_button_hover_color || '#4cc9f0' %>">
                 <input type="text" class="form-control color-text-input"
@@ -164,8 +184,7 @@
         <div class="form-group">
             <label class="form-label">Text Secondary Color</label>
             <div class="color-picker-container">
-                <div class="color-preview"
-                    data-color="<%= settings.theme_text_secondary_color || '#383838' %>;"></div>
+                <div class="color-preview" data-color="<%= settings.theme_text_secondary_color || '#383838' %>;"></div>
                 <input type="color" class="color-input" name="theme_text_secondary_color"
                     value="<%= settings.theme_text_secondary_color || '#383838' %>">
                 <input type="text" class="form-control color-text-input"
@@ -176,8 +195,7 @@
         <div class="form-group">
             <label class="form-label">Footer Bg Color</label>
             <div class="color-picker-container">
-                <div class="color-preview"
-                    data-color=" <%= settings.theme_footer_bg_color || '#12414f' %>;"></div>
+                <div class="color-preview" data-color=" <%= settings.theme_footer_bg_color || '#12414f' %>;"></div>
                 <input type="color" class="color-input" name="theme_footer_bg_color"
                     value="<%= settings.theme_footer_bg_color || '#12414f' %>">
                 <input type="text" class="form-control color-text-input"
@@ -188,8 +206,7 @@
         <div class="form-group">
             <label class="form-label">Footer Text Color</label>
             <div class="color-picker-container">
-                <div class="color-preview"
-                    data-color=" <%= settings.theme_footer_text_color || '#8d8d8d' %>;"></div>
+                <div class="color-preview" data-color=" <%= settings.theme_footer_text_color || '#8d8d8d' %>;"></div>
                 <input type="color" class="color-input" name="theme_footer_text_color"
                     value="<%= settings.theme_footer_text_color || '#8d8d8d' %>">
                 <input type="text" class="form-control color-text-input"
@@ -200,8 +217,7 @@
         <div class="form-group">
             <label class="form-label">Copyright Bg Color</label>
             <div class="color-picker-container">
-                <div class="color-preview"
-                    data-color="<%= settings.theme_copyright_bg_color || '#262626' %>;"></div>
+                <div class="color-preview" data-color="<%= settings.theme_copyright_bg_color || '#262626' %>;"></div>
                 <input type="color" class="color-input" name="theme_copyright_bg_color"
                     value="<%= settings.theme_copyright_bg_color || '#262626' %>">
                 <input type="text" class="form-control color-text-input"
@@ -212,8 +228,7 @@
         <div class="form-group">
             <label class="form-label">Copyright Text Color</label>
             <div class="color-picker-container">
-                <div class="color-preview"
-                    data-color=" <%= settings.theme_copyright_text_color || '#8d8d8d' %>;"></div>
+                <div class="color-preview" data-color=" <%= settings.theme_copyright_text_color || '#8d8d8d' %>;"></div>
                 <input type="color" class="color-input" name="theme_copyright_text_color"
                     value="<%= settings.theme_copyright_text_color || '#8d8d8d' %>">
                 <input type="text" class="form-control color-text-input"

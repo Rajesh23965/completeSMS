@@ -1,3 +1,4 @@
+//public/main.js
 document.querySelectorAll('.sidebar-section li').forEach(item => {
     item.addEventListener('click', () => {
         document.querySelectorAll('.sidebar-section li').forEach(li => li.classList.remove('active'));
@@ -9,7 +10,7 @@ document.querySelectorAll('.sidebar-section li').forEach(item => {
 
 document.addEventListener('DOMContentLoaded', function () {
     const sidebarToggle = document.getElementById('sidebar-toggle');
-    const sidebar = document.getElementById('sidebar'); // Make sure your sidebar has id="sidebar"
+    const sidebar = document.getElementById('sidebar'); 
 
     if (sidebarToggle && sidebar) {
         sidebarToggle.addEventListener('click', function () {
@@ -28,3 +29,5 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 });
+
+

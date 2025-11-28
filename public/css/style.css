@@ -497,21 +497,15 @@ body {
 
 .dropdown-menu {
     position: absolute;
-    top: 100%;
-    background: #ffffff;
+    display: none;
+    background: #fff;
     border-radius: 8px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-    padding: 12px;
+    padding: 10px;
     min-width: 220px;
-    max-width: 90vw;
-    z-index: 1100;
-    margin-right: 0;
-    opacity: 0;
-    transform: translateY(20px);
-    visibility: hidden;
-    pointer-events: none;
-    transition: opacity 0.3s ease, transform 0.3s ease;
+    z-index: 9999;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
 }
+
 
 .list-unstyled {
     padding-left: 0;
@@ -519,6 +513,7 @@ body {
 }
 
 .dropdown-menu.active {
+    display: block;
     opacity: 1;
     transform: translateY(0);
     visibility: visible;
@@ -529,7 +524,6 @@ body {
     list-style: none;
     padding: 0;
     margin: 0;
-    left: 20px;
 }
 
 #userbox {
@@ -1753,4 +1747,81 @@ select {
 
 .amt {
     color: #d1cfcf;
+}
+
+.topbar-card {
+    background: #fff;
+    border-radius: 12px;
+    padding: 25px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+    margin-bottom: 25px;
+    /* border-left: 5px solid #4e73df; */
+}
+
+.topbar-title {
+    font-size: 22px;
+    font-weight: 600;
+    color: #4e73df;
+    margin-bottom: 20px;
+}
+
+.remove-btn {
+    margin-top: 30px;
+    height: 40px;
+    width: 40px;
+    border-radius: 8px;
+    font-size: 20px;
+}
+
+/* iOS STYLE SWITCH BUTTON */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 52px;
+    height: 28px;
+    margin-top: 7px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: #ccc;
+    transition: .4s;
+    border-radius: 28px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 22px;
+    width: 22px;
+    left: 3px;
+    bottom: 3px;
+    background: white;
+    transition: .4s;
+    border-radius: 50%;
+}
+
+input:checked+.slider {
+    background: #4e73df;
+}
+
+input:checked+.slider:before {
+    transform: translateX(24px);
+}
+
+.add-btn {
+    border-radius: 10px;
+    padding: 10px 15px;
+    font-size: 15px;
 }

@@ -7,7 +7,7 @@ export class Settings {
     static async save(settingData) {
         const columns = [
             "cms_title", "cms_url_alias", "cms_frontend", "online_admission",
-            "receive_email_to", "captcha_status", "working_hours", "logo", "fav_icon",
+            "receive_email_to", "captcha_status", "working_hours", "right_logo", "left_logo", "fav_icon",
             "address", "google_analytics", "theme_primary_color", "theme_menu_bg_color",
             "theme_button_hover_color", "theme_text_color", "theme_text_secondary_color",
             "theme_footer_bg_color", "theme_footer_text_color", "theme_copyright_bg_color",
@@ -50,12 +50,12 @@ export class Settings {
 
     //Remove Logo
     static async removeLogo() {
-        const query = `UPDATE settings SET logo = NULL  WHERE id = 1`;
+        const query = `UPDATE settings SET right_logo = NULL, left_logo = NULL  WHERE id = 1`;
         try {
             const [result] = await pool.query(query);
             return result;
         } catch (error) {
-            console.error("Error removing logo", error);
+            console.error("Error removing logos", error);
             throw error;
         }
     }
