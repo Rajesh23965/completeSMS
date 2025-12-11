@@ -105,3 +105,39 @@ export const FeaturesController = {
     },
 }
 
+
+
+
+export const getall = async (req, res) => {
+    try {
+        const page = parseInt(req.query.page) || 1;
+        const limit = parseInt(req.query.limit) || 5;
+        const search = req.query.search ? req.query.search.trim() : "";
+
+        const {
+            features,
+            totalPages,
+            currentPage,
+            currentLimit,
+            currentSearch,
+            hasNextPage,
+            hasPreviousPage
+        } = await FeaturesSection.getAll(page, limit, search);
+
+        res.json({
+            features,
+            search: currentSearch,
+            currentLimit,
+            pagination: {
+                page: currentPage,
+                totalPages,
+                hasNextPage,
+                hasPreviousPage
+            }
+        });
+
+    } catch (error) {
+        console.error("Error fetching features list:", error);
+        res.status(500).send("Error fetching list");
+    }
+}

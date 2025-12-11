@@ -17,7 +17,13 @@ import {
   saveFaqOptions,
   saveOnlineAdmission,
   saveGallery,
-  saveExamResult
+  saveExamResult,
+  getWelcome,
+  getTeacher,
+  getTestimonial,
+  getHomeStatistics,
+  getService,
+  getHomeCta
 } from "../../controllers/PageSection/pageSectionController.js";
 import pool from "../../config/database.js";
 import { aboutUsOptions, aboutUsSecService, aboutUsSectionUpload, eventOptionsUpload, examResult, faqOption, gallery, statisticsUpload, teacherSectionUpload, teacherUpload, welcomeUpload } from "../../config/upload.js";
@@ -192,18 +198,24 @@ const uploadGallery = gallery.fields([{ name: 'photo', maxCount: 1 }]);
 const uploadExamResult = examResult.fields([{ name: 'photo', maxCount: 1 }]);
 
 router.post("/section/welcome-message", uploadWelcome, saveWelcome);
+router.get("/welcome-message", getWelcome);
 
 router.post("/section/teachers", uploadTeacher, saveTeachers);
+router.get("/teachers", getTeacher);
 
 router.post("/section/home-options", saveHomeOptions);
 
 router.post("/section/home-cta", saveHomeCta)
+router.get("/call-to-action",getHomeCta);
 
 router.post("/section/home-statistics", uploadStatistics, saveHomeStatistics);
+router.get("/statistics", getHomeStatistics);
 
 router.post("/section/home-services", saveHomeServices);
+router.get("/services-data",getService);
 
 router.post("/section/home-testimonial", saveHomeTestimonial);
+router.get("/home-testimonial", getTestimonial);
 
 router.post("/section/teacher-section", uploadTeacherSection, saveTeacherSection);
 

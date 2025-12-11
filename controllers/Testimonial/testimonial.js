@@ -111,3 +111,36 @@ export const TestimonialController = {
     },
 
 }
+
+export const getTestimonal = async (req, res) => {
+    try {
+        const page = parseInt(req.query.page) || 1;
+        const limit = parseInt(req.query.limit) || 5;
+        const search = req.query.search ? req.query.search.trim() : "";
+
+        const {
+            testimonials,
+            totalPages,
+            currentPage,
+            currentLimit,
+            currentSearch,
+            hasNextPage,
+            hasPreviousPage
+        } = await TestimonialModel.getPaginated(page, limit, search);
+
+        res.json({
+            testimonials,
+            search: currentSearch,
+            currentLimit,
+            pagination: {
+                page: currentPage,
+                totalPages,
+                hasNextPage,
+                hasPreviousPage
+            }
+        });
+    } catch (error) {
+        console.error("Error fetching testimonial list:", error);
+        res.status(500).send("Error fetching testimonial list");
+    }
+};

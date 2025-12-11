@@ -36,7 +36,7 @@ const createUploader = (folder) => {
     "text/plain"
   ];
 
- const fileFilter = (req, file, cb) => {
+  const fileFilter = (req, file, cb) => {
     const isMimeAllowed = allowedMimeTypes.includes(file.mimetype);
     if (isMimeAllowed) {
       cb(null, true);
@@ -58,6 +58,8 @@ const createUploader = (folder) => {
   });
 };
 
+const parents = createUploader('parents');
+export const uploadParents = parents;
 // Create upload middleware for settings
 const settingsUpload = createUploader('settings');
 const settingsUploader = createUploader('settings');
@@ -70,10 +72,10 @@ export const uploadFiles = settingsUpload.fields([
 ]);
 // The field names expected by the router for logo settings:
 export const settingsLogoUpload = settingsUploader.fields([
-  { name: "system_logo", maxCount: 1 }, // Field name used for System Logo
-  { name: "text_logo", maxCount: 1 },   // Field name used for Text Logo (or Fav Icon)
-  { name: "print_logo", maxCount: 1 },  // Field name used for Printing Logo
-  { name: "report_card", maxCount: 1 }  // Field name used for Report Card Logo
+  { name: "system_logo", maxCount: 1 },
+  { name: "text_logo", maxCount: 1 },
+  { name: "print_logo", maxCount: 1 },
+  { name: "report_card", maxCount: 1 }
 ]);
 
 export const welcomeUpload = createUploader('welcome');
@@ -91,5 +93,6 @@ export const slider = createUploader('slider');
 export const testimonial = createUploader('testimonial');
 export const frontgallery = createUploader('gallery');
 export const galleryUpload = createUploader('gallery-album');
+
 
 export default settingsUpload;

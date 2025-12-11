@@ -1,0 +1,157 @@
+<!-- parents/add.ejs -->
+<div class="container parent-form">
+    <form action="/parents/add" method="POST" enctype="multipart/form-data">
+        <div class="form-section">
+            <label class="section-label">Profile Picture</label>
+            <div class="drop-zone" id="drop-zone">
+                <div class="drop-content">
+                    <i class="fa-solid fa-cloud-arrow-up cloud-icon"></i>
+                    <p>Drag and drop a file here or click</p>
+                </div>
+                <input type="file" name="profile_image" id="file-input" hidden>
+            </div>
+        </div>
+
+        <div class="form-section">
+            <h3 class="section-header"><i class="fa-solid fa-user-lock"></i> Login Details</h3>
+            <hr>
+
+            <div class="row">
+                <div class="col-half">
+                    <label>Username <span class="required">*</span></label>
+                    <div class="input-group">
+                        <span class="input-icon"><i class="fa-regular fa-user"></i></span>
+                        <input type="text" name="username" required>
+                    </div>
+                </div>
+                <div class="col-quarter">
+                    <label>Password <span class="required">*</span></label>
+                    <div class="input-group">
+                        <span class="input-icon"><i class="fa-solid fa-lock"></i></span>
+                        <input type="password" name="password" required>
+                    </div>
+                </div>
+                <div class="col-quarter">
+                    <label>Retype Password <span class="required">*</span></label>
+                    <div class="input-group">
+                        <span class="input-icon"><i class="fa-solid fa-lock"></i></span>
+                        <input type="password" name="retype_password" required>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-section">
+            <h3 class="section-header"><i class="fa-solid fa-user-check"></i> Parents Details</h3>
+            <hr>
+
+            <div class="row">
+                <div class="col-half">
+                    <label>Name <span class="required">*</span></label>
+                    <div class="input-group">
+                        <span class="input-icon"><i class="fa-regular fa-user"></i></span>
+                        <input type="text" name="name" required>
+                    </div>
+                </div>
+                <div class="col-half">
+                    <label>Relation <span class="required">*</span></label>
+                    <input type="text" name="relation" required class="simple-input">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-half">
+                    <label>Father Name</label>
+                    <input type="text" name="father_name" class="simple-input">
+                </div>
+                <div class="col-half">
+                    <label>Mother Name</label>
+                    <input type="text" name="mother_name" class="simple-input">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-third">
+                    <label>Occupation <span class="required">*</span></label>
+                    <input type="text" name="occupation" required class="simple-input">
+                </div>
+                <div class="col-third">
+                    <label>Income</label>
+                    <div class="input-group">
+                        <span class="input-icon"><i class="fa-solid fa-calculator"></i></span>
+                        <input type="number" name="income">
+                    </div>
+                </div>
+                <div class="col-third">
+                    <label>Education</label>
+                    <input type="text" name="education" class="simple-input">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-quarter">
+                    <label>City</label>
+                    <input type="text" name="city" class="simple-input">
+                </div>
+                <div class="col-quarter">
+                    <label>State</label>
+                    <input type="text" name="state" class="simple-input">
+                </div>
+                <div class="col-quarter">
+                    <label>Mobile No <span class="required">*</span></label>
+                    <div class="input-group">
+                        <span class="input-icon"><i class="fa-solid fa-phone-volume"></i></span>
+                        <input type="text" name="mobile_no" required>
+                    </div>
+                </div>
+                <div class="col-quarter">
+                    <label>Email</label>
+                    <div class="input-group">
+                        <span class="input-icon"><i class="fa-regular fa-envelope"></i></span>
+                        <input type="email" name="email" value="demo@gmail.com">
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-full">
+                    <label>Address</label>
+                    <textarea name="address" class="simple-textarea"></textarea>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-section">
+            <h3 class="section-header"><i class="fa-solid fa-globe"></i> Social Links</h3>
+            <hr>
+
+            <div class="row">
+                <div class="col-third">
+                    <label>Facebook</label>
+                    <div class="input-group">
+                        <span class="input-icon"><i class="fa-brands fa-facebook-f"></i></span>
+                        <input type="text" name="facebook_url" placeholder="eg: https://www.facebook.com/username">
+                    </div>
+                </div>
+                <div class="col-third">
+                    <label>Twitter</label>
+                    <div class="input-group">
+                        <span class="input-icon"><i class="fa-brands fa-twitter"></i></span>
+                        <input type="text" name="twitter_url" placeholder="eg: https://www.twitter.com/username">
+                    </div>
+                </div>
+                <div class="col-third">
+                    <label>Linkedin</label>
+                    <div class="input-group">
+                        <span class="input-icon"><i class="fa-brands fa-linkedin-in"></i></span>
+                        <input type="text" name="linkedin_url" placeholder="eg: https://www.linkedin.com/username">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <button type="submit" class="save-btn">Save</button>
+
+    </form>
+</div>
+

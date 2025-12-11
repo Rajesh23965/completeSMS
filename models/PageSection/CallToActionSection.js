@@ -1,14 +1,7 @@
 import pool from "../../config/database.js";
 
-/**
- * Model for managing the Home Call to Action (CTA) section data.
- * It uses the table 'home_call_to_action_section'.
- */
 export class HomeCta {
-    /**
-     * Retrieves the single CTA record from the database.
-     * @returns {Promise<object | null>} The CTA record or null if none exists.
-     */
+
     static async get() {
         // Query the new table name
         const [rows] = await pool.query("SELECT * FROM home_call_to_action_section LIMIT 1");
@@ -16,11 +9,6 @@ export class HomeCta {
     }
 
 
-
-    /**
-     * Saves or updates the CTA data based on the presence of an ID.
-     * @param {object} data - The CTA data from the request body.
-     */
     static async save(data) {
         // Handle multiple values for checkbox
         let showWebsiteValue = data.show_website;

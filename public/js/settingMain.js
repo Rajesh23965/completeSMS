@@ -2,7 +2,6 @@ document.addEventListener("DOMContentLoaded", () => {
     /* =====================
        SIDEBAR BEHAVIOR
     ====================== */
-    initTabSwitching();
 
     /* =====================
        FORM SUBMISSION HANDLERS
@@ -116,10 +115,8 @@ document.addEventListener("DOMContentLoaded", () => {
             });
         });
     }
-});
 
-
-/* =====================
+    /* =====================
    INITIALIZE TAB EVENTS (Unchanged from previous version)
 ====================== */
 const initTabSwitching = () => {
@@ -165,3 +162,6 @@ const initTabSwitching = () => {
         });
     });
 }
+});
+
+

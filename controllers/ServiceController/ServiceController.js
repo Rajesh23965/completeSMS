@@ -102,3 +102,43 @@ export const ServiceController = {
         }
     },
 }
+
+
+
+export const getMainService = async (req, res) => {
+    try {
+        const page = parseInt(req.query.page) || 1;
+        const limit = parseInt(req.query.limit) || 5;
+        const search = req.query.search ? req.query.search.trim() : "";
+
+        const {
+            services,
+            totalPages,
+            currentPage,
+            currentLimit,
+            currentSearch,
+            hasNextPage,
+            hasPreviousPage
+        } = await ServiceModel.getAll(page, limit, search);
+
+        return res.json({
+            success: true,
+            service: services,
+            search: currentSearch,
+            currentLimit,
+            pagination: {
+                page: currentPage,
+                totalPages,
+                hasNextPage,
+                hasPreviousPage
+            }
+        });
+
+    } catch (error) {
+        console.error("Error fetching service list:", error);
+        return res.status(500).json({
+            success: false,
+            message: "Error fetching list"
+        });
+    }
+};

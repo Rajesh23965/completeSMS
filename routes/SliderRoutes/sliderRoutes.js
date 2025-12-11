@@ -1,12 +1,12 @@
 import express from "express";
-import { renderSlider, SliderController } from "../../controllers/SliderController/sliderController.js";
+import { getall, renderSlider, SliderController } from "../../controllers/SliderController/sliderController.js";
 import { slider } from "../../config/upload.js";
 
 const router = express.Router();
 
 // Render Slider UI Page 
 router.get("/slider", renderSlider);
-
+router.get("/slider/getall",getall);
 const uploadSlider = slider.fields([{ name: 'photo', maxCount: 1 }]);
 
 // AJAX routes

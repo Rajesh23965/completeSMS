@@ -127,3 +127,35 @@ export const renderSlider = async (req, res) => {
     res.status(500).send("Error rendering slider form");
   }
 };
+
+
+export const getall = async (req, res) => {
+  try {
+    const page = Number(req.query.page) || 1;
+    const limit = Number(req.query.limit) || 5;
+    const search = req.query.search?.trim() || "";
+
+    const result = await SliderSection.getPaginated(page, limit, search);
+
+    res.json({
+      success: true,
+      sliders: result.sliders || [],
+      search: result.currentSearch || "",
+      limit: result.currentLimit || limit,
+
+      pagination: {
+        page: result.currentPage || page,
+        totalPages: result.totalPages || 1,
+        hasNextPage: result.hasNextPage || false,
+        hasPreviousPage: result.hasPreviousPage || false,
+      },
+    });
+  } catch (error) {
+    console.error("❌ Error fetching slider list:", error);
+    res.status(500).json({
+      success: false,
+      message: "Error fetching slider list",
+      error: error.message,
+    });
+  }
+};

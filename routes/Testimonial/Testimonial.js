@@ -1,5 +1,5 @@
 import express from "express";
-import { renderTestimonial, TestimonialController } from "../../controllers/Testimonial/testimonial.js";
+import { getTestimonal, renderTestimonial, TestimonialController } from "../../controllers/Testimonial/testimonial.js";
 import { testimonial } from "../../config/upload.js";
 
 const router = express.Router();
@@ -12,6 +12,7 @@ const uploadTestimonial = testimonial.fields([{ name: 'photo', maxCount: 1 }]);
 
 // AJAX routes
 router.get("/testimonial/testimonialList", TestimonialController.list);
+router.get("/testimonial-data", getTestimonal);
 router.get("/testimonial/testimonialUI", (req, res) => res.render("frontend/testimonial/testimonialUI", { testimonial: {} }));
 router.get("/testimonial/edit/:id", TestimonialController.edit);
 router.post("/testimonial/save", uploadTestimonial, TestimonialController.save);

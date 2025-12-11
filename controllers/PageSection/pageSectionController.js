@@ -78,6 +78,25 @@ export const saveWelcome = async (req, res) => {
   res.redirect("/frontend/section#welcome-message");
 };
 
+export const getWelcome = async (req, res) => {
+  try {
+    const welcomeData = await WelcomeMessage.get();
+
+    // If no data found
+    if (!welcomeData) {
+      return res.status(404).json({ success: false, message: "Welcome message not found" });
+    }
+
+    // Send response
+    res.json({ success: true, data: welcomeData });
+
+  } catch (error) {
+    console.error("Error fetching welcome message:", error);
+    res.status(500).json({ success: false, message: "Error fetching welcome message" });
+  }
+};
+
+
 
 //Save home teacher related info
 export const saveTeachers = async (req, res) => {
@@ -93,6 +112,25 @@ export const saveTeachers = async (req, res) => {
   await Teachers.save(data);
   res.redirect("/frontend/section#teachers");
 };
+
+export const getTeacher = async (req, res) => {
+  try {
+    const teacherData = await Teachers.get();
+
+    // If no data found
+    if (!teacherData) {
+      return res.status(404).json({ success: false, message: "Teacher data not found" });
+    }
+
+    // Send response
+    res.json({ success: true, data: teacherData });
+
+  } catch (error) {
+    console.error("Error fetching teacher data:", error);
+    res.status(500).json({ success: false, message: "Error fetching teacher data" });
+  }
+};
+
 
 
 //Save home Options related info
@@ -120,6 +158,17 @@ export const saveHomeCta = async (req, res) => {
     res.status(500).send("An internal server error occurred while saving the Home CTA section.");
   }
 }
+export const getHomeCta = async (req, res) => {
+  try {
+    const data = await HomeCta.get();
+    res.status(200).json({ success: true, message: "Call to action fetched successfully", cta: data });
+  } catch (error) {
+    console.error("Error fetching Home CTA data: ", error);
+    res.status(500).json("An internal server error occured while fetching the home CTA section.");
+  }
+}
+
+
 
 export const getHomeStatistics = async (req, res) => {
   try {
@@ -185,6 +234,24 @@ export const saveHomeServices = async (req, res) => {
   }
 };
 
+export const getService = async (req, res) => {
+  try {
+    const service = await HomeServices.get();
+
+    // If no data found
+    if (!service) {
+      return res.status(404).json({ success: false, message: "services data not found" });
+    }
+
+    // Send response
+    res.json({ success: true, data: service });
+
+  } catch (error) {
+    console.error("Error fetching services data:", error);
+    res.status(500).json({ success: false, message: "Error fetching services data" });
+  }
+};
+
 //Save Home Testimonial
 export const saveHomeTestimonial = async (req, res) => {
   try {
@@ -198,6 +265,24 @@ export const saveHomeTestimonial = async (req, res) => {
     res.status(500).send("An internal server error occured while saving the home testimonial.");
   }
 }
+
+export const getTestimonial = async (req, res) => {
+  try {
+    const testimonialData = await HomeTestimonial.get();
+
+    // If no data found
+    if (!testimonialData) {
+      return res.status(404).json({ success: false, message: "testimonial data not found" });
+    }
+
+    // Send response
+    res.json({ success: true, data: testimonialData });
+
+  } catch (error) {
+    console.error("Error fetching testimonial data:", error);
+    res.status(500).json({ success: false, message: "Error fetching testimonial data" });
+  }
+};
 
 //Save Teacher Section
 export const saveTeacherSection = async (req, res) => {

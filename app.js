@@ -19,12 +19,28 @@ import galleryRoutes from "./routes/GalleryRoutes/GalleryRoutes.js"
 import galleryUploadRoutes from "./routes/GalleryRoutes/galleryUploadRoutes.js"
 import settingRoutes from "./routes/Settings/settingRoutes.js";
 import topbarRoutes from "./routes/Topbar/Topbar.routes.js";
+import parentRoute from "./routes/Parents/parent.route.js";
 
 const app = express();
 
 //Middleware
 const corsOptions = {
-    origin: process.env.FRONTEND_URL || 'http://localhost:3000',
+    origin: function (origin, callback) {
+        // Allow requests with no origin (like mobile apps or curl requests)
+        if (!origin) return callback(null, true);
+
+        const allowedOrigins = [
+            'http://localhost:5173',
+            'http://localhost:3000',
+            process.env.FRONTEND_URL
+        ].filter(Boolean); // Remove any undefined values
+
+        if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
+            callback(null, true);
+        } else {
+            callback(new Error('Not allowed by CORS'));
+        }
+    },
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
@@ -46,8 +62,8 @@ app.set('views', path.join(__dirname, 'views'));
 
 // Static files - serve both public and website folders
 app.use(express.static(path.join(__dirname, 'public')));
-app.use('/website', express.static(path.join(__dirname, 'public/website')));
 
+app.use(express.static(path.join(__dirname, 'public/website')));
 
 app.use(cookieParser());
 const sessionStore = new MySQLStore({
@@ -101,25 +117,13 @@ app.use("/frontend", galleryCatRoutes);
 app.use("/frontend", galleryRoutes);
 app.use("/frontend", galleryUploadRoutes);
 app.use("/school_settings", settingRoutes);
+app.use("/parents", parentRoute);
 
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public/website', 'index.html'));
-});
 
-app.get('/about', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public/website', 'about.html'));
-});
 
-app.get('/services', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public/website', 'services.html'));
-});
-
-app.get('/contact', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public/website', 'contact.html'));
-});
 
 // Admin route (keep EJS for admin panel)
-app.get('/admin', (req, res) => {
+app.get('/', (req, res) => {
     res.render('dashboard', {
         title: 'Dashboard',
         pageTitle: 'Dashboard',
