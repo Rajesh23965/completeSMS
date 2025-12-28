@@ -122,9 +122,8 @@ const handleFormSubmission = () => {
         const formData = new FormData(form);
         const url = form.getAttribute("action");
 
-        // 👇 FIX: Define urlSearchParams here
+   
         const urlSearchParams = new URLSearchParams(formData); 
-        // 👆 This line converts the form data into the necessary format.
 
         try {
             const res = await fetch(url, { 

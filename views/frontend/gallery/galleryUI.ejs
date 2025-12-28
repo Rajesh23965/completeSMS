@@ -1,5 +1,5 @@
 <!-- views/frontend/gallery/galleryUI.ejs -->
-<div class="card shadow rounded p-3 border">
+<div class="main-form">
     <form id="galleryForm" action="/frontend/gallery" method="POST" enctype="multipart/form-data">
         <% if (gallery && gallery.id) { %>
             <input type="hidden" name="id" value="<%= gallery.id %>">

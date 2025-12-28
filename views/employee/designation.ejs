@@ -1,0 +1,189 @@
+<div class="row parent-profile" style="margin-top: 55px; ">
+
+    <!-- ADD / UPDATE FORM -->
+    <div class="col-md-5">
+        <div class="card">
+            <div class="card-header" style="border-bottom: 2px solid #0A7C53;">
+                <strong id="form-title"> <i class="far fa-edit" style="font-size: 18px;"></i> Add Designation</strong>
+            </div>
+
+            <div class="card-body">
+                <form id="designationForm">
+                    <input type="hidden" id="designation_id" name="id">
+
+                    <div class="form-group">
+                        <label>Designation Name <span class="text-danger">*</span></label>
+                        <input type="text" name="designation_name" id="designation_name" class="form-control" required>
+                    </div>
+
+                    <button type="submit" class="btn btn-success btn-sm mt-2">
+                        <i class="fa fa-save"></i>
+                        <span id="btn-text">Save</span>
+                    </button>
+
+                    <button type="button" class="btn btn-secondary btn-sm mt-2 d-none" id="cancelBtn">
+                        Cancel
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Designation LIST -->
+    <div class="col-md-7">
+        <div class="card">
+            <div class="card-header" style="border-bottom: 2px solid #0A7C53;">
+                <strong> <i class="fas fa-list-ul" style="font-size: 18px;"></i> Designation List</strong>
+            </div>
+
+            <div class="card-body table-responsive">
+                <table class="table table-bordered table-hover  min-w-full divide-y divide-gray-200">
+                    <thead class="table-custom">
+                        <tr>
+                            <th>SL</th>
+                            <th>Branch</th>
+                            <th>Name</th>
+                            <th width="120">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% designations.forEach((d, i)=> { %>
+                            <tr>
+                                <td>
+                                    <%= i + 1 %>
+                                </td>
+                                <td>
+                                    <%= d.branch_name %>
+                                </td>
+                                <td>
+                                    <%= d.designation_name %>
+                                </td>
+                                <td>
+                                    <button class="btn btn-sm btn-primary editBtn" data-id="<%= d.id %>"
+                                        data-name="<%= d.designation_name %>">
+                                        <i class="fas fa-pen-nib"></i>
+                                    </button>
+
+                                    <button class="btn btn-sm btn-danger deleteBtn" data-id="<%= d.id %>">
+                                        <i class="fa fa-trash"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            <% }) %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+<script>
+    const form = document.getElementById("designationForm");
+    const idField = document.getElementById("designation_id");
+    const nameField = document.getElementById("designation_name");
+    const title = document.getElementById("form-title");
+    const btnText = document.getElementById("btn-text");
+    const cancelBtn = document.getElementById("cancelBtn");
+
+    /* -------------------------------
+       RESET FORM TO ADD MODE
+    -------------------------------- */
+    function resetForm() {
+        form.reset();
+        idField.value = "";
+        title.innerHTML = `<i class="far fa-edit"></i> Add Designation`;
+        btnText.innerText = "Save";
+        cancelBtn.classList.add("d-none");
+    }
+
+    /* -------------------------------
+       SUBMIT (ADD / UPDATE)
+    -------------------------------- */
+    form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        const id = idField.value.trim();
+        const designation_name = nameField.value.trim();
+
+        if (!designation_name) {
+            alert("Designation name is required");
+            return;
+        }
+
+        const url = "/employee/designation";
+        const method = id ? "PUT" : "POST";
+
+        try {
+            const res = await fetch(url, {
+                method,
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ id, designation_name })
+            });
+
+            const data = await res.json();
+            alert(data.message);
+
+            if (data.success) {
+                resetForm();       // 🔴 ALWAYS CLEAR ID
+                location.reload();
+            }
+        } catch (err) {
+            console.error(err);
+            alert("Something went wrong");
+        }
+    });
+
+    /* -------------------------------
+       EDIT MODE
+    -------------------------------- */
+    document.querySelectorAll(".editBtn").forEach(btn => {
+        btn.addEventListener("click", () => {
+            idField.value = btn.dataset.id;
+            nameField.value = btn.dataset.name;
+
+            title.innerHTML = `<i class="far fa-edit"></i> Update Designation`;
+            btnText.innerText = "Update";
+            cancelBtn.classList.remove("d-none");
+        });
+    });
+
+    /* -------------------------------
+       CANCEL EDIT
+    -------------------------------- */
+    cancelBtn.addEventListener("click", () => {
+        resetForm();
+    });
+
+    /* -------------------------------
+       DELETE
+    -------------------------------- */
+    document.querySelectorAll(".deleteBtn").forEach(btn => {
+        btn.addEventListener("click", async () => {
+            if (!confirm("Delete this designation?")) return;
+
+            try {
+                const res = await fetch(`/employee/designation/${btn.dataset.id}`, {
+                    method: "DELETE"
+                });
+
+                const data = await res.json();
+                alert(data.message);
+
+                if (data.success) {
+                    resetForm();   // safety reset
+                    location.reload();
+                }
+            } catch (err) {
+                console.error(err);
+                alert("Delete failed");
+            }
+        });
+    });
+
+    /* -------------------------------
+       PAGE LOAD SAFETY
+    -------------------------------- */
+    window.addEventListener("load", resetForm);
+</script>

@@ -6,7 +6,7 @@ import { GalleryCatModel } from "../../models/PageSection/Gallery/GalleryCategor
 /* Render Service */
 export const renderGalleryUI = async (req, res) => {
     try {
-  const categories = await GalleryCatModel.getAll(); // Fetch categories
+  const categories = await GalleryCatModel.getAll();
         
         res.render("dashboard", {
             pageTitle: "Frontend",
@@ -16,7 +16,7 @@ export const renderGalleryUI = async (req, res) => {
                 { title: "Frontend" }
             ],
             body: `
-        <div class="gallery-tabs gallery-form ">
+        <div class="tab-setting panel-heading ">
           <!-- Tabs with style to look like links/buttons -->
           <a href="#" id="galleryListTab" class="section-title active-tab"><i class="fa fa-list"></i> Gallery List</a>
           <a href="#" id="galleryCreateTab" class="section-title"><i class="far fa-edit"></i> Add Gallery/ Edit Gallery</a>

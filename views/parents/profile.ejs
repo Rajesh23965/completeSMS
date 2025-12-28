@@ -1,0 +1,273 @@
+<div class="main-form parent-profile">
+    <div class="row appear-animation fadeInUp appear-animation-visible" data-appear-animation="fadeInUp">
+        <div class="parent-profile-card">
+            <div class="col-md-12 col-lg-4 col-xl-3">
+                <div class="image-content-center user-pro">
+                    <div class="preview">
+                        <ul class="social-icon-one">
+                            <li><a href="<%= parent.facebook_url %>" target="_blank" rel="noopener"><span
+                                        class="fab fa-facebook-f"></span></a></li>
+                            <li><a href="<%= parent.twitter_url %>" target="_blank" rel="noopener"><span
+                                        class="fab fa-twitter"></span></a></li>
+                            <li><a href="<%= parent.linkedin_url %>" target="_blank" rel="noopener"><span
+                                        class="fab fa-linkedin-in"></span></a></li>
+                        </ul>
+
+                        <img src="/<%= parent.profile_image.replace('public/', '') %>" alt="Parent"
+                            class="parent-profile-img">
+                    </div>
+                </div>
+
+            </div>
+            <div class="profile-right">
+                <h3>
+                    <%= parent.name %>
+                </h3>
+                <span class="role">Parent</span>
+
+                <ul class="profile-meta">
+                    <li><i class="fas fa-bezier-curve"></i>
+                        <%= parent.relation %>
+                    </li>
+                    <li><i class="fas fa-user-tag"></i>
+                        <%= parent.occupation %>
+                    </li>
+                    <li><i class="fas fa-dollar-sign"></i>
+                        <%= parent.income %>
+                    </li>
+                    <li><i class="fa-solid fa-phone"></i>
+                        <%= parent.mobile_no %>
+                    </li>
+                    <li><i class="fa-solid fa-envelope"></i>
+                        <%= parent.email %>
+                    </li>
+                    <li><i class="fa-solid fa-location-dot"></i>
+                        <%= parent.city %>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="accordion" id="parentAccordion">
+            <!-- BASIC DETAILS -->
+            <div class="accordion-item">
+                <button class="accordion-header collapsed" data-bs-toggle="collapse" data-bs-target="#basicDetails"
+                    aria-expanded="false">
+                    <span><i class="fa-solid fa-user-pen"></i> Basic Details</span>
+                    <div class="pull-right mt-hs">
+                        <button class="btn-circle" id="authentication_btn"
+                            style="display: flex; justify-content: center; align-items: center; gap: 4px; margin: 10px; border-radius: 20px; padding: 5px; background-color: #ffff; border: 1px solid gray;"
+                            data-bs-toggle="modal" data-bs-target="#authenticationModal">
+                            <i class="fas fa-unlock-alt"></i> Authentication
+                        </button>
+                    </div>
+                </button>
+
+                <!-- Include the modal HTML -->
+                <%- modalHtml %>
+
+                    <div class="accordion-body collapse" id="basicDetails">
+                        <form action="/parents/profile/<%= parent.id %>" method="POST" enctype="multipart/form-data">
+
+                            <input type="hidden" name="_method" value="PUT">
+                            <input type="hidden" id="existing-image"
+                                value="/<%= parent.profile_image.replace('public/', '') %>">
+
+                            <div class="form-section">
+
+                                <div class="section-header ">
+                                    <i class="fa-solid fa-user-check"></i>
+                                    Parents Details
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-half">
+                                        <label>Name </label>
+                                        <div class="input-group">
+                                            <span class="input-icon"><i class="fa-regular fa-user"></i></span>
+                                            <input type="text" name="name" value="<%=parent.name%>" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-half">
+                                        <label>Relation</label>
+                                        <input type="text" name="relation" required class="simple-input"
+                                            value="<%=parent.relation%>">
+
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-half">
+                                        <label>Father Name</label>
+                                        <input type="text" name="father_name" class="simple-input"
+                                            value="<%=parent.father_name%>">
+                                    </div>
+                                    <div class="col-half">
+                                        <label>Mother Name</label>
+                                        <input type="text" name="mother_name" class="simple-input"
+                                            value="<%=parent.mother_name %>">
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-third">
+                                        <label>Occupation </label>
+                                        <input type="text" name="occupation" required class="simple-input"
+                                            value="<%=parent.occupation %>">
+                                    </div>
+                                    <div class="col-third">
+                                        <label>Income</label>
+                                        <div class="input-group">
+                                            <span class="input-icon"><i class="fa-solid fa-calculator"></i></span>
+                                            <input type="number" name="income" value="<%=parent.income %>">
+                                        </div>
+                                    </div>
+                                    <div class="col-third">
+                                        <label>Education</label>
+                                        <input type="text" name="education" class="simple-input"
+                                            value="<%=parent.education %>">
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-quarter">
+                                        <label>City</label>
+                                        <input type="text" name="city" class="simple-input" value="<%=parent.city %>">
+                                    </div>
+                                    <div class="col-quarter">
+                                        <label>State</label>
+                                        <input type="text" name="state" class="simple-input" value="<%=parent.state %>">
+                                    </div>
+                                    <div class="col-quarter">
+                                        <label>Mobile No </label>
+                                        <div class="input-group">
+                                            <span class="input-icon"><i class="fa-solid fa-phone-volume"></i></span>
+                                            <input type="text" name="mobile_no" value="<%=parent.mobile_no %>" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-quarter">
+                                        <label>Email</label>
+                                        <div class="input-group">
+                                            <span class="input-icon"><i class="fa-regular fa-envelope"></i></span>
+                                            <input type="email" name="email" value="<%=parent.email || "
+                                                demo@gmail.com"%>">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-full">
+                                        <label>Address</label>
+                                        <textarea name="address" class="simple-textarea"
+                                            value="<%=parent.address%>"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="form-section">
+                                <label class="section-label">Profile Picture</label>
+
+                                <div class="drop-zone" id="drop-zone">
+                                    <div class="drop-content" id="drop-content">
+                                        <i class="fa-solid fa-cloud-arrow-up cloud-icon"></i>
+                                        <p>Drag and drop a file here or click</p>
+                                    </div>
+
+                                    <div class="preview-container" id="preview-container" style="display:none;">
+                                        <img id="preview-image" />
+                                        <!-- Filename display on hover -->
+                                        <div class="filename-display" id="filename-display"></div>
+                                        <!-- Remove button -->
+                                        <button type="button" class="remove-btn" id="remove-btn">
+                                            Remove
+                                        </button>
+                                    </div>
+
+                                    <input type="file" name="profile_image" id="file-input" accept="image/*" hidden>
+                                </div>
+                            </div>
+
+                            <div class="form-section">
+                                <h3 class="section-header"><i class="fa-solid fa-user-lock"></i> Login Details</h3>
+
+
+                                <div class="row">
+                                    <div class="col-half">
+                                        <label>Username </label>
+                                        <div class="input-group">
+                                            <span class="input-icon"><i class="fa-regular fa-user"></i></span>
+                                            <input type="text" name="username" value="<%= parent.username%>" required>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="form-section">
+                                <h3 class="section-header"><i class="fa-solid fa-globe"></i> Social Links</h3>
+
+
+                                <div class="row">
+                                    <div class="col-third">
+                                        <label>Facebook</label>
+                                        <div class="input-group">
+                                            <span class="input-icon"><i class="fa-brands fa-facebook-f"></i></span>
+                                            <input type="text" name="facebook_url"
+                                                placeholder="eg: https://www.facebook.com/username">
+                                        </div>
+                                    </div>
+                                    <div class="col-third">
+                                        <label>Twitter</label>
+                                        <div class="input-group">
+                                            <span class="input-icon"><i class="fa-brands fa-twitter"></i></span>
+                                            <input type="text" name="twitter_url"
+                                                placeholder="eg: https://www.twitter.com/username">
+                                        </div>
+                                    </div>
+                                    <div class="col-third">
+                                        <label>Linkedin</label>
+                                        <div class="input-group">
+                                            <span class="input-icon"><i class="fa-brands fa-linkedin-in"></i></span>
+                                            <input type="text" name="linkedin_url"
+                                                placeholder="eg: https://www.linkedin.com/username">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <button type="submit" class="save-btn">Update</button>
+
+                        </form>
+                    </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const existingImageInput = document.getElementById("existing-image");
+            const previewContainer = document.getElementById("preview-container");
+            const previewImage = document.getElementById("preview-image");
+            const dropContent = document.getElementById("drop-content");
+            const removeBtn = document.getElementById("remove-btn");
+            const fileInput = document.getElementById("file-input");
+
+            const existingImageUrl = existingImageInput.value;
+
+            if (existingImageUrl) {
+                previewImage.src = existingImageUrl;
+                previewContainer.style.display = "block";
+                dropContent.style.display = "none";
+            }
+
+            // Remove existing image preview
+            removeBtn.addEventListener("click", function () {
+                previewImage.src = "";
+                previewContainer.style.display = "none";
+                dropContent.style.display = "flex";
+                fileInput.value = "";
+            });
+        });
+    </script>

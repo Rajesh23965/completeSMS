@@ -65,7 +65,7 @@ export const renderGalleryUploadUI = async (req, res) => {
                 { title: "Frontend" }
             ],
             body: `
-        <div class="gallery-upload-tabs gallery_upload-form ">
+        <div class="gallery-upload-tabs panel-heading ">
           <a href="#" id="galleryUploadListTab" class="section-title active-tab"><i class="fa fa-list"></i> Category List</a>
           <a href="#" id="galleryUploadCreateTab" class="section-title"><i class="far fa-edit"></i> Add Category/ Edit Category</a>
         </div>
@@ -99,7 +99,7 @@ export const GalleryUploadController = {
                     { title: "Album Content" }
                 ],
                 body: `
-                      <div class="album-content-header mb-4 d-flex justify-content-between align-items-center">
+                      <div class="panel-heading album-content-header top-50 d-flex justify-content-between align-items-center">
                           <h3 class="m-0"><i class="fas fa-image me-2"></i> Album: ${albumDetails ? albumDetails.title || 'Content' : 'Content'}</h3>
                           <button id="addMediaBtn" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#uploadMediaModal">
                               <i class="fas fa-plus me-2"></i> Upload

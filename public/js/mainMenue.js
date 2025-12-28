@@ -9,9 +9,7 @@ document.addEventListener("DOMContentLoaded", function () {
     let currentLimit = 10;
     let isEditing = false;
 
-    // -------------------------
-    // Load View
-    // -------------------------
+
     // -------------------------
     // Load View
     // -------------------------
@@ -362,9 +360,9 @@ document.addEventListener("DOMContentLoaded", function () {
         let rows = menus.map((menu, index) => renderMenuRow(menu, index + 1)).join("");
 
         listContainer.innerHTML = `
-        <div class="menue-form">
+        <div class="main-form">
             <!-- Top Controls -->
-            <div class=" d-flex justify-content-between align-items-center">
+          <div class=" d-flex justify-content-between align-items-center">
                 <div class="d-flex align-items-center gap-2">
                     <select id="rowsPerPage" class="form-select w-auto">
                         <option value="5" ${currentLimit == 5 ? "selected" : ""}>5</option>
@@ -383,7 +381,8 @@ document.addEventListener("DOMContentLoaded", function () {
             </div>
 
             <!-- Table -->
-            <table class="table mt-3">
+           <div class="table-responsive">
+                <table class="table">
                 <thead>
                     <tr>
                         <th>Sl</th>
@@ -399,7 +398,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     ${rows || `<tr><td colspan="7" class="text-center">No menus found</td></tr>`}
                 </tbody>
             </table>
-
+</div>
             <!-- Pagination -->
             <div class="pagination-controls d-flex justify-content-end align-items-center gap-2">
                 <button id="prevPage" class="btn btn-sm btn-outline-primary" ${pagination.page <= 1 ? "disabled" : ""}>
@@ -461,48 +460,48 @@ document.addEventListener("DOMContentLoaded", function () {
         });
 
         // --- Toggle Publish Event ---
-      // --- Toggle Publish Event ---
-document.querySelectorAll(".btn-toggle-publish").forEach(btn => {
-    btn.addEventListener("click", async () => {
-        const id = btn.dataset.id;
-        const menuTitle = btn.closest('tr').querySelector('td:nth-child(3)').textContent;
-        
-        try {
-            const res = await fetch(`/frontend/menus/${id}/toggle-publish`, {
-                method: "PATCH",
+        // --- Toggle Publish Event ---
+        document.querySelectorAll(".btn-toggle-publish").forEach(btn => {
+            btn.addEventListener("click", async () => {
+                const id = btn.dataset.id;
+                const menuTitle = btn.closest('tr').querySelector('td:nth-child(3)').textContent;
+
+                try {
+                    const res = await fetch(`/frontend/menus/${id}/toggle-publish`, {
+                        method: "PATCH",
+                    });
+                    const result = await res.json();
+                    if (result.success) {
+                        const newStatus = result.newStatus; // Make sure your API returns the new status
+                        const action = newStatus === "Enable" ? "Published" : "Unpublished";
+
+                        showCustomAlert(
+                            `${action} On Website\n\n${menuTitle}`,
+                            "success",
+                            true,
+                            "Successfully"
+                        );
+
+                        await loadMenus();
+                    } else {
+                        showCustomAlert(
+                            "Failed to toggle publish status",
+                            "error",
+                            false,
+                            "Error"
+                        );
+                    }
+                } catch (err) {
+                    console.error("Toggle publish error:", err);
+                    showCustomAlert(
+                        "Error toggling publish status",
+                        "error",
+                        false,
+                        "Error"
+                    );
+                }
             });
-            const result = await res.json();
-            if (result.success) {
-                const newStatus = result.newStatus; // Make sure your API returns the new status
-                const action = newStatus === "Enable" ? "Published" : "Unpublished";
-                
-                showCustomAlert(
-                    `${action} On Website\n\n${menuTitle}`,
-                    "success",
-                    true,
-                    "Successfully"
-                );
-                
-                await loadMenus();
-            } else {
-                showCustomAlert(
-                    "Failed to toggle publish status",
-                    "error",
-                    false,
-                    "Error"
-                );
-            }
-        } catch (err) {
-            console.error("Toggle publish error:", err);
-            showCustomAlert(
-                "Error toggling publish status",
-                "error",
-                false,
-                "Error"
-            );
-        }
-    });
-});
+        });
 
         // --- Edit Event ---
         document.querySelectorAll(".btn-edit").forEach(btn => {
@@ -596,7 +595,7 @@ document.querySelectorAll(".btn-toggle-publish").forEach(btn => {
         let rows = categories.map((cat, i) => renderCategoryRow(cat, i + 1)).join("");
 
         document.getElementById("menuCateListContainer").innerHTML = `
-        <div class="menue-form">
+        <div class="main-form">
             <!-- Top Controls -->
             <div class="d-flex justify-content-between align-items-center">
                 <div class="d-flex align-items-center gap-2">
@@ -617,23 +616,24 @@ document.querySelectorAll(".btn-toggle-publish").forEach(btn => {
             </div>
 
             <!-- Table -->
-            <table class="table mt-3">
-                <thead>
-                    <tr>
-                        <th>Sl</th>
-                        <th>Menu Type</th>
-                        <th>Category Title</th>
-                        <th>URL</th>
-                        <th>Menu</th>
-                        <th>Status</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    ${rows || `<tr><td colspan="7" class="text-center">No categories found</td></tr>`}
-                </tbody>
-            </table>
-
+            <div class="table-responsive">
+                <table class="table">
+                   <thead>
+                       <tr>
+                           <th>Sl</th>
+                           <th>Menu Type</th>
+                           <th>Category Title</th>
+                           <th>URL</th>
+                           <th>Menu</th>
+                           <th>Status</th>
+                           <th>Action</th>
+                       </tr>
+                   </thead>
+                   <tbody>
+                       ${rows || `<tr><td colspan="7" class="text-center">No categories found</td></tr>`}
+                   </tbody>
+                </table>
+            </div>
             <!-- Pagination -->
             <div class="pagination-controls d-flex justify-content-end align-items-center gap-2">
                 <button id="prevPageCat" class="btn btn-sm btn-outline-primary" ${pagination.currentPage <= 1 ? "disabled" : ""}>
@@ -713,48 +713,48 @@ document.querySelectorAll(".btn-toggle-publish").forEach(btn => {
         });
 
         // --- Toggle Category Status ---
-      // --- Toggle Category Status ---
-document.querySelectorAll(".btn-toggle-publish").forEach(btn => {
-    btn.addEventListener("click", async () => {
-        const id = btn.dataset.id;
-        const categoryTitle = btn.closest('tr').querySelector('td:nth-child(3)').textContent;
-        
-        try {
-            const res = await fetch(`/frontend/menu-category/${id}/toggle-status`, {
-                method: "PATCH"
+        // --- Toggle Category Status ---
+        document.querySelectorAll(".btn-toggle-publish").forEach(btn => {
+            btn.addEventListener("click", async () => {
+                const id = btn.dataset.id;
+                const categoryTitle = btn.closest('tr').querySelector('td:nth-child(3)').textContent;
+
+                try {
+                    const res = await fetch(`/frontend/menu-category/${id}/toggle-status`, {
+                        method: "PATCH"
+                    });
+                    const result = await res.json();
+                    if (result.success) {
+                        const newStatus = result.newStatus; // Make sure your API returns the new status
+                        const action = newStatus === "Enable" ? "Published" : "Unpublished";
+
+                        showCustomAlert(
+                            `${action} On Website\n\n${categoryTitle}`,
+                            "success",
+                            true,
+                            "Successfully"
+                        );
+
+                        await loadMenusCat();
+                    } else {
+                        showCustomAlert(
+                            "Failed to toggle status",
+                            "error",
+                            false,
+                            "Error"
+                        );
+                    }
+                } catch (err) {
+                    console.error("Toggle category status error:", err);
+                    showCustomAlert(
+                        "Error toggling category status",
+                        "error",
+                        false,
+                        "Error"
+                    );
+                }
             });
-            const result = await res.json();
-            if (result.success) {
-                const newStatus = result.newStatus; // Make sure your API returns the new status
-                const action = newStatus === "Enable" ? "Published" : "Unpublished";
-                
-                showCustomAlert(
-                    `${action} On Website\n\n${categoryTitle}`,
-                    "success",
-                    true,
-                    "Successfully"
-                );
-                
-                await loadMenusCat();
-            } else {
-                showCustomAlert(
-                    "Failed to toggle status",
-                    "error",
-                    false,
-                    "Error"
-                );
-            }
-        } catch (err) {
-            console.error("Toggle category status error:", err);
-            showCustomAlert(
-                "Error toggling category status",
-                "error",
-                false,
-                "Error"
-            );
-        }
-    });
-});
+        });
 
 
     }

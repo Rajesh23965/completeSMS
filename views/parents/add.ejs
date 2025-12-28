@@ -1,49 +1,16 @@
 <!-- parents/add.ejs -->
-<div class="container parent-form">
+<header class="panel-heading">
+    <h4 class="panel-title"><i class="far fa-user-circle"></i>Add Parent</h4>
+</header>
+<div class="main-form">
     <form action="/parents/add" method="POST" enctype="multipart/form-data">
+
+        <!-- Basic Details -->
         <div class="form-section">
-            <label class="section-label">Profile Picture</label>
-            <div class="drop-zone" id="drop-zone">
-                <div class="drop-content">
-                    <i class="fa-solid fa-cloud-arrow-up cloud-icon"></i>
-                    <p>Drag and drop a file here or click</p>
-                </div>
-                <input type="file" name="profile_image" id="file-input" hidden>
+            <div class="section-header mt-md">
+                <i class="fa-solid fa-user-check"></i>
+                Parents Details
             </div>
-        </div>
-
-        <div class="form-section">
-            <h3 class="section-header"><i class="fa-solid fa-user-lock"></i> Login Details</h3>
-            <hr>
-
-            <div class="row">
-                <div class="col-half">
-                    <label>Username <span class="required">*</span></label>
-                    <div class="input-group">
-                        <span class="input-icon"><i class="fa-regular fa-user"></i></span>
-                        <input type="text" name="username" required>
-                    </div>
-                </div>
-                <div class="col-quarter">
-                    <label>Password <span class="required">*</span></label>
-                    <div class="input-group">
-                        <span class="input-icon"><i class="fa-solid fa-lock"></i></span>
-                        <input type="password" name="password" required>
-                    </div>
-                </div>
-                <div class="col-quarter">
-                    <label>Retype Password <span class="required">*</span></label>
-                    <div class="input-group">
-                        <span class="input-icon"><i class="fa-solid fa-lock"></i></span>
-                        <input type="password" name="retype_password" required>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="form-section">
-            <h3 class="section-header"><i class="fa-solid fa-user-check"></i> Parents Details</h3>
-            <hr>
 
             <div class="row">
                 <div class="col-half">
@@ -121,9 +88,64 @@
             </div>
         </div>
 
+        <!-- Profile Image -->
+        <div class="form-section">
+            <label class="section-label">Profile Picture</label>
+
+            <div class="drop-zone" id="drop-zone">
+                <div class="drop-content" id="drop-content">
+                    <i class="fa-solid fa-cloud-arrow-up cloud-icon"></i>
+                    <p>Drag and drop a file here or click</p>
+                </div>
+
+                <div class="preview-container" id="preview-container" style="display:none;">
+                    <img id="preview-image" />
+                    <!-- Filename display on hover -->
+                    <div class="filename-display" id="filename-display"></div>
+                    <!-- Remove button -->
+                    <button type="button" class="remove-btn" id="remove-btn">
+                        Remove
+                    </button>
+                </div>
+
+                <input type="file" name="profile_image" id="file-input" accept="image/*"  hidden>
+            </div>
+        </div>
+
+        <!-- Login Details -->
+        <div class="form-section">
+            <h3 class="section-header"><i class="fa-solid fa-user-lock"></i> Login Details</h3>
+         
+
+            <div class="row">
+                <div class="col-half">
+                    <label>Username <span class="required">*</span></label>
+                    <div class="input-group">
+                        <span class="input-icon"><i class="fa-regular fa-user"></i></span>
+                        <input type="text" name="username" required>
+                    </div>
+                </div>
+                <div class="col-quarter">
+                    <label>Password <span class="required">*</span></label>
+                    <div class="input-group">
+                        <span class="input-icon"><i class="fa-solid fa-lock"></i></span>
+                        <input type="password" name="password" required>
+                    </div>
+                </div>
+                <div class="col-quarter">
+                    <label>Retype Password <span class="required">*</span></label>
+                    <div class="input-group">
+                        <span class="input-icon"><i class="fa-solid fa-lock"></i></span>
+                        <input type="password" name="retype_password" required>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Social Links -->
         <div class="form-section">
             <h3 class="section-header"><i class="fa-solid fa-globe"></i> Social Links</h3>
-            <hr>
+         
 
             <div class="row">
                 <div class="col-third">
@@ -154,4 +176,3 @@
 
     </form>
 </div>
-

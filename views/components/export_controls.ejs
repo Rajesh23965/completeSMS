@@ -1,0 +1,72 @@
+<!-- views/components/export_controls.ejs -->
+<div class="export-controls mb-3">
+    <div class="btn-group" role="group">
+        <button type="button" class="btn btn-outline-primary btn-sm" onclick="copyTable()">
+            <i class="fas fa-copy"></i> Copy
+        </button>
+        <button type="button" class="btn btn-outline-success btn-sm" onclick="exportTo('excel')">
+            <i class="fas fa-file-excel"></i> Excel
+        </button>
+        <button type="button" class="btn btn-outline-danger btn-sm" onclick="exportTo('csv')">
+            <i class="fas fa-file-csv"></i> CSV
+        </button>
+        <button type="button" class="btn btn-outline-danger btn-sm" onclick="exportTo('pdf')">
+            <i class="fas fa-file-pdf"></i> PDF
+        </button>
+        <button type="button" class="btn btn-outline-secondary btn-sm" onclick="window.print()">
+            <i class="fas fa-print"></i> Print
+        </button>
+        <div class="btn-group" role="group">
+            <button type="button" class="btn btn-outline-info btn-sm dropdown-toggle" 
+                    data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="fas fa-columns"></i> Columns
+            </button>
+            <ul class="dropdown-menu column-visibility-menu">
+                <!-- Columns will be populated dynamically -->
+            </ul>
+        </div>
+    </div>
+</div>
+
+<script>
+// Add this JavaScript to your view
+function exportTo(format) {
+    window.location.href = `<%= baseUrl %>/export?format=${format}`;
+}
+
+async function copyTable() {
+    try {
+        const response = await fetch(`<%= baseUrl %>/export?format=copy`);
+        const result = await response.json();
+        
+        if (result.success) {
+            await navigator.clipboard.writeText(result.data);
+            alert('Table copied to clipboard!');
+        }
+    } catch (error) {
+        console.error('Copy failed:', error);
+        alert('Failed to copy table');
+    }
+}
+
+function toggleColumn(columnId, isVisible) {
+    // Implementation for column visibility toggle
+    const table = document.getElementById('dataTable');
+    const columnIndex = getColumnIndex(columnId);
+    
+    table.querySelectorAll(`tr > td:nth-child(${columnIndex + 1}), 
+                           tr > th:nth-child(${columnIndex + 1})`)
+        .forEach(cell => {
+            cell.style.display = isVisible ? '' : 'none';
+        });
+    
+    // Save visibility state to server
+    saveColumnVisibility();
+}
+
+function saveColumnVisibility() {
+    const hiddenColumns = {};
+    // Collect hidden column states
+    // Send to server via API
+}
+</script>

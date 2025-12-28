@@ -17,7 +17,7 @@ document.addEventListener("DOMContentLoaded", () => {
       document.querySelectorAll(".menu-item1").forEach(m => m.classList.remove("active"));
       item.classList.add("active");
 
-      document.querySelectorAll(".menu-tabs, .tab-content").forEach(el => el.classList.add("d-none"));
+      document.querySelectorAll(".tab-setting, .tab-content").forEach(el => el.classList.add("d-none"));
       document.getElementById("tabs-" + menuId)?.classList.remove("d-none");
       document.getElementById("content-" + menuId)?.classList.remove("d-none");
     });
@@ -40,12 +40,12 @@ document.addEventListener("DOMContentLoaded", () => {
    TAB CLICK HANDLER
 ====================== */
 function initTabSwitching() {
-  document.querySelectorAll(".menu-tabs .nav-link").forEach(link => {
+  document.querySelectorAll(".tab-setting .nav-link").forEach(link => {
     link.addEventListener("click", async e => {
       e.preventDefault();
 
       // Tab UI toggle
-      const parentTabs = link.closest(".menu-tabs");
+      const parentTabs = link.closest(".tab-setting");
       const parentContent = parentTabs?.nextElementSibling;
       const targetId = link.getAttribute("href");
 

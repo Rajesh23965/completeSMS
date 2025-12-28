@@ -14,7 +14,7 @@ export const renderFeature = async (req, res) => {
                 { title: "Frontend" }
             ],
             body: `
-        <div class="slider-tabs feature-form ">
+        <div class="tab-setting panel-heading ">
           <!-- Tabs with style to look like links/buttons -->
           <a href="#" id="featureListTab" class="section-title active-tab"><i class="fa fa-list"></i> Features List</a>
           <a href="#" id="featureCreateTab" class="section-title"><i class="far fa-edit"></i> Add Features/ Edit Features</a>

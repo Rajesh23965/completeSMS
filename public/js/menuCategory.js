@@ -130,9 +130,9 @@ document.addEventListener("DOMContentLoaded", function () {
         let rows = categories.map((cat, i) => renderCategoryRow(cat, i + 1)).join("");
 
         catListContainer.innerHTML = `
-        <div class="menue-form">
+         <div class="main-form">
             <!-- Top Controls -->
-            <div class="d-flex justify-content-between align-items-center">
+           <div class=" d-flex justify-content-between align-items-center">
                 <div class="d-flex align-items-center gap-2">
                     <select id="rowsPerPageCat" class="form-select w-auto">
                         <option value="5" ${currentLimit == 5 ? "selected" : ""}>5</option>
@@ -151,23 +151,24 @@ document.addEventListener("DOMContentLoaded", function () {
             </div>
 
             <!-- Table -->
-            <table class="table mt-3">
-                <thead>
-                    <tr>
-                        <th>Sl</th>
-                        <th>Menu Type</th>
-                        <th>Category Title</th>
-                        <th>URL</th>
-                        <th>Menu</th>
-                        <th>Status</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    ${rows || `<tr><td colspan="7" class="text-center">No categories found</td></tr>`}
-                </tbody>
-            </table>
-
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover  min-w-full divide-y divide-gray-200">
+                <thead class="table-custom">
+                        <tr>
+                            <th>Sl</th>
+                            <th>Menu Type</th>
+                            <th>Category Title</th>
+                            <th>URL</th>
+                            <th>Menu</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${rows || `<tr><td colspan="7" class="text-center">No categories found</td></tr>`}
+                    </tbody>
+                </table>
+            </div>
             <!-- Pagination -->
             <div class="pagination-controls d-flex justify-content-end align-items-center gap-2">
                 <button id="prevPageCat" class="btn btn-sm btn-outline-primary" ${pagination.page <= 1 ? "disabled" : ""}>
@@ -262,9 +263,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-    // =============================
-    // Form Submission (create/edit)
-    // =============================
+
     // =============================
     // Form Submission (create/edit)
     // =============================
@@ -277,7 +276,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const isEditMode = hash.startsWith("#/category-edit/");
         const categoryId = isEditMode ? hash.split("/")[2] : null;
 
-        // ✅ Add hidden input for category ID in edit mode
+        //  Add hidden input for category ID in edit mode
         if (isEditMode && categoryId) {
             // Remove existing hidden ID input if any
             const existingIdInput = categoryForm.querySelector('input[name="id"]');
@@ -285,7 +284,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 existingIdInput.remove();
             }
 
-            // Add hidden input with category ID
+
             const idInput = document.createElement("input");
             idInput.type = "hidden";
             idInput.name = "id";
@@ -293,7 +292,7 @@ document.addEventListener("DOMContentLoaded", function () {
             categoryForm.appendChild(idInput);
         }
 
-        // ✅ Populate menu_id dropdown with menu titles
+        //  Populate menu_id dropdown with menu titles
         const menuSelect = categoryForm.querySelector("#menu_id");
         if (menuSelect) {
             (async () => {

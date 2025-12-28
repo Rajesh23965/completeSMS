@@ -1,6 +1,6 @@
 <!-- views/frontend/slider/testimonialUI.ejs -->
-
-<form id="testimonialForm" class="testimonial-form" action="/frontend/testimonial/save" method="POST"
+<div class="main-form">
+    <form id="testimonialForm"  action="/frontend/testimonial/save" method="POST"
     enctype="multipart/form-data">
     <% if (testimonial && testimonial.id) { %>
         <input type="hidden" name="id" value="<%= testimonial.id %>">
@@ -69,3 +69,4 @@
                 Save
             </button>
 </form>
+</div>

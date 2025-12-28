@@ -12,7 +12,7 @@ export const renderFrontendFaqUI = async (req, res) => {
                 { title: "Frontend" }
             ],
             body: `
-        <div class="faq-tabs faq-form ">
+        <div class="tab-setting panel-heading ">
           <!-- Tabs with style to look like links/buttons -->
           <a href="#" id="faqListTab" class="section-title active-tab"><i class="fa fa-list"></i> Faq List</a>
           <a href="#" id="faqCreateTab" class="section-title"><i class="far fa-edit"></i> Add Faq/ Edit Faq</a>

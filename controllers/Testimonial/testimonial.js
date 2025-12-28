@@ -12,7 +12,7 @@ export const renderTestimonial = async (req, res) => {
                 { title: "Frontend" }
             ],
             body: `
-        <div class="testimonial-tabs testimonial-form ">
+        <div class="tab-setting panel-heading ">
           <!-- Tabs with style to look like links/buttons -->
           <a href="#" id="testimonialListTab" class="section-title active-tab"><i class="fa fa-list"></i> Testimonial List</a>
           <a href="#" id="testimonialCreateTab" class="section-title"><i class="far fa-edit"></i> Add Testimonial/ Edit Testimonial</a>

@@ -26,7 +26,7 @@
           class="menu-item <%= typeof pageTitle !== 'undefined' && pageTitle === 'Frontend Settings' ? 'active' : '' %>">
           <i class="fas fa-caret-right"></i> Setting
         </a>
-         <a href="/frontend/topbar" class="menu-item <%= pageTitle === 'Frontend Menu' ? 'active' : '' %>">
+        <a href="/frontend/topbar" class="menu-item <%= pageTitle === 'Frontend Menu' ? 'active' : '' %>">
           <i class="fas fa-caret-right"></i> Topbar
         </a>
         <a href="/frontend/menue" class="menu-item <%= pageTitle === 'Frontend Menu' ? 'active' : '' %>">
@@ -92,9 +92,10 @@
       </button>
 
       <div class="submenu" id="parent-submenu">
-        <a href="#" class="menu-item"><i class="fas fa-caret-right"></i> Parent List </a>
+        <a href="/parents/view" class="menu-item"><i class="fas fa-caret-right"></i> Parent List </a>
         <a href="/parents/add" class="menu-item"><i class="fas fa-caret-right"></i> Add Parent </a>
-        <a href="#" class="menu-item"><i class="fas fa-caret-right"></i> Login Deactivate </a>
+        <a href="/parents/disable_authentication" class="menu-item"><i class="fas fa-caret-right"></i> Login Deactivate
+        </a>
       </div>
 
       <button class="menu-item expandable" data-menu="employee">
@@ -104,11 +105,12 @@
       </button>
 
       <div class="submenu" id="employee-submenu">
-        <a href="#" class="menu-item"><i class="fas fa-caret-right"></i> Employee List </a>
-        <a href="#" class="menu-item"><i class="fas fa-caret-right"></i> Add Department </a>
-        <a href="#" class="menu-item"><i class="fas fa-caret-right"></i> Add Designation </a>
-        <a href="#" class="menu-item"><i class="fas fa-caret-right"></i> Add Employee </a>
-        <a href="#" class="menu-item"><i class="fas fa-caret-right"></i> Login Deactivate </a>
+        <a href="/employee/view" class="menu-item"><i class="fas fa-caret-right"></i> Employee List </a>
+        <a href="/employee/department" class="menu-item"><i class="fas fa-caret-right"></i> Add Department </a>
+        <a href="/employee/designation" class="menu-item"><i class="fas fa-caret-right"></i> Add Designation </a>
+        <a href="/employee/add" class="menu-item"><i class="fas fa-caret-right"></i> Add Employee </a>
+        <a href="/employee/disable_authentication" class="menu-item"><i class="fas fa-caret-right"></i> Login Deactivate
+        </a>
       </div>
 
       <button class="menu-item expandable" data-menu="card">

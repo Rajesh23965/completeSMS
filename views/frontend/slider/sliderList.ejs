@@ -1,8 +1,8 @@
 <!-- views/frontend/slider/sliderList.ejs -->
-<div class="slider-form">
+<div class="main-form">
     <div class="table-responsive ">
-        <table class="table min-w-full divide-y divide-gray-200">
-            <thead class="bg-gray-50">
+        <table class="table table-bordered table-hover  min-w-full divide-y divide-gray-200" >
+                <thead class="table-custom">
                 <tr>
                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">SN</th>
                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Photo
@@ -24,7 +24,7 @@
                     </th>
                 </tr>
             </thead>
-            <div class=" d-flex justify-content-between align-items-center mb-3 p-2 border-bottom">
+            <div class=" d-flex justify-content-between align-items-center mb-3 p-2">
                 <div class="d-flex align-items-center gap-2">
                     <select id="rowsPerPage" class="form-select w-auto">
                         <% [5, 10, 25, 50].forEach(option=> { %>

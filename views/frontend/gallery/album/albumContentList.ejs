@@ -1,6 +1,6 @@
 <!-- views/frontend/gallery/album/albumContentList.ejs -->
-<div class="card mb-4">
-    <div class="card-body">
+<div class="main-form">
+    <div class="">
         <div class="d-flex justify-content-between align-items-center mb-3">
             <div class="d-flex align-items-center">
                 <select class="form-select form-select-sm" id="contentRowsPerPage" data-album-id="<%= albumId %>"
@@ -18,8 +18,8 @@
         </div>
 
         <div class="table-responsive">
-            <table class="table table-bordered table-striped">
-                <thead>
+            <table class="table table-bordered table-hover  min-w-full divide-y divide-gray-200">
+                <thead class="table-custom">
                     <tr>
                         <th style="width: 50px;">SI</th>
                         <th style="width: 150px;">Thumb Image</th>

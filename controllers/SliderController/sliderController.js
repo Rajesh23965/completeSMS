@@ -111,7 +111,7 @@ export const renderSlider = async (req, res) => {
         { title: "Frontend" }
       ],
       body: `
-        <div class="slider-tabs slider-form ">
+        <div class="tab-setting panel-heading ">
           <!-- Tabs with style to look like links/buttons -->
           <a href="#" id="sliderListTab" class="section-title active-tab"><i class="fa fa-list"></i> Slider List</a>
           <a href="#" id="sliderCreateTab" class="section-title"><i class="far fa-edit"></i> Add Slider/ Edit Slider</a>

@@ -72,8 +72,8 @@ document.addEventListener("DOMContentLoaded", function () {
             ${hasChildren ? `
                 <tr class="submenu-row" data-parent="${menu.id}" style="display:none;">
                     <td colspan="7">
-                        <table class="table mb-0">
-                            <thead>
+                        <table class="table table-bordered table-hover  min-w-full divide-y divide-gray-200">
+                <thead class="table-custom">
                                 <tr>
                                     <th>Sub Title</th>
                                     <th>Publish</th>
@@ -115,7 +115,7 @@ document.addEventListener("DOMContentLoaded", function () {
         let rows = menus.map((menu, index) => renderMenuRow(menu, index + 1)).join("");
 
         listContainer.innerHTML = `
-        <div class="menue-form">
+        <div class="main-form">
             <!-- Top Controls -->
             <div class=" d-flex justify-content-between align-items-center">
                 <div class="d-flex align-items-center gap-2">
@@ -136,8 +136,9 @@ document.addEventListener("DOMContentLoaded", function () {
             </div>
 
             <!-- Table -->
-            <table class="table mt-3">
-                <thead>
+            <div class="table-responsive">
+             <table class="table table-bordered table-hover  min-w-full divide-y divide-gray-200">
+                <thead class="table-custom">
                     <tr>
                         <th>Sl</th>
                         <th>Menu Type</th>
@@ -152,7 +153,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     ${rows || `<tr><td colspan="7" class="text-center">No menus found</td></tr>`}
                 </tbody>
             </table>
-
+            </div>
             <!-- Pagination -->
             <div class="pagination-controls d-flex justify-content-end align-items-center gap-2">
                 <button id="prevPage" class="btn btn-sm btn-outline-primary" ${pagination.page <= 1 ? "disabled" : ""}>

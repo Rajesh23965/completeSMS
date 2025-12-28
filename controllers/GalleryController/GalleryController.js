@@ -13,7 +13,7 @@ export const renderGalleryCatUI = async (req, res) => {
                 { title: "Frontend" }
             ],
             body: `
-        <div class="gallery-cat-tabs gallery_cat-form ">
+        <div class="gallery-cat-tabs panel-heading">
           <!-- Tabs with style to look like links/buttons -->
           <a href="#" id="galleryCatListTab" class="section-title active-tab"><i class="fa fa-list"></i> Category List</a>
           <a href="#" id="galleryCatCreateTab" class="section-title"><i class="far fa-edit"></i> Add Category/ Edit Category</a>

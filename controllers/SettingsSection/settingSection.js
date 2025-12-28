@@ -1,18 +1,12 @@
 import path from "path";
 import ejs from "ejs";
-import express from "express";
-
-// Assuming upload.js is outside controllers/
-import fs from "fs"; // For deleting old files
+import fs from "fs";
 import { SettingMainModel } from "../../models/SettingMainModel/SettingMainModel.js";
 
 
-// Placeholder for the current school ID.
-const CURRENT_SCHOOL_ID = 1; 
+const CURRENT_SCHOOL_ID = 1;
 
-/**
- * Renders the main School Settings dashboard page.
- */
+
 export const renderSchoolSetting = async (req, res) => {
     try {
         // 1. Fetch all settings data from the database
@@ -41,17 +35,15 @@ export const renderSchoolSetting = async (req, res) => {
     }
 };
 
-/**
- * Handles submission for General Settings (text inputs).
- */
+
 export const updateGeneralSettings = async (req, res) => {
     try {
         // Extract and filter settings from the request body
         const settingsToUpdate = req.body;
-        
+
         // Update the database
         await SettingMainModel.updateSettings(settingsToUpdate);
-        
+
         res.status(200).json({ success: true, message: "General Settings updated successfully." });
     } catch (err) {
         console.error("Error updating general settings:", err);
@@ -59,28 +51,29 @@ export const updateGeneralSettings = async (req, res) => {
     }
 };
 
-/**
- * Handles submission for Logo Settings (file uploads).
- */
+
 export const updateLogoSettings = async (req, res) => {
     try {
         const { files } = req;
-        const body = req.body; // Contains logo types and paths
+        const body = req.body;
         const updates = [];
 
-        // 1. Handle file uploads and update database paths
+        // Handle file uploads and update database paths
         if (files) {
             const fileKeys = {
-                logo: 'logo_system_path',
-                fav_icon: 'logo_text_path' // Mapping 'fav_icon' field to 'logo_text_path' for simplicity
+                system_logo: 'logo_system_path',
+                text_logo: 'logo_text_path',
+                print_logo: 'logo_printing_path',
+                report_card: 'logo_report_card_path'
             };
+
 
             for (const [fieldName, settingKey] of Object.entries(fileKeys)) {
                 if (files[fieldName] && files[fieldName].length > 0) {
                     const newPath = `/uploads/settings/${files[fieldName][0].filename}`;
-                    
+
                     // Optional: Get old path to delete old file
-                    const oldPath = body[`old_${settingKey}`]; 
+                    const oldPath = body[`old_${settingKey}`];
                     if (oldPath && oldPath !== newPath) {
                         const fullOldPath = path.join(process.cwd(), 'public', oldPath);
                         if (fs.existsSync(fullOldPath)) {
@@ -93,7 +86,7 @@ export const updateLogoSettings = async (req, res) => {
                 }
             }
         }
-        
+
         await Promise.all(updates);
 
         res.status(200).json({ success: true, message: "Logo Settings updated successfully." });
@@ -103,20 +96,18 @@ export const updateLogoSettings = async (req, res) => {
     }
 };
 
-/**
- * Handles submission for single setting toggles (like Enable Fine).
- */
+
 export const updateToggleSetting = async (req, res) => {
     try {
-        const { key, value } = req.body; // key is setting_key, value is '1' or '0'
-        
+        const { key, value } = req.body;
+
         if (!key || typeof value === 'undefined') {
-             return res.status(400).json({ success: false, message: "Missing key or value for toggle update." });
+            return res.status(400).json({ success: false, message: "Missing key or value for toggle update." });
         }
-        
+
         // Update the database (reuse updateLogoPath as it performs a simple single key update)
         await SettingMainModel.updateLogoPath(key, value.toString());
-        
+
         res.status(200).json({ success: true, message: `${key} updated successfully.` });
     } catch (err) {
         console.error(`Error updating toggle ${key}:`, err);
@@ -124,3 +115,25 @@ export const updateToggleSetting = async (req, res) => {
     }
 };
 
+
+
+export const updateRegistrationSettings = async (req, res) => {
+    try {
+        await SettingMainModel.updateSettings(req.body);
+        res.json({ success: true, message: "Registration settings saved" });
+    } catch (e) {
+        console.error(e);
+        res.status(500).json({ success: false });
+    }
+};
+
+
+export const updateFeesSettings = async (req, res) => {
+    try {
+        await SettingMainModel.updateSettings(req.body);
+        res.json({ success: true, message: "Fees settings saved" });
+    } catch (e) {
+        console.error(e);
+        res.status(500).json({ success: false });
+    }
+};

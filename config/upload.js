@@ -60,6 +60,10 @@ const createUploader = (folder) => {
 
 const parents = createUploader('parents');
 export const uploadParents = parents;
+
+const employees = createUploader('employee');
+export const uploadEmployees = employees;
+
 // Create upload middleware for settings
 const settingsUpload = createUploader('settings');
 const settingsUploader = createUploader('settings');

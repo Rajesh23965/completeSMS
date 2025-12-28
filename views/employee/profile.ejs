@@ -1,0 +1,713 @@
+<div class="main-form parent-profile">
+    <div class="row appear-animation fadeInUp appear-animation-visible" data-appear-animation="fadeInUp">
+        <div class="parent-profile-card">
+            <div class="col-md-12 col-lg-4 col-xl-3">
+                <div class="image-content-center user-pro">
+                    <div class="preview">
+                        <ul class="social-icon-one">
+                            <li><a href="<%= employee.facebook_url %>" target="_blank" rel="noopener"><span
+                                        class="fab fa-facebook-f"></span></a></li>
+                            <li><a href="<%= employee.twitter_url %>" target="_blank" rel="noopener"><span
+                                        class="fab fa-twitter"></span></a></li>
+                            <li><a href="<%= employee.linkedin_url %>" target="_blank" rel="noopener"><span
+                                        class="fab fa-linkedin-in"></span></a></li>
+                        </ul>
+
+                        <img src="/<%= employee.profile_picture.replace('public/', '') %>" alt="Employee"
+                            class="parent-profile-img">
+                    </div>
+                </div>
+
+            </div>
+            <div class="profile-right">
+                <h3>
+                    <%= employee.name %>
+                </h3>
+                <span class="role">Employee</span>
+
+                <ul class="profile-meta">
+                    <li><i class="fas fa-user-tie"></i>
+                        <%= employee?.department_name %>
+                    </li>
+                    <li><i class="fas fa-birthday-cake"></i>
+                        <%= employee.date_of_birth.toISOString().split('T')[0] %>
+                    </li>
+                    <li><i class="far fa-calendar-alt"></i>
+                        <%= employee.joining_date.toISOString().split('T')[0] %>
+                    </li>
+
+                    <li><i class=" fa-solid fa-phone"></i>
+                        <%= employee.mobile_no %>
+                    </li>
+                    <li><i class="fa-solid fa-envelope"></i>
+                        <%= employee.email %>
+                    </li>
+                    <li><i class="fa-solid fa-location-dot"></i>
+                        <%= employee.present_address %>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+
+        <div class="accordion" id="employeeAccordion">
+            <!-- Basic Details -->
+            <div class="accordion-item">
+                <button class="accordion-header collapsed" data-bs-toggle="collapse" data-bs-target="#basicDetails"
+                    aria-expanded="false">
+                    <span><i class="fa-solid fa-user-pen"></i> Basic Details</span>
+                    <div class="pull-right mt-hs">
+                        <button class="btn-circle" id="authentication_btn"
+                            style="display: flex; justify-content: center; align-items: center; gap: 4px; margin: 10px; border-radius: 20px; padding: 5px; background-color: #ffff; border: 1px solid gray;"
+                            data-bs-toggle="modal" data-bs-target="#authenticationModal">
+                            <i class="fas fa-unlock-alt"></i> Authentication
+                        </button>
+                    </div>
+                </button>
+
+                <!-- Include the modal HTML -->
+                <%- modalHtml %>
+
+                    <div class="accordion-body collapse" id="basicDetails">
+                        <form action="/employee/profile/<%= employee.id %>" method="POST" enctype="multipart/form-data">
+
+                            <input type="hidden" name="_method" value="PUT">
+                            <input type="hidden" id="existing-image"
+                                value="/<%= employee.profile_picture.replace('public/', '') %>">
+
+                            <div class="form-section">
+                                <div class="section-header">
+                                    <i class="fas fa-school"></i>
+                                    Academic Details
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-half">
+                                        <label class="required-field">Role</label>
+                                        <select name="role" class="simple-input select2" required>
+                                            <option value="">Select Role</option>
+                                            <% roles.forEach(role=> { %>
+                                                <option value="<%= role %>">
+                                                    <%= role %>
+                                                </option>
+                                                <% }) %>
+                                        </select>
+                                    </div>
+
+
+
+                                    <div class="col-half">
+                                        <label class="required-field">Joining Date</label>
+                                        <div class="input-group">
+                                            <span class="input-icon"><i class="fas fa-calendar-alt"></i></span>
+                                            <input type="text" name="joining_date" class="form-control flatpickr-date"
+                                                placeholder="Select Date" required value="<%=employee.joining_date%>">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-half">
+                                        <label class="required-field">Designation</label>
+                                        <select name="designation_id" class="simple-input select2" required>
+                                            <option value="">Select Designation</option>
+                                            <% designations.forEach(d=> { %>
+                                                <option value="<%= d.id %>">
+                                                    <%= d.designation_name %>
+                                                </option>
+                                                <% }) %>
+                                        </select>
+                                    </div>
+
+                                    <div class="col-half">
+                                        <label class="required-field">Department</label>
+                                        <select name="department_id" class="simple-input select2" required>
+                                            <option value="">Select Department</option>
+                                            <% departments.forEach(dep=> { %>
+                                                <option value="<%= dep.id %>">
+                                                    <%= dep.department_name %>
+                                                </option>
+                                                <% }) %>
+                                        </select>
+                                    </div>
+                                </div>
+
+
+                                <!-- Qualification and Experience -->
+                                <div class="row">
+                                    <div class="col-third">
+                                        <label>Qualification <span class="required">*</span></label>
+                                        <input type="text" name="qualification" required class="simple-input">
+                                    </div>
+                                    <div class="col-third">
+                                        <label>Experience Details</label>
+                                        <input type="text" name="experience_details" class="simple-input">
+                                    </div>
+                                    <div class="col-third">
+                                        <label>Total Experience</label>
+                                        <input type="number" name="total_experience" class="simple-input">
+
+                                    </div>
+
+                                </div>
+
+
+                            </div>
+
+
+
+                            <!-- Employee Details -->
+                            <div class="form-section">
+                                <div class="section-header">
+                                    <i class="fa-solid fa-user-check"></i>
+                                    Personal Details
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-half">
+                                        <label class="required-field">Full Name</label>
+                                        <input type="text" name="name" class="simple-input"
+                                            placeholder="Enter full name" value="<%employee.name%>" required>
+                                    </div>
+
+                                    <div class="col-half">
+                                        <label class="required-field">Gender</label>
+                                        <select name="gender" class="simple-input select2" required>
+                                            <option value="">Select Gender</option>
+                                            <option value="Male">Male</option>
+                                            <option value="Female">Female</option>
+                                            <option value="Other">Other</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+
+                                    <div class="col-third">
+                                        <label>Religion</label>
+                                        <input type="text" name="religion" class="simple-input">
+                                    </div>
+                                    <div class="col-third">
+                                        <label>Blood Group</label>
+                                        <select name="blood_group" class="simple-input select2">
+                                            <option value="">Select Blood Group</option>
+                                            <option value="A+">A+</option>
+                                            <option value="A-">A-</option>
+                                            <option value="B+">B+</option>
+                                            <option value="B-">B-</option>
+                                            <option value="AB+">AB+</option>
+                                            <option value="AB-">AB-</option>
+                                            <option value="O+">O+</option>
+                                            <option value="O-">O-</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-third">
+                                        <label>Date of Birth</label>
+                                        <div class="input-group">
+                                            <span class="input-icon"><i class="fas fa-birthday-cake"></i></span>
+                                            <input type="text" name="date_of_birth" class="form-control flatpickr-date"
+                                                placeholder="Select Date">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-half">
+                                        <label class="required-field">Mobile Number</label>
+                                        <div class="input-group">
+                                            <span class="input-icon"><i class="fas fa-phone"></i></span>
+                                            <input type="tel" name="mobile_number" class="simple-input"
+                                                placeholder="Enter mobile number" required>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-half">
+                                        <label>Email Address</label>
+                                        <div class="input-group">
+                                            <span class="input-icon"><i class="fas fa-envelope"></i></span>
+                                            <input type="email" name="email" class="simple-input"
+                                                placeholder="employee@example.com">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-half">
+                                        <label>Present Address</label>
+                                        <textarea name="present_address" class="simple-input" rows="2"
+                                            placeholder="Current residential address"></textarea>
+                                    </div>
+
+                                    <div class="col-half">
+                                        <label>Permanent Address</label>
+                                        <textarea name="permanent_address" class="simple-input" rows="2"
+                                            placeholder="Permanent residential address"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Profile Picture -->
+                            <div class="form-section">
+                                <label class="section-label">Profile Picture</label>
+                                <div class="drop-zone" id="drop-zone">
+                                    <div class="drop-content" id="drop-content">
+                                        <i class="fa-solid fa-cloud-arrow-up cloud-icon"></i>
+                                        <p>Drag and drop an image here or click to browse</p>
+                                        <small class="text-muted">Recommended: Square image, max 2MB</small>
+                                    </div>
+                                    <div class="preview-container" id="preview-container" style="display:none;">
+                                        <img id="preview-image" alt="Profile preview" />
+                                        <div class="filename-display" id="filename-display"></div>
+                                        <button type="button" class="remove-btn" id="remove-btn" title="Remove image">
+                                            <i class="fas fa-times"></i>
+                                        </button>
+                                    </div>
+                                    <input type="file" name="profile_picture" id="file-input" accept="image/*" hidden>
+                                </div>
+                            </div>
+
+                            <!-- Login Details -->
+                            <div class="form-section">
+                                <div class="section-header">
+                                    <i class="fa-solid fa-user-lock"></i>
+                                    Login Credentials
+                                </div>
+
+                                <div class="row">
+                                    <div class=">
+                    <label class=" required-field">Username</label>
+                                        <div class="input-group">
+                                            <span class="input-icon "><i class="fa-regular fa-user"></i></span>
+                                            <input type="text" name="username" class="simple-input"
+                                                placeholder="Choose a username" required>
+                                            <div class="invalid-feedback username-feedback"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Social Links -->
+                            <div class="form-section">
+                                <div class="section-header">
+                                    <i class="fa-solid fa-globe"></i>
+                                    Social Media Links
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-third">
+                                        <label>Facebook</label>
+                                        <div class="input-group">
+                                            <span class="input-icon"><i class="fa-brands fa-facebook-f"></i></span>
+                                            <input type="url" name="facebook_url" class="simple-input"
+                                                placeholder="https://facebook.com/username">
+                                        </div>
+                                    </div>
+                                    <div class="col-third">
+                                        <label>Twitter</label>
+                                        <div class="input-group">
+                                            <span class="input-icon"><i class="fa-brands fa-twitter"></i></span>
+                                            <input type="url" name="twitter_url" class="simple-input"
+                                                placeholder="https://twitter.com/username">
+                                        </div>
+                                    </div>
+                                    <div class="col-third">
+                                        <label>LinkedIn</label>
+                                        <div class="input-group">
+                                            <span class="input-icon"><i class="fa-brands fa-linkedin-in"></i></span>
+                                            <input type="url" name="linkedin_url" class="simple-input"
+                                                placeholder="https://linkedin.com/in/username">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <button type="submit" class="save-btn">Update</button>
+
+                        </form>
+                    </div>
+            </div>
+
+
+            <!-- Salary Transactions -->
+            <div class="">
+                <button class="accordion-header collapsed" data-bs-toggle="collapse" data-bs-target="#salaryTransaction"
+                    aria-expanded="false">
+                    <span><i class="fa-solid fa-user-pen"></i> Salary Transaction</span>
+                </button>
+
+                <!-- Include the modal HTML -->
+                <%- modalHtml %>
+
+                    <div class="accordion-body collapse" id="salaryTransaction">
+                        <div class="table-responsive">
+
+                            <table class="table table-bordered table-hover min-w-full divide-y divide-gray-200"
+                                id="employeeTable">
+                                <thead class="table-custom">
+                                    <tr>
+                                        <th data-col="id"
+                                            class="sortable px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            <span>#</span>
+                                        </th>
+                                        <th
+                                            class="px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            Month Of Salary
+                                        </th>
+                                        <th
+                                            class="px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider sortable">
+                                            Basic Salary
+                                        </th>
+                                        <th
+                                            class="px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider sortable">
+                                            Allowances (+)
+
+                                        </th>
+                                        <th
+                                            class="px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider sortable">
+                                            Deductions (-)
+
+                                        </th>
+                                        <th
+                                            class="px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider sortable">
+                                            Paid Amount
+                                        </th>
+                                        <th
+                                            class="px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider sortable">
+                                            Payment Type
+                                        </th>
+                                        <th
+                                            class="px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider sortable">
+                                            Created At
+                                        </th>
+                                        <th
+                                            class="px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider sortable">
+                                            Payslip
+                                        </th>
+                                    </tr>
+                                </thead>
+
+                                <tbody id="employeeTableBody">
+                                    <% if (employee && employee.length> 0) { %>
+                                        <% employee.forEach((emp, index)=> { %>
+                                            <tr>
+                                                <td class="px-6 whitespace-nowrap text-sm text-gray-900">
+                                                    <%= (pagination.page - 1) * pagination.limit + index + 1 %>
+                                                </td>
+                                                <td class="px-6 whitespace-nowrap text-sm text-gray-900">
+                                                    <% if (emp.profile_picture) { %>
+                                                        <img src="/<%= emp.profile_picture.replace('public/', '') %>"
+                                                            alt="<%= emp.name %>" class=" rounded-full object-cover"
+                                                            style="width: 100px; height: 100px;">
+                                                        <% } else { %>
+                                                            <div
+                                                                class="w-10 h-10 rounded-full bg-gray-300 flex items-center justify-center">
+                                                                <i class="fas fa-user text-gray-500"></i>
+                                                            </div>
+                                                            <% } %>
+                                                </td>
+
+                                                <td class="px-6 whitespace-nowrap text-sm text-gray-900">
+                                                    <%= emp.branch_name || 'N/A' %>
+                                                </td>
+                                                <td class="px-6 whitespace-nowrap text-sm text-gray-900">
+                                                    <%= emp.staffId || 'N/A' %>
+                                                </td>
+                                                <td class="px-6 whitespace-nowrap text-sm text-gray-900">
+                                                    <%= emp.name || 'N/A' %>
+                                                </td>
+                                                <td class="px-6 whitespace-nowrap text-sm text-gray-900">
+                                                    <%= emp.designation_name || 'N/A' %>
+                                                </td>
+                                                <td class="px-6 whitespace-nowrap text-sm text-gray-900">
+                                                    <%= emp.department_name || 'N/A' %>
+                                                </td>
+                                                <td class="px-6 whitespace-nowrap text-sm text-gray-900">
+                                                    <%= emp.email || 'N/A' %>
+                                                </td>
+                                                <td class="px-6 whitespace-nowrap text-sm text-gray-900">
+                                                    <%= emp.mobile_number || 'N/A' %>
+                                                </td>
+                                                <td class="px-6 whitespace-nowrap">
+                                                    <div class="action-buttons">
+                                                        <a href="/employee/profile/<%= emp.id %>"
+                                                            class="btn btn-sm btn-primary btn-edit" title="Profile">
+                                                            <i class="far fa-arrow-alt-circle-right"></i>
+                                                        </a>
+
+                                                        <button class="btn btn-sm btn-danger btn-delete"
+                                                            data-id="<%= emp.id %>">
+                                                            <i class="fas fa-trash"></i>
+                                                        </button>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <% }); %>
+                                                <% } else { %>
+                                                    <tr>
+                                                        <td colspan="10"
+                                                            class="px-6 whitespace-nowrap text-sm text-danger text-center">
+                                                            No Information Available
+                                                        </td>
+                                                    </tr>
+                                                    <% } %>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+            </div>
+
+            <!-- Bank Details -->
+            <div class="">
+                <button class="accordion-header collapsed" data-bs-toggle="collapse" data-bs-target="#bankDetails"
+                    aria-expanded="false">
+                    <span><i class="fas fa-university"></i> Bank Details</span>
+                </button>
+
+                <!-- Include the modal HTML -->
+                <%- modalHtml %>
+
+                    <div class="accordion-body collapse" id="bankDetails">
+                         <div class="pull-right mt-hs" style="display: flex; justify-content: flex-end;">
+                            <button class="btn-circle" id="authentication_btn"
+                                style="display: flex; justify-content: flex-end; align-items: center; gap: 4px; margin: 10px; border-radius: 20px; padding: 5px; background-color: #ffff; border: 1px solid gray;"
+                                data-bs-toggle="modal" data-bs-target="#authenticationModal">
+                                <i class="fas fa-plus-circle"></i> Add Bank
+                            </button>
+                        </div>
+                        <div class="table-responsive">
+
+                            <table class="table table-bordered table-hover min-w-full divide-y divide-gray-200"
+                                id="employeeTable">
+                                <thead class="table-custom">
+                                    <tr>
+                                        <th data-col="id"
+                                            class="sortable px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            <span>#</span>
+                                        </th>
+                                        <th
+                                            class="px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            Bank Name
+                                        </th>
+                                        <th
+                                            class="px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider sortable">
+                                            Account Holder
+                                        </th>
+                                        <th
+                                            class="px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider sortable">
+                                            Branch
+
+                                        </th>
+                                        <th
+                                            class="px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider sortable">
+                                            Bank Address
+
+                                        </th>
+                                        <th
+                                            class="px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider sortable">
+                                            IFSC Code
+                                        </th>
+                                        <th
+                                            class="px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider sortable">
+                                            Account No
+                                        </th>
+                                        <th
+                                            class="px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider sortable">
+                                            Actions
+                                        </th>
+                                    </tr>
+                                </thead>
+
+                                <tbody id="employeeTableBody">
+                                    <% if (employee && employee.length> 0) { %>
+                                        <% employee.forEach((emp, index)=> { %>
+                                            <tr>
+                                                <td class="px-6 whitespace-nowrap text-sm text-gray-900">
+                                                    <%= (pagination.page - 1) * pagination.limit + index + 1 %>
+                                                </td>
+                                                <td class="px-6 whitespace-nowrap text-sm text-gray-900">
+                                                    <%= emp.bank_name || 'N/A' %>
+                                                </td>
+                                                <td class="px-6 whitespace-nowrap text-sm text-gray-900">
+                                                    <%= emp.account_holder_name || 'N/A' %>
+                                                </td>
+                                                <td class="px-6 whitespace-nowrap text-sm text-gray-900">
+                                                    <%= emp.bank_branch || 'N/A' %>
+                                                </td>
+                                                <td class="px-6 whitespace-nowrap text-sm text-gray-900">
+                                                    <%= emp.bank_address || 'N/A' %>
+                                                </td>
+                                                <td class="px-6 whitespace-nowrap text-sm text-gray-900">
+                                                    <%= emp.ifsc_code || 'N/A' %>
+                                                </td>
+                                                <td class="px-6 whitespace-nowrap text-sm text-gray-900">
+                                                    <%= emp.account_no || 'N/A' %>
+                                                </td>
+                                                <td class="px-6 whitespace-nowrap">
+                                                    <div class="action-buttons">
+                                                        <button class="btn btn-sm btn-primary btn-edit>
+                                                        <i class=" fas fa-pen-nib"></i>
+                                                        </button>
+
+                                                        <button class="btn btn-sm btn-danger btn-delete"
+                                                            data-id="<%= emp.id %>">
+                                                            <i class="fas fa-trash"></i>
+                                                        </button>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <% }); %>
+                                                <% } else { %>
+                                                    <tr>
+                                                        <td colspan="10"
+                                                            class="px-6 whitespace-nowrap text-sm text-danger text-center">
+                                                            No Information Available
+                                                        </td>
+                                                    </tr>
+                                                    <% } %>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+            </div>
+
+            <!--  Documents Details -->
+            <div class="">
+                <button class="accordion-header collapsed" data-bs-toggle="collapse" data-bs-target="#documentDetails"
+                    aria-expanded="false">
+                    <span><i class="fas fa-folder-open"></i> Documents Details</span>
+                </button>
+
+                <!-- Include the modal HTML -->
+                <%- modalHtml %>
+
+                    <div class="accordion-body collapse" id="documentDetails">
+                        <div class="pull-right mt-hs" style="display: flex; justify-content: flex-end;">
+                            <button class="btn-circle" id="authentication_btn"
+                                style="display: flex; justify-content: flex-end; align-items: center; gap: 4px; margin: 10px; border-radius: 20px; padding: 5px; background-color: #ffff; border: 1px solid gray;"
+                                data-bs-toggle="modal" data-bs-target="#authenticationModal">
+                                <i class="fas fa-plus-circle"></i> Add Documents
+                            </button>
+                        </div>
+                        <div class="table-responsive">
+
+                            <table class="table table-bordered table-hover min-w-full divide-y divide-gray-200"
+                                id="employeeTable">
+                                <thead class="table-custom">
+                                    <tr>
+                                        <th data-col="id"
+                                            class="sortable px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            <span>#</span>
+                                        </th>
+                                        <th
+                                            class="px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            Title
+                                        </th>
+                                        <th
+                                            class="px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider sortable">
+                                            Document Type
+                                        </th>
+                                        <th
+                                            class="px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider sortable">
+                                            File
+
+                                        </th>
+                                        <th
+                                            class="px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider sortable">
+                                            Remarks
+
+                                        </th>
+                                        <th
+                                            class="px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider sortable">
+                                            Created At
+                                        </th>
+                                        <th
+                                            class="px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider sortable">
+                                            Actions
+                                        </th>
+                                    </tr>
+                                </thead>
+
+                                <tbody id="employeeTableBody">
+                                    <% if (employee && employee.length> 0) { %>
+                                        <% employee.forEach((emp, index)=> { %>
+                                            <tr>
+                                                <td class="px-6 whitespace-nowrap text-sm text-gray-900">
+                                                    <%= (pagination.page - 1) * pagination.limit + index + 1 %>
+                                                </td>
+                                                <td class="px-6 whitespace-nowrap text-sm text-gray-900">
+                                                    <%= emp.bank_name || 'N/A' %>
+                                                </td>
+                                                <td class="px-6 whitespace-nowrap text-sm text-gray-900">
+                                                    <%= emp.account_holder_name || 'N/A' %>
+                                                </td>
+                                                <td class="px-6 whitespace-nowrap text-sm text-gray-900">
+                                                    <%= emp.bank_branch || 'N/A' %>
+                                                </td>
+                                                <td class="px-6 whitespace-nowrap text-sm text-gray-900">
+                                                    <%= emp.bank_address || 'N/A' %>
+                                                </td>
+                                                <td class="px-6 whitespace-nowrap text-sm text-gray-900">
+                                                    <%= emp.ifsc_code || 'N/A' %>
+                                                </td>
+                                                <td class="px-6 whitespace-nowrap text-sm text-gray-900">
+                                                    <%= emp.account_no || 'N/A' %>
+                                                </td>
+                                                <td class="px-6 whitespace-nowrap">
+                                                    <div class="action-buttons">
+                                                        <button class="btn btn-sm btn-primary btn-edit>
+                                                        <i class=" fas fa-pen-nib"></i>
+                                                        </button>
+
+                                                        <button class="btn btn-sm btn-danger btn-delete"
+                                                            data-id="<%= emp.id %>">
+                                                            <i class="fas fa-trash"></i>
+                                                        </button>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <% }); %>
+                                                <% } else { %>
+                                                    <tr>
+                                                        <td colspan="10"
+                                                            class="px-6 whitespace-nowrap text-sm text-danger text-center">
+                                                            No Information Available
+                                                        </td>
+                                                    </tr>
+                                                    <% } %>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+            </div>
+
+
+        </div>
+    </div>
+
+
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const existingImageInput = document.getElementById("existing-image");
+            const previewContainer = document.getElementById("preview-container");
+            const previewImage = document.getElementById("preview-image");
+            const dropContent = document.getElementById("drop-content");
+            const removeBtn = document.getElementById("remove-btn");
+            const fileInput = document.getElementById("file-input");
+
+            const existingImageUrl = existingImageInput.value;
+
+            if (existingImageUrl) {
+                previewImage.src = existingImageUrl;
+                previewContainer.style.display = "block";
+                dropContent.style.display = "none";
+            }
+
+            // Remove existing image preview
+            removeBtn.addEventListener("click", function () {
+                previewImage.src = "";
+                previewContainer.style.display = "none";
+                dropContent.style.display = "flex";
+                fileInput.value = "";
+            });
+        });
+    </script>

@@ -1,5 +1,5 @@
 import express from "express";
-import { renderSchoolSetting, updateGeneralSettings, updateLogoSettings, updateToggleSetting } from "../../controllers/SettingsSection/settingSection.js";
+import { renderSchoolSetting, updateFeesSettings, updateGeneralSettings, updateLogoSettings, updateRegistrationSettings, updateToggleSetting } from "../../controllers/SettingsSection/settingSection.js";
 import { settingsLogoUpload } from "../../config/upload.js"; 
 
 
@@ -8,12 +8,15 @@ router.get("/", renderSchoolSetting);
 
 // --- ROUTER DEFINITION ---
 router.get("/", renderSchoolSetting);
-router.post("/", updateGeneralSettings);
 
-router.post("/fees", updateGeneralSettings);
+
+router.post("/general", updateGeneralSettings);
+router.post("/registration", updateRegistrationSettings);
+router.post("/fees", updateFeesSettings);
 
 // Use the upload middleware for logo file uploads
 router.post("/logo", settingsLogoUpload, updateLogoSettings);
 router.post("/toggle", updateToggleSetting);
 
 export default router;
+

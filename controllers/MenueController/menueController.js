@@ -192,18 +192,19 @@ export const renderMenuForm = async (req, res) => {
         { title: "Menu" }
       ],
       body: `
-        <div class="menu-tabs menue-form ">
-          <a href="#/list" id="menuListTab" class="section-title"><i class="fa fa-list"></i> Menu List</a>
+        <div class="tab-setting panel-heading ">
+          <a href="#/list" id="menuListTab" class="section-title active-tab"><i class="fa fa-list"></i> Menu List</a>
           <a href="#/create" id="menuCreateTab" class="section-title"><i class="fa fa-plus"></i> Add Menu</a>
           <a href="#/category-create" id="menuCategoryCreateTab" class="section-title"><i class="fa fa-tags"></i> Add Menu Category</a>
           <a href="#/cate-list" id="menuCatListTab" class="section-title"><i class="fa fa-list"></i> Menu Category List</a>
         </div>
+   
 
         <!-- Containers -->
-        <div id="menuListContainer" class="hidden"></div>
-        <div id="menuFormContainer" class="hidden"></div>
-        <div id="menuCateListContainer" class="hidden"></div>
-        <div id="menuCategoryFormContainer" class="hidden"></div>
+        <div id="menuListContainer" class="content-container "></div>
+        <div id="menuFormContainer" class="content-container "></div>
+        <div id="menuCateListContainer" class="content-container "></div>
+        <div id="menuCategoryFormContainer" class="content-container hidden"></div>
 
         <script src="/js/mainMenue.js"></script>
       `

@@ -1,6 +1,5 @@
 import pool from "../../config/database.js";
 
-// Placeholder for the current school ID. In a real app, this would come from req.user
 const CURRENT_SCHOOL_ID = 1;
 
 export class SettingMainModel {
@@ -38,7 +37,7 @@ export class SettingMainModel {
             for (const key in settingsData) {
                 if (Object.hasOwnProperty.call(settingsData, key)) {
                     const value = settingsData[key];
-                    // Use INSERT ... ON DUPLICATE KEY UPDATE to handle both inserts and updates safely
+                    
                     const sql = `
                         INSERT INTO school_settings (school_id, setting_key, setting_value)
                         VALUES (?, ?, ?)
@@ -59,11 +58,6 @@ export class SettingMainModel {
         }
     }
 
-    /**
-     * Updates a single setting, typically used for file paths (logos).
-     * @param {string} key - The setting key (e.g., 'logo_system_path').
-     * @param {string} path - The new file path/URL.
-     */
     static async updateLogoPath(key, path) {
         const query = `
             INSERT INTO school_settings (school_id, setting_key, setting_value)

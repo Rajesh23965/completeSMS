@@ -20,6 +20,9 @@ import galleryUploadRoutes from "./routes/GalleryRoutes/galleryUploadRoutes.js"
 import settingRoutes from "./routes/Settings/settingRoutes.js";
 import topbarRoutes from "./routes/Topbar/Topbar.routes.js";
 import parentRoute from "./routes/Parents/parent.route.js";
+import departmentRoute from "./routes/Employee/department.route.js";
+import designationRoute from "./routes/Employee/designation.route.js";
+import employeeRoute from "./routes/Employee/employee.route.js";
 
 const app = express();
 
@@ -118,8 +121,9 @@ app.use("/frontend", galleryRoutes);
 app.use("/frontend", galleryUploadRoutes);
 app.use("/school_settings", settingRoutes);
 app.use("/parents", parentRoute);
-
-
+app.use("/employee",departmentRoute);
+app.use("/employee",designationRoute);
+app.use("/employee", employeeRoute);
 
 
 // Admin route (keep EJS for admin panel)

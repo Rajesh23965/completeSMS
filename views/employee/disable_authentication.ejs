@@ -1,0 +1,578 @@
+<!-- views/employee/disable_authentication.ejs -->
+<header class="employee">
+    <ul class="nav nav-tabs employee-role-tabs">
+        <% roles.forEach(role=> { %>
+            <li class="<%= currentRole === role ? 'active' : '' %>">
+                <a href="/employee/view/<%= role %>">
+                    <i class="far fa-user-circle"></i>
+                    <%= role %>
+                </a>
+            </li>
+            <% }) %>
+    </ul>
+</header>
+
+
+<div class="main-form">
+
+    <!-- Export Controls -->
+    <div class="row mb-3" style="margin-top:-20px;">
+        <div style="
+        display:flex;
+        justify-content:space-between;
+        align-items:center;
+        width:100%;
+        gap:10px;
+    ">
+            <div style="display:flex; align-items:center; gap:6px;">
+
+                <a href="#" onclick="copyTable()" title="Copy" style="
+                width:36px;height:36px;
+                display:flex;align-items:center;justify-content:center;
+                border:1px solid #e5e7eb;
+                background:#fff;
+                border-radius:4px;
+                color:#374151;
+               ">
+                    <i class="far fa-copy"></i>
+                </a>
+
+                <a href="#" onclick="exportTo('excel')" title="Excel" style="
+                width:36px;height:36px;
+                display:flex;align-items:center;justify-content:center;
+                border:1px solid #e5e7eb;
+                background:#fff;
+                border-radius:4px;
+                color:#1d6f42;
+               ">
+                    <i class="fa fa-file-excel"></i>
+                </a>
+
+                <a href="#" onclick="exportTo('csv')" title="CSV" style="
+                width:36px;height:36px;
+                display:flex;align-items:center;justify-content:center;
+                border:1px solid #e5e7eb;
+                background:#fff;
+                border-radius:4px;
+                color:#374151;
+               ">
+                    <i class="fa fa-file-alt"></i>
+                </a>
+
+                <a href="#" onclick="exportTo('pdf')" title="PDF" style="
+                width:36px;height:36px;
+                display:flex;align-items:center;justify-content:center;
+                border:1px solid #e5e7eb;
+                background:#fff;
+                border-radius:4px;
+                color:#b91c1c;
+               ">
+                    <i class="fa fa-file-pdf"></i>
+                </a>
+
+                <a href="#" onclick="window.print()" title="Print" style="
+                width:36px;height:36px;
+                display:flex;align-items:center;justify-content:center;
+                border:1px solid #e5e7eb;
+                background:#fff;
+                border-radius:4px;
+                color:#374151;
+               ">
+                    <i class="fa fa-print"></i>
+                </a>
+
+
+                <div class="btn-group position-relative">
+
+                    <a href="#" id="colvisBtn" title="Columns" style="
+                    width:36px;height:36px;
+                    display:flex;align-items:center;justify-content:center;
+                    border:1px solid #e5e7eb;
+                    background:#fff;
+                    border-radius:4px;
+                    color:#374151;
+                   ">
+                        <i class="fas fa-columns"></i>
+                    </a>
+
+                    <div class="colvis-dropdown shadow" id="colvisDropdown">
+                        <ul>
+                            <li data-col="0">SN</li>
+                            <li data-col="1">Photo</li>
+                            <li data-col="2">Branch</li>
+                            <li data-col="3">Staff Id</li>
+                            <li data-col="4">Name</li>
+                            <li data-col="5">Designation</li>
+                            <li data-col="6">Department</li>
+                            <li data-col="7">Email</li>
+                            <li data-col="8">Mobile No</li>
+                            <li data-col="9">Action</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="d-flex align-items-center gap-2">
+                <div id="DataTables_Table_0_filter" class="dataTables_filter">
+                    <label>
+                        <input type="search" class="form-control pull-right" placeholder="Search..."
+                            aria-controls="DataTables_Table_0" onkeyup="searchEmployee()" value="<%= search %>">
+                    </label>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Main employee List Table -->
+    <div id="print-area">
+        <div class="table-responsive">
+
+            <table class="table table-bordered table-hover min-w-full divide-y divide-gray-200" id="employeeTable">
+                <thead class="table-custom">
+                    <tr>
+                        <th onclick="sortTable('id')" data-col="id"
+                            class="sortable px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            <span>SN</span>
+                            <span class="sort-icons">
+                                <i class="fas fa-sort"></i>
+                            </span>
+                        </th>
+                        <th class="px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Photo
+                        </th>
+                        <th onclick="sortTable('branch_name')"
+                            class="px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider sortable">
+                            Branch
+                            <span class="sort-icons">
+                                <i class="fas fa-sort"></i>
+                            </span>
+                        </th>
+                        <th onclick="sortTable('staffId')"
+                            class="px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider sortable">
+                            Staff Id
+                            <span class="sort-icons">
+                                <i class="fas fa-sort"></i>
+                            </span>
+                        </th>
+                        <th onclick="sortTable('name')"
+                            class="px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider sortable">
+                            Name
+                            <span class="sort-icons">
+                                <i class="fas fa-sort"></i>
+                            </span>
+                        </th>
+                        <th onclick="sortTable('designation_name')"
+                            class="px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider sortable">
+                            Designation
+                            <span class="sort-icons">
+                                <i class="fas fa-sort"></i>
+                            </span>
+                        </th>
+                        <th onclick="sortTable('department_name')"
+                            class="px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider sortable">
+                            Department
+                            <span class="sort-icons">
+                                <i class="fas fa-sort"></i>
+                            </span>
+                        </th>
+                        <th onclick="sortTable('email')"
+                            class="px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider sortable">
+                            Email
+                            <span class="sort-icons">
+                                <i class="fas fa-sort"></i>
+                            </span>
+                        </th>
+                        <th onclick="sortTable('mobile_number')"
+                            class="px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider sortable">
+                            Mobile No
+                            <span class="sort-icons">
+                                <i class="fas fa-sort"></i>
+                            </span>
+                        </th>
+                        <th class="px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Action
+                        </th>
+                    </tr>
+                </thead>
+
+                <tbody id="employeeTableBody">
+                    <% if (employee && employee.length> 0) { %>
+                        <% employee.forEach((emp, index)=> { %>
+                            <tr>
+                                <td class="px-6 whitespace-nowrap text-sm text-gray-900">
+                                    <%= (pagination.page - 1) * pagination.limit + index + 1 %>
+                                </td>
+                                <td class="px-6 whitespace-nowrap text-sm text-gray-900">
+                                    <% if (emp.profile_picture) { %>
+                                        <img src="/<%= emp.profile_picture.replace('public/', '') %>"
+                                            alt="<%= emp.name %>" class=" rounded-full object-cover"
+                                            style="width: 100px; height: 100px;">
+                                        <% } else { %>
+                                            <div
+                                                class="w-10 h-10 rounded-full bg-gray-300 flex items-center justify-center">
+                                                <i class="fas fa-user text-gray-500"></i>
+                                            </div>
+                                            <% } %>
+                                </td>
+
+                                <td class="px-6 whitespace-nowrap text-sm text-gray-900">
+                                    <%= emp.branch_name || 'N/A' %>
+                                </td>
+                                <td class="px-6 whitespace-nowrap text-sm text-gray-900">
+                                    <%= emp.staffId || 'N/A' %>
+                                </td>
+                                <td class="px-6 whitespace-nowrap text-sm text-gray-900">
+                                    <%= emp.name || 'N/A' %>
+                                </td>
+                                <td class="px-6 whitespace-nowrap text-sm text-gray-900">
+                                    <%= emp.designation_name || 'N/A' %>
+                                </td>
+                                <td class="px-6 whitespace-nowrap text-sm text-gray-900">
+                                    <%= emp.department_name || 'N/A' %>
+                                </td>
+                                <td class="px-6 whitespace-nowrap text-sm text-gray-900">
+                                    <%= emp.email || 'N/A' %>
+                                </td>
+                                <td class="px-6 whitespace-nowrap text-sm text-gray-900">
+                                    <%= emp.mobile_number || 'N/A' %>
+                                </td>
+                                <td class="px-6 whitespace-nowrap">
+                                    <div class="action-buttons">
+                                        <a href="/employee/profile/<%= emp.id %>"
+                                            class="btn btn-sm btn-primary btn-edit" title="Profile">
+                                            <i class="far fa-arrow-alt-circle-right"></i>
+                                        </a>
+
+                                        <button class="btn btn-sm btn-danger btn-delete" data-id="<%= emp.id %>">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <% }); %>
+                                <% } else { %>
+                                    <tr>
+                                        <td colspan="10"
+                                            class="px-6 whitespace-nowrap text-sm text-gray-500 text-center">
+                                            No employees found.
+                                        </td>
+                                    </tr>
+                                    <% } %>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Pagination -->
+    <div class="pagination-controls d-flex justify-content-between align-items-center mt-3">
+        <div class="text-muted">
+            Showing <%= employee.length %> of <%= pagination.total %> employees
+        </div>
+        <div class="d-flex flex-column flex-md-row gap-2 justify-content-between align-items-md-center">
+
+            <!-- Previous Button -->
+            <a href="?page=<%= pagination.page - 1 %>&limit=<%= pagination.limit %>&search=<%= search %>"
+                class="btn btn-sm btn-outline-primary <%= pagination.page <= 1 ? 'disabled' : '' %>">
+                <i class="fas fa-chevron-left"></i>
+            </a>
+
+            <!-- Page Info -->
+            <span class="btn btn-sm btn-light">
+                Page <%= pagination.page %> of <%= pagination.totalPages %>
+            </span>
+
+            <!-- Next Button -->
+            <a href="?page=<%= pagination.page + 1 %>&limit=<%= pagination.limit %>&search=<%= search %>"
+                class="btn btn-sm btn-outline-primary <%= pagination.page >= pagination.totalPages ? 'disabled' : '' %>">
+                <i class="fas fa-chevron-right"></i>
+            </a>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    // Export functions
+    const CURRENT_ROLE = "<%= currentRole %>";
+
+    function exportTo(format) {
+        const search = document.querySelector('input[type="search"]').value;
+        window.location.href =
+            `/employee/export?format=${format}` +
+            `&search=${encodeURIComponent(search)}` +
+            `&role=${CURRENT_ROLE}`;
+    }
+
+    async function copyTable() {
+        try {
+            const search = document.querySelector('input[type="search"]').value;
+            const res = await fetch(
+                `/employee/export?format=copy` +
+                `&search=${encodeURIComponent(search)}` +
+                `&role=${CURRENT_ROLE}`
+            );
+
+            const json = await res.json();
+            if (!json.success) return alert("Copy failed");
+
+            const textarea = document.createElement('textarea');
+            textarea.value = json.data;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textarea);
+
+            alert("Copied successfully");
+        } catch (e) {
+            console.error(e);
+            alert("Copy failed");
+        }
+    }
+    // Search function
+    let searchTimer;
+
+    function searchEmployee() {
+        clearTimeout(searchTimer);
+        searchTimer = setTimeout(() => {
+            fetchEmployee(1);
+        }, 400); // debounce 400ms
+    }
+
+    // Event listeners for delete buttons
+    document.addEventListener('DOMContentLoaded', function () {
+        // Delete buttons
+        document.querySelectorAll('.btn-delete').forEach(button => {
+            button.addEventListener('click', function () {
+                const employeeId = this.getAttribute('data-id');
+                if (confirm('Are you sure you want to delete this employee?')) {
+                    fetch(`/employee/${employeeId}`, {
+                        method: 'DELETE',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                alert('Employee deleted successfully!');
+                                window.location.reload();
+                            } else {
+                                alert('Failed to delete employee: ' + data.message);
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                            alert('Failed to delete employee');
+                        });
+                }
+            });
+        });
+    });
+
+    // Column visibility control
+    document.addEventListener('DOMContentLoaded', () => {
+        const btn = document.getElementById('colvisBtn');
+        const dropdown = document.getElementById('colvisDropdown');
+        const table = document.getElementById('employeeTable');
+
+        // Toggle dropdown
+        if (btn && dropdown) {
+            btn.addEventListener('click', e => {
+                e.preventDefault();
+                dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+            });
+
+            // Column toggle
+            dropdown.querySelectorAll('li').forEach(item => {
+                const colIndex = parseInt(item.dataset.col);
+
+                item.addEventListener('click', () => {
+                    const isHidden = item.classList.toggle('hidden-col');
+                    toggleColumn(table, colIndex, !isHidden);
+                    saveColumnState(colIndex, !isHidden);
+                });
+            });
+
+            // Load saved state
+            loadColumnState(table, dropdown);
+
+            document.addEventListener('click', e => {
+                if (!btn.contains(e.target) && !dropdown.contains(e.target)) {
+                    dropdown.style.display = 'none';
+                }
+            });
+        }
+    });
+
+    function toggleColumn(table, index, show) {
+        table.querySelectorAll('tr').forEach(row => {
+            if (row.children[index]) {
+                row.children[index].style.display = show ? '' : 'none';
+            }
+        });
+    }
+
+    // Persist column state
+    function saveColumnState(index, visible) {
+        const state = JSON.parse(localStorage.getItem('employeeCols') || '{}');
+        state[index] = visible;
+        localStorage.setItem('employeeCols', JSON.stringify(state));
+    }
+
+    function loadColumnState(table, dropdown) {
+        const state = JSON.parse(localStorage.getItem('employeeCols') || '{}');
+
+        Object.keys(state).forEach(index => {
+            toggleColumn(table, index, state[index]);
+
+            if (!state[index]) {
+                dropdown.querySelector(`li[data-col="${index}"]`)?.classList.add('hidden-col');
+            }
+        });
+    }
+</script>
+
+<!-- Print Styles -->
+<style media="print">
+    @media print {
+        body * {
+            visibility: hidden;
+        }
+
+        #print-area,
+        #print-area * {
+            visibility: visible;
+        }
+
+        #print-area {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+        }
+
+        .print-title {
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            border: 1px solid #000;
+            padding: 6px;
+            font-size: 12px;
+        }
+
+        .action-buttons {
+            display: none !important;
+        }
+
+        .dt-buttons,
+        .dataTables_filter,
+        .pagination-controls {
+            display: none !important;
+        }
+    }
+</style>
+
+
+<script>
+    let currentPage = 1;
+    let currentSortBy = 'id';
+    let currentSortDir = 'DESC';
+    const limit = `<%= pagination.limit %>`;
+
+    async function fetchEmployee(page = 1) {
+        const search = document.querySelector('input[type="search"]').value;
+
+        const res = await fetch(
+            `/employee/ajax/list?page=${page}` +
+            `&limit=${limit}` +
+            `&search=${encodeURIComponent(search)}` +
+            `&sortBy=${currentSortBy}` +
+            `&sortDir=${currentSortDir}`
+        );
+
+        const json = await res.json();
+        if (!json.success) return;
+
+        currentPage = json.pagination.page;
+        renderTable(json.data, json.pagination);
+    }
+
+    function sortTable(column) {
+        if (currentSortBy === column) {
+            currentSortDir = currentSortDir === 'ASC' ? 'DESC' : 'ASC';
+        } else {
+            currentSortBy = column;
+            currentSortDir = 'ASC';
+        }
+        fetchEmployee(1);
+    }
+</script>
+
+
+
+
+<script>
+    function renderTable(data, pagination) {
+        const tbody = document.getElementById('employeeTableBody');
+        tbody.innerHTML = '';
+
+        if (!data.length) {
+            tbody.innerHTML = `
+            <tr>
+                <td colspan="6" class="text-center text-muted">
+                    No employee found.
+                </td>
+            </tr>`;
+            return;
+        }
+
+        data.forEach((employee, index) => {
+            const sn = (pagination.page - 1) * pagination.limit + index + 1;
+
+            tbody.insertAdjacentHTML('beforeend', `
+            <tr>
+                <td>${employee.id}</td>
+                 <td class="px-6 whitespace-nowrap text-sm text-gray-900">
+                                    <% if (employee.profile_picture) { %>
+                                        <img src="/<%= employee.profile_picture.replace('public/', '') %>"
+                                            alt="<%= employee.name %>" class=" rounded-full object-cover"
+                                            style="width: 100px; height: 100px;">
+                                        <% } else { %>
+                                            <div
+                                                class="w-10 h-10 rounded-full bg-gray-300 flex items-center justify-center">
+                                                <i class="fas fa-user text-gray-500"></i>
+                                            </div>
+                                            <% } %>
+                                </td>
+
+                <td>${employee.branch_name || ''}</td>
+                <td>${employee.staffId || ''}</td>
+                 <td>${employee.name || ''}</td>
+                 <td>${employee.designation_name || ''}</td>
+                <td>${employee.department_name || ''}</td>
+                <td>${employee.email || ''}</td>
+                <td>${employee.mobile_number || ''}</td>
+                <td>
+                    <button class="btn btn-sm btn-primary btn-edit" data-id="${employee.id}">
+                        <i class="far fa-arrow-alt-circle-right"></i>
+                    </button>
+                    <button class="btn btn-sm btn-danger btn-delete" data-id="${employee.id}">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </td>
+            </tr>
+        `);
+        });
+    }
+</script>
