@@ -176,7 +176,7 @@
                                 <i class="fas fa-sort"></i>
                             </span>
                         </th>
-                        <th onclick="sortTable('email')"
+                        <th onclick="sortTable('e_email')"
                             class="px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider sortable">
                             Email
                             <span class="sort-icons">
@@ -232,7 +232,7 @@
                                     <%= emp.department_name || 'N/A' %>
                                 </td>
                                 <td class="px-6 whitespace-nowrap text-sm text-gray-900">
-                                    <%= emp.email || 'N/A' %>
+                                    <%= emp.e_email || 'N/A' %>
                                 </td>
                                 <td class="px-6 whitespace-nowrap text-sm text-gray-900">
                                     <%= emp.mobile_number || 'N/A' %>
@@ -272,7 +272,8 @@
         <div class="d-flex flex-column flex-md-row gap-2 justify-content-between align-items-md-center">
 
             <!-- Previous Button -->
-            <a href="?page=<%= pagination.page - 1 %>&limit=<%= pagination.limit %>&search=<%= search %>"
+
+            <a href="?page=<%= pagination.page - 1 %>&limit=<%= pagination.limit %>&search=<%= search %>&role=<%= currentRole %>"
                 class="btn btn-sm btn-outline-primary <%= pagination.page <= 1 ? 'disabled' : '' %>">
                 <i class="fas fa-chevron-left"></i>
             </a>
@@ -561,7 +562,7 @@
                  <td>${employee.name || ''}</td>
                  <td>${employee.designation_name || ''}</td>
                 <td>${employee.department_name || ''}</td>
-                <td>${employee.email || ''}</td>
+                <td>${employee.e_email || ''}</td>
                 <td>${employee.mobile_number || ''}</td>
                 <td>
                     <button class="btn btn-sm btn-primary btn-edit" data-id="${employee.id}">

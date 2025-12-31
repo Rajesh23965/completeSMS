@@ -5,11 +5,11 @@
                 <div class="image-content-center user-pro">
                     <div class="preview">
                         <ul class="social-icon-one">
-                            <li><a href="<%= parent.facebook_url %>" target="_blank" rel="noopener"><span
+                            <li><a href="<%= parent.p_facebook_url %>" target="_blank" rel="noopener"><span
                                         class="fab fa-facebook-f"></span></a></li>
-                            <li><a href="<%= parent.twitter_url %>" target="_blank" rel="noopener"><span
+                            <li><a href="<%= parent.p_twitter_url %>" target="_blank" rel="noopener"><span
                                         class="fab fa-twitter"></span></a></li>
-                            <li><a href="<%= parent.linkedin_url %>" target="_blank" rel="noopener"><span
+                            <li><a href="<%= parent.p_linkedin_url %>" target="_blank" rel="noopener"><span
                                         class="fab fa-linkedin-in"></span></a></li>
                         </ul>
 
@@ -36,10 +36,10 @@
                         <%= parent.income %>
                     </li>
                     <li><i class="fa-solid fa-phone"></i>
-                        <%= parent.mobile_no %>
+                        <%= parent.mobile_num %>
                     </li>
                     <li><i class="fa-solid fa-envelope"></i>
-                        <%= parent.email %>
+                        <%= parent.parent_email %>
                     </li>
                     <li><i class="fa-solid fa-location-dot"></i>
                         <%= parent.city %>
@@ -48,9 +48,8 @@
             </div>
         </div>
 
-        <div class="accordion" id="parentAccordion">
-            <!-- BASIC DETAILS -->
-            <div class="accordion-item">
+        <div class="accordion" id="employeeAccordion">
+            <div class="accordion-item" style="display: flex;">
                 <button class="accordion-header collapsed" data-bs-toggle="collapse" data-bs-target="#basicDetails"
                     aria-expanded="false">
                     <span><i class="fa-solid fa-user-pen"></i> Basic Details</span>
@@ -117,10 +116,8 @@
                                     </div>
                                     <div class="col-third">
                                         <label>Income</label>
-                                        <div class="input-group">
-                                            <span class="input-icon"><i class="fa-solid fa-calculator"></i></span>
-                                            <input type="number" name="income" value="<%=parent.income %>">
-                                        </div>
+                                        <input type="number" name="income" value="<%=parent.income %>">
+
                                     </div>
                                     <div class="col-third">
                                         <label>Education</label>
@@ -142,15 +139,17 @@
                                         <label>Mobile No </label>
                                         <div class="input-group">
                                             <span class="input-icon"><i class="fa-solid fa-phone-volume"></i></span>
-                                            <input type="text" name="mobile_no" value="<%=parent.mobile_no %>" required>
+                                            <input type="text" name="mobile_num" value="<%=parent.mobile_num %>"
+                                                required>
                                         </div>
                                     </div>
                                     <div class="col-quarter">
                                         <label>Email</label>
                                         <div class="input-group">
                                             <span class="input-icon"><i class="fa-regular fa-envelope"></i></span>
-                                            <input type="email" name="email" value="<%=parent.email || "
-                                                demo@gmail.com"%>">
+                                            <input type="email" name="parent_email"
+                                                value="<%= parent.parent_email || 'demo@gmail.com' %>">
+
                                         </div>
                                     </div>
                                 </div>
@@ -158,8 +157,9 @@
                                 <div class="row">
                                     <div class="col-full">
                                         <label>Address</label>
-                                        <textarea name="address" class="simple-textarea"
-                                            value="<%=parent.address%>"></textarea>
+                                        <textarea name="p_address"
+                                            class="simple-textarea"><%= parent.p_address || '' %></textarea>
+
                                     </div>
                                 </div>
                             </div>
@@ -189,11 +189,14 @@
                             </div>
 
                             <div class="form-section">
-                                <h3 class="section-header"><i class="fa-solid fa-user-lock"></i> Login Details</h3>
+                                <div class="section-header">
+                                    <i class="fa-solid fa-user-lock"></i>
+                                    Login Credentials
+                                </div>
 
 
                                 <div class="row">
-                                    <div class="col-half">
+                                    <div class="">
                                         <label>Username </label>
                                         <div class="input-group">
                                             <span class="input-icon"><i class="fa-regular fa-user"></i></span>
@@ -205,39 +208,42 @@
 
 
                             <div class="form-section">
-                                <h3 class="section-header"><i class="fa-solid fa-globe"></i> Social Links</h3>
-
-
+                                <div class="section-header">
+                                    <i class="fa-solid fa-globe"></i>
+                                    Social Media Links
+                                </div>
                                 <div class="row">
                                     <div class="col-third">
                                         <label>Facebook</label>
                                         <div class="input-group">
                                             <span class="input-icon"><i class="fa-brands fa-facebook-f"></i></span>
-                                            <input type="text" name="facebook_url"
-                                                placeholder="eg: https://www.facebook.com/username">
+                                            <input type="text" name="p_facebook_url"
+                                                placeholder="eg: https://www.facebook.com/username"
+                                                value="<%= parent.p_facebook_url || '' %>">
                                         </div>
                                     </div>
                                     <div class="col-third">
                                         <label>Twitter</label>
                                         <div class="input-group">
                                             <span class="input-icon"><i class="fa-brands fa-twitter"></i></span>
-                                            <input type="text" name="twitter_url"
-                                                placeholder="eg: https://www.twitter.com/username">
+                                            <input type="text" name="p_twitter_url"
+                                                placeholder="eg:https://www.twitter.com/username"
+                                                value="<%= parent.p_twitter_url || '' %>">
                                         </div>
                                     </div>
                                     <div class="col-third">
                                         <label>Linkedin</label>
                                         <div class="input-group">
                                             <span class="input-icon"><i class="fa-brands fa-linkedin-in"></i></span>
-                                            <input type="text" name="linkedin_url"
-                                                placeholder="eg: https://www.linkedin.com/username">
+                                            <input type="text" name="p_linkedin_url"
+                                                placeholder="eg:https://www.linkedin.com/username"
+                                                value="<%= parent.p_linkedin_url || '' %>">
                                         </div>
                                     </div>
                                 </div>
                             </div>
 
                             <button type="submit" class="save-btn">Update</button>
-
                         </form>
                     </div>
             </div>

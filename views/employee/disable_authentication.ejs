@@ -1,18 +1,43 @@
 <!-- views/employee/disable_authentication.ejs -->
-<header class="employee">
-    <ul class="nav nav-tabs employee-role-tabs">
-        <% roles.forEach(role=> { %>
-            <li class="<%= currentRole === role ? 'active' : '' %>">
-                <a href="/employee/view/<%= role %>">
-                    <i class="far fa-user-circle"></i>
-                    <%= role %>
-                </a>
-            </li>
-            <% }) %>
-    </ul>
+<header class="panel-heading">
+    <h4 class="panel-title">Select Ground
+    </h4>
 </header>
 
+<div class="main-form ">
+    <div class="" style="margin: 10px 200px;">
+        <label for="roleFilter" style="margin-right: 10px; font-weight: 500;">Role</label>
+        <select name="role" id="roleFilter" class="form-control" style="min-width: 200px;">
+            <option value="">Select</option>
+            <% roles.forEach(role=> { %>
+                <option value="<%= role %>" <%=currentRole===role ? 'selected' : '' %>>
+                    <%= role %>
+                </option>
+                <% }) %>
+        </select>
+    </div>
+</div>
+<footer class="panel-footer main-form" style="margin-top: -16px;
+    padding: 3px -14px;">
+    <div class="row">
+        <div class="col-md-offset-10 col-md-2">
+            <button type="button" name="search" class="btn btn-default btn-block" style="background: white;
+    padding: 5px 38px;
+    border-radius: 5px;
+">
+                <i class="fas fa-filter"></i>
+                Filter
+            </button>
+        </div>
+    </div>
+</footer>
 
+
+
+<header class="panel-heading">
+    <h4 class="panel-title"><i class="fas fa-users"></i>Employee List
+    </h4>
+</header>
 <div class="main-form">
 
     <!-- Export Controls -->
@@ -131,12 +156,8 @@
             <table class="table table-bordered table-hover min-w-full divide-y divide-gray-200" id="employeeTable">
                 <thead class="table-custom">
                     <tr>
-                        <th onclick="sortTable('id')" data-col="id"
-                            class="sortable px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            <span>SN</span>
-                            <span class="sort-icons">
-                                <i class="fas fa-sort"></i>
-                            </span>
+                       <th class="px-6 text-center" onclick="sortTable('id')" data-col="id">
+                            <input type="checkbox" id="selectAll" class="form-check-input">
                         </th>
                         <th class="px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                             Photo
@@ -289,7 +310,14 @@
             </a>
         </div>
     </div>
-
+    <footer class="panel-footer row " style="margin-top: 10px;">
+        <div class="col-md-offset-10 col-md-2" style="background:#fff;border-radius:10px;border:2px solid #b6b0b0;">
+            <button type="button" class="btn btn-default btn-block" onclick="activateSelectedParents()">
+                <i class="fas fa-unlock-alt"></i>
+                Authentication Activate
+            </button>
+        </div>
+    </footer>
 </div>
 
 <script>

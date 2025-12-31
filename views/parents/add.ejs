@@ -44,10 +44,8 @@
                 </div>
                 <div class="col-third">
                     <label>Income</label>
-                    <div class="input-group">
-                        <span class="input-icon"><i class="fa-solid fa-calculator"></i></span>
-                        <input type="number" name="income">
-                    </div>
+                    <input type="number" name="income">
+                 
                 </div>
                 <div class="col-third">
                     <label>Education</label>
@@ -68,14 +66,15 @@
                     <label>Mobile No <span class="required">*</span></label>
                     <div class="input-group">
                         <span class="input-icon"><i class="fa-solid fa-phone-volume"></i></span>
-                        <input type="text" name="mobile_no" required>
+                        <input type="text" name="mobile_num" required>
                     </div>
                 </div>
                 <div class="col-quarter">
                     <label>Email</label>
                     <div class="input-group">
                         <span class="input-icon"><i class="fa-regular fa-envelope"></i></span>
-                        <input type="email" name="email" value="demo@gmail.com">
+                        <input type="email" name="parent_email" value="" placeholder="Enter email address"
+                            autocomplete="new-email" onfocus="this.value=''">
                     </div>
                 </div>
             </div>
@@ -83,7 +82,7 @@
             <div class="row">
                 <div class="col-full">
                     <label>Address</label>
-                    <textarea name="address" class="simple-textarea"></textarea>
+                    <textarea name="p_address" class="simple-textarea"></textarea>
                 </div>
             </div>
         </div>
@@ -108,14 +107,14 @@
                     </button>
                 </div>
 
-                <input type="file" name="profile_image" id="file-input" accept="image/*"  hidden>
+                <input type="file" name="profile_image" id="file-input" accept="image/*" hidden>
             </div>
         </div>
 
         <!-- Login Details -->
         <div class="form-section">
             <h3 class="section-header"><i class="fa-solid fa-user-lock"></i> Login Details</h3>
-         
+
 
             <div class="row">
                 <div class="col-half">
@@ -145,28 +144,28 @@
         <!-- Social Links -->
         <div class="form-section">
             <h3 class="section-header"><i class="fa-solid fa-globe"></i> Social Links</h3>
-         
+
 
             <div class="row">
                 <div class="col-third">
                     <label>Facebook</label>
                     <div class="input-group">
                         <span class="input-icon"><i class="fa-brands fa-facebook-f"></i></span>
-                        <input type="text" name="facebook_url" placeholder="eg: https://www.facebook.com/username">
+                        <input type="text" name="p_facebook_url" placeholder="eg: https://www.facebook.com/username">
                     </div>
                 </div>
                 <div class="col-third">
                     <label>Twitter</label>
                     <div class="input-group">
                         <span class="input-icon"><i class="fa-brands fa-twitter"></i></span>
-                        <input type="text" name="twitter_url" placeholder="eg: https://www.twitter.com/username">
+                        <input type="text" name="p_twitter_url" placeholder="eg: https://www.twitter.com/username">
                     </div>
                 </div>
                 <div class="col-third">
                     <label>Linkedin</label>
                     <div class="input-group">
                         <span class="input-icon"><i class="fa-brands fa-linkedin-in"></i></span>
-                        <input type="text" name="linkedin_url" placeholder="eg: https://www.linkedin.com/username">
+                        <input type="text" name="p_linkedin_url" placeholder="eg: https://www.linkedin.com/username">
                     </div>
                 </div>
             </div>
@@ -176,3 +175,27 @@
 
     </form>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Clear email field
+        const emailField = document.querySelector('input[name="email"]');
+        if (emailField) {
+            emailField.value = '';
+        }
+
+        // Clear social media fields
+        const socialFields = [
+            'input[name="facebook_url"]',
+            'input[name="twitter_url"]',
+            'input[name="linkedin_url"]'
+        ];
+
+        socialFields.forEach(selector => {
+            const field = document.querySelector(selector);
+            if (field) {
+                field.value = '';
+            }
+        });
+    });
+</script>

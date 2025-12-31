@@ -2488,7 +2488,7 @@ textarea {
 
 /* Accordion */
 .accordion-item {
-    display: flex;
+    /* display: flex; */
     border: 1px solid #e5e5e5;
     border-radius: 6px;
     margin-bottom: 12px;

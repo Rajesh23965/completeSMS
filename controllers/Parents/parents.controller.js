@@ -267,7 +267,7 @@ const getUpdatePasswordModal = (parentId, currentStatus = 1) => `
                     passwordHint.className = "form-text mt-2 text-danger";
                 } else {
                     this.classList.remove('is-invalid');
-                    passwordHint.textContent = "Good! Password meets requirements";
+                    passwordHint.textContent = "";
                     passwordHint.className = "form-text mt-2 text-success";
                 }
             }

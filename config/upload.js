@@ -64,6 +64,9 @@ export const uploadParents = parents;
 const employees = createUploader('employee');
 export const uploadEmployees = employees;
 
+const documents = createUploader('documents');
+export const uploadDocuments = documents;
+
 // Create upload middleware for settings
 const settingsUpload = createUploader('settings');
 const settingsUploader = createUploader('settings');

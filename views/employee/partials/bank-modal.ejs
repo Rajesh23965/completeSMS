@@ -1,0 +1,411 @@
+<!-- Add/Edit Bank Modal -->
+<div class="modal fade" id="bankModal" tabindex="-1" aria-labelledby="bankModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="bankModalLabel">
+                    <i class="fas fa-university me-2"></i><span id="modalTitle">Add Bank Account</span>
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="bankForm">
+                <input type="hidden" id="accountId" name="accountId">
+                <input type="hidden" id="employeeId" name="employee_id" value="<%= employee.id %>">
+                <input type="hidden" id="isEdit" name="isEdit" value="false">
+
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="bank_name" class="form-label required">Bank Name</label>
+                            <input type="text" class="form-control" id="bank_name" name="bank_name" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="account_holder_name" class="form-label required">Account Holder Name</label>
+                            <input type="text" class="form-control" id="account_holder_name" name="account_holder_name"
+                                required>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="bank_branch" class="form-label required">Bank Branch</label>
+                            <input type="text" class="form-control" id="bank_branch" name="bank_branch" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="ifsc_code" class="form-label">IFSC Code</label>
+                            <input type="text" class="form-control" id="ifsc_code" name="ifsc_code">
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="account_no" class="form-label required">Account No</label>
+                            <input type="text" class="form-control" id="account_no" name="account_no" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="bank_address" class="form-label">Bank Address</label>
+                            <textarea class="form-control" id="bank_address" name="bank_address" rows="2"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-check mb-3">
+                        <input class="form-check-input" type="checkbox" id="is_primary" name="is_primary" value="1">
+                        <label class="form-check-label" for="is_primary">
+                            Set as Primary Account
+                        </label>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary" id="saveBankBtn">
+                        <span id="submitBtnText">Save Bank Account</span>
+                    </button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Delete Confirmation Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel">
+                    <i class="fas fa-exclamation-triangle text-danger me-2"></i>Confirm Delete
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete this bank account? This action cannot be undone.</p>
+                <input type="hidden" id="deleteAccountId">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" id="confirmDeleteBtn">Delete</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .required:after {
+        content: " *";
+        color: #dc3545;
+    }
+
+    .badge {
+        font-size: 0.75em;
+        padding: 0.35em 0.65em;
+    }
+
+    .action-buttons {
+        display: flex;
+        gap: 5px;
+    }
+
+    .action-buttons .btn-sm {
+        padding: 0.25rem 0.5rem;
+        font-size: 0.75rem;
+    }
+
+    #bankModal .modal-content {
+        border-radius: 10px;
+        border: none;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    #bankModal .modal-header {
+        background-color: #f8f9fa;
+        border-bottom: 2px solid #0A7C53;
+        border-radius: 10px 10px 0 0;
+        padding: 1rem 1.5rem;
+    }
+
+    #deleteModal .modal-content {
+        border-radius: 10px;
+        border: none;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        border-top: 4px solid #dc3545;
+    }
+</style>
+
+<script>
+    // Bank Account Management Script
+    class BankAccountManager {
+        constructor(employeeId) {
+            this.employeeId = employeeId;
+            this.bankModal = new bootstrap.Modal(document.getElementById('bankModal'));
+            this.deleteModal = new bootstrap.Modal(document.getElementById('deleteModal'));
+            this.init();
+        }
+
+        init() {
+            this.bindEvents();
+        }
+
+        bindEvents() {
+            // Add Bank Button
+            document.getElementById('addBankBtn')?.addEventListener('click', () => {
+                this.resetForm();
+                document.getElementById('modalTitle').textContent = 'Add Bank Account';
+                document.getElementById('submitBtnText').textContent = 'Save Bank Account';
+                document.getElementById('isEdit').value = 'false';
+                this.bankModal.show();
+            });
+
+            // Edit Bank Buttons
+            document.querySelectorAll('.btn-edit').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const accountId = e.currentTarget.getAttribute('data-id');
+                    this.loadAccountForEdit(accountId);
+                });
+            });
+
+            // Delete Bank Buttons
+            document.querySelectorAll('.btn-delete-bank').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const accountId = e.currentTarget.getAttribute('data-id');
+                    this.showDeleteConfirmation(accountId);
+                });
+            });
+
+            // Set Primary Buttons
+            document.querySelectorAll('.btn-set-primary').forEach(btn => {
+                btn.addEventListener('click', async (e) => {
+                    const accountId = e.currentTarget.getAttribute('data-id');
+                    await this.setAsPrimary(accountId);
+                });
+            });
+
+            // Bank Form Submission
+            document.getElementById('bankForm')?.addEventListener('submit', (e) => {
+                e.preventDefault();
+                this.handleFormSubmit();
+            });
+
+            // Confirm Delete Button
+            document.getElementById('confirmDeleteBtn')?.addEventListener('click', () => {
+                this.confirmDelete();
+            });
+        }
+
+        resetForm() {
+            const form = document.getElementById('bankForm');
+            form.reset();
+            document.getElementById('accountId').value = '';
+            document.getElementById('is_primary').checked = false;
+        }
+
+        async loadAccountForEdit(accountId) {
+            try {
+                // Show loading state
+                const saveBtn = document.getElementById('saveBankBtn');
+                const originalText = saveBtn.innerHTML;
+                saveBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span> Loading...';
+                saveBtn.disabled = true;
+
+                // Fetch account details
+                const response = await fetch(`/employee/${this.employeeId}/bank`);
+                const result = await response.json();
+
+                saveBtn.innerHTML = originalText;
+                saveBtn.disabled = false;
+
+                if (result.success && result.data) {
+                    const account = result.data.find(acc => acc.id == accountId);
+                    if (account) {
+                        // Populate form
+                        document.getElementById('accountId').value = account.id;
+                        document.getElementById('bank_name').value = account.bank_name || '';
+                        document.getElementById('account_holder_name').value = account.account_holder_name || '';
+                        document.getElementById('bank_branch').value = account.bank_branch || '';
+                        document.getElementById('ifsc_code').value = account.ifsc_code || '';
+                        document.getElementById('account_no').value = account.account_no || '';
+                        document.getElementById('bank_address').value = account.bank_address || '';
+                        document.getElementById('is_primary').checked = account.is_primary == 1;
+                        document.getElementById('isEdit').value = 'true';
+
+                        // Update modal title
+                        document.getElementById('modalTitle').textContent = 'Edit Bank Account';
+                        document.getElementById('submitBtnText').textContent = 'Update Bank Account';
+
+                        // Show modal
+                        this.bankModal.show();
+                    } else {
+                        this.showNotification('Bank account not found!', 'error');
+                    }
+                } else {
+                    this.showNotification('Failed to load account details', 'error');
+                }
+            } catch (error) {
+                console.error('Error loading account:', error);
+                this.showNotification('Error loading account details', 'error');
+            }
+        }
+
+        showDeleteConfirmation(accountId) {
+            document.getElementById('deleteAccountId').value = accountId;
+            this.deleteModal.show();
+        }
+
+        async confirmDelete() {
+            const accountId = document.getElementById('deleteAccountId').value;
+
+            try {
+                const response = await fetch(`/employee/${this.employeeId}/bank/${accountId}`, {
+                    method: 'DELETE'
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    this.showNotification('Bank account deleted successfully!', 'success');
+                    this.deleteModal.hide();
+
+                    // Reload page after delay
+                    setTimeout(() => {
+                        location.reload();
+                    }, 1000);
+                } else {
+                    this.showNotification(result.message || 'Failed to delete bank account', 'error');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                this.showNotification('An error occurred. Please try again.', 'error');
+            }
+        }
+
+        async setAsPrimary(accountId) {
+            if (!confirm('Are you sure you want to set this as primary account?')) {
+                return;
+            }
+
+            try {
+                const response = await fetch(`/employee/${this.employeeId}/bank/${accountId}/primary`, {
+                    method: 'PUT'
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    this.showNotification('Primary account updated successfully!', 'success');
+                    setTimeout(() => {
+                        location.reload();
+                    }, 1000);
+                } else {
+                    this.showNotification(result.message || 'Failed to update primary account', 'error');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                this.showNotification('An error occurred. Please try again.', 'error');
+            }
+        }
+
+        async handleFormSubmit() {
+            const form = document.getElementById('bankForm');
+            const formData = new FormData(form);
+            const data = Object.fromEntries(formData.entries());
+            const isEdit = data.isEdit === 'true';
+            const accountId = data.accountId;
+
+            // Remove unnecessary fields
+            delete data.accountId;
+            delete data.isEdit;
+
+            // Convert checkbox value to boolean
+            data.is_primary = data.is_primary === '1' ? 1 : 0;
+
+            try {
+                const saveBtn = document.getElementById('saveBankBtn');
+                const originalText = saveBtn.innerHTML;
+                saveBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span> Saving...';
+                saveBtn.disabled = true;
+
+                let response;
+                if (isEdit) {
+                    // Update existing account
+                    response = await fetch(`/employee/${this.employeeId}/bank/${accountId}`, {
+                        method: 'PUT',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(data)
+                    });
+                } else {
+                    // Create new account
+                    response = await fetch(`/employee/${this.employeeId}/bank`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(data)
+                    });
+                }
+
+                const result = await response.json();
+
+                saveBtn.innerHTML = originalText;
+                saveBtn.disabled = false;
+
+                if (result.success) {
+                    this.showNotification(
+                        isEdit ? 'Bank account updated successfully!' : 'Bank account added successfully!',
+                        'success'
+                    );
+                    this.bankModal.hide();
+                    form.reset();
+
+                    // Reload page after delay
+                    setTimeout(() => {
+                        location.reload();
+                    }, 1000);
+                } else {
+                    this.showNotification(result.message || 'Failed to save bank account', 'error');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                this.showNotification('An error occurred. Please try again.', 'error');
+            }
+        }
+
+        showNotification(message, type = 'info') {
+            // Remove existing notifications
+            const existingNotifications = document.querySelectorAll('.custom-notification');
+            existingNotifications.forEach(notification => notification.remove());
+
+            // Create notification element
+            const notification = document.createElement('div');
+            notification.className = `custom-notification alert alert-${type === 'success' ? 'success' : 'danger'} alert-dismissible fade show`;
+            notification.style.cssText = `
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 99999;
+            min-width: 300px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        `;
+            notification.innerHTML = `
+            ${message}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        `;
+
+            document.body.appendChild(notification);
+
+            // Auto remove after 5 seconds
+            setTimeout(() => {
+                if (notification.parentNode) {
+                    notification.remove();
+                }
+            }, 5000);
+        }
+    }
+
+    // Initialize when DOM is loaded
+    document.addEventListener('DOMContentLoaded', function () {
+        const employeeId = '<%= employee.id %>';
+        if (employeeId) {
+            window.bankAccountManager = new BankAccountManager(employeeId);
+        }
+    });
+</script>

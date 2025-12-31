@@ -1,6 +1,8 @@
 import EmployeeModel from "../../models/Employee/employee.model.js";
+import BankAccountModel from "../../models/Employee/bankAccount.model.js";
 import DepartmentModel from "../../models/Employee/department.model.js";
 import DesignationModel from "../../models/Employee/designation.model.js";
+import DocumentModel from "../../models/Employee/document.model.js";
 import bcrypt from "bcrypt";
 import ejs from "ejs";
 import path from "path";
@@ -269,7 +271,7 @@ const getUpdatePasswordModal = (employeeId, currentStatus = 1) => `
                     passwordHint.className = "form-text mt-2 text-danger";
                 } else {
                     this.classList.remove('is-invalid');
-                    passwordHint.textContent = "Good! Password meets requirements";
+                    passwordHint.textContent = "";
                     passwordHint.className = "form-text mt-2 text-success";
                 }
             }
@@ -457,7 +459,6 @@ export default class EmployeeController {
     ========================== */
     static async renderAddEmployeeForm(req, res) {
         try {
-            // Static roles
             const roles = [
                 "Admin",
                 "Accountant",
@@ -466,7 +467,6 @@ export default class EmployeeController {
                 "Receptionist"
             ];
 
-            // Fetch dynamic data
             const designations = await DesignationModel.findAll();
             const departments = await DepartmentModel.findAll();
 
@@ -495,21 +495,22 @@ export default class EmployeeController {
         }
     }
 
-
     /* =========================
-      CREATE EMPLOYEE
+     CREATE EMPLOYEE WITH BANK ACCOUNT
    ========================== */
     static async addEmployee(req, res) {
         try {
-            const { username, password } = req.body;
+            const { username, password, name, skipBankDetails } = req.body;
 
-            if (!username || !password) {
+            // Basic validation
+            if (!username || !password || !name) {
                 return res.status(400).json({
                     success: false,
-                    message: "Username and password are required"
+                    message: "Username, password and name are required"
                 });
             }
 
+            // Check if username exists
             const existing = await EmployeeModel.findByUsername(username);
             if (existing) {
                 return res.status(409).json({
@@ -518,22 +519,72 @@ export default class EmployeeController {
                 });
             }
 
+            // Hash password
             const hashedPassword = await bcrypt.hash(password, 10);
 
+            // Prepare employee data
             const employeeData = {
                 ...req.body,
                 password: hashedPassword,
                 profile_picture: req.file ? req.file.path : null
             };
 
-            await EmployeeModel.create(employeeData);
+            // Create employee
+            const employee = await EmployeeModel.create(employeeData);
 
+            // Handle bank account creation (if not skipped)
+            if (skipBankDetails !== 'on' && req.body.bank_name && req.body.account_no) {
+                const bankData = {
+                    employee_id: employee.id,
+                    bank_name: req.body.bank_name,
+                    account_holder_name: req.body.account_holder_name || name,
+                    bank_branch: req.body.bank_branch || null,
+                    bank_address: req.body.bank_address || null,
+                    ifsc_code: req.body.ifsc_code || null,
+                    account_no: req.body.account_no,
+                    is_primary: true // First account is primary
+                };
+
+                await BankAccountModel.create(bankData);
+            }
 
             res.redirect("/employee/view");
 
         } catch (error) {
             console.error("Create Employee Error:", error);
-            res.status(500).json({ success: false, message: "Server Error" });
+
+            // For AJAX requests
+            if (req.xhr || req.headers.accept.indexOf('json') > -1) {
+                return res.status(500).json({
+                    success: false,
+                    message: "Server Error"
+                });
+            }
+
+            // For form submission
+            const roles = ["Admin", "Accountant", "Teacher", "Librarian", "Receptionist"];
+            const designations = await DesignationModel.findAll();
+            const departments = await DepartmentModel.findAll();
+
+            const formPath = path.join(process.cwd(), "views", "employee", "add.ejs");
+            const formHtml = await ejs.renderFile(formPath, {
+                roles,
+                designations,
+                departments,
+                error: "Failed to create employee. Please try again.",
+                formData: req.body
+            });
+
+            res.render("dashboard", {
+                pageTitle: "Add Employee",
+                pageIcon: "fa-user-plus",
+                breadcrumbs: [
+                    { title: "Dashboard", url: "/" },
+                    { title: "Employee", url: "/employees" },
+                    { title: "Add Employee" }
+                ],
+                body: formHtml
+            });
         }
     }
 
@@ -560,7 +611,7 @@ export default class EmployeeController {
                 { field: 'designation_name', header: 'Designation' },
                 { field: 'department_name', header: 'Department' },
                 { field: 'mobile_number', header: 'Mobile' },
-                { field: 'email', header: 'Email' },
+                { field: 'e_email', header: 'Email' },
                 { field: 'branch_name', header: 'Branch' },
             ];
 
@@ -603,7 +654,7 @@ export default class EmployeeController {
                 { field: 'designation_name', header: 'Designation', width: 100, align: 'left' },
                 { field: 'department_name', header: 'Department', width: 120, align: 'left' },
                 { field: 'mobile_number', header: 'Mobile No', width: 100, align: 'left' },
-                { field: 'email', header: 'Email', width: 150, align: 'left' },
+                { field: 'e_email', header: 'Email', width: 150, align: 'left' },
                 { field: 'branch_name', header: 'Branch', width: 120, align: 'left' },
             ];
 
@@ -676,7 +727,7 @@ export default class EmployeeController {
             const offset = (page - 1) * limit;
             const search = req.query.search || "";
 
-            // Roles (can later come from DB)
+            // Roles
             const roles = [
                 "Admin",
                 "Teacher",
@@ -685,25 +736,31 @@ export default class EmployeeController {
                 "Receptionist"
             ];
 
-            // Current role from URL
-            let currentRole = req.params.role || roles[0];
+            // Get selected role from query parameter
+            let currentRole = req.query.role || req.params.role || "";
+            const status = req.query.status || "1"; // Default to active
 
-            // Safety check
-            if (!roles.includes(currentRole)) {
-                currentRole = roles[0];
+            // Prepare role filter for query
+            let roleFilter = [];
+            if (currentRole && currentRole !== "") {
+                roleFilter = [currentRole];
+            } else {
+                // If "All Roles" is selected, use all roles
+                roleFilter = roles;
             }
 
+            // Fetch employees with filters
             const employee = await EmployeeModel.findAll(
                 limit,
                 offset,
                 search,
                 sortBy,
                 sortDir,
-                [currentRole]
+                roleFilter,
+                parseInt(status)
             );
 
-
-            const total = await EmployeeModel.getTotalCount(search, [currentRole]);
+            const total = await EmployeeModel.getTotalCount(search, roleFilter, parseInt(status));
             const totalPages = Math.ceil(total / limit);
 
             const viewPath = path.join(process.cwd(), "views", "employee", "view.ejs");
@@ -713,7 +770,8 @@ export default class EmployeeController {
                 pagination: { page, limit, total, totalPages },
                 search,
                 roles,
-                currentRole
+                currentRole,
+                currentStatus: status
             });
 
             res.render("dashboard", {
@@ -722,7 +780,7 @@ export default class EmployeeController {
                 breadcrumbs: [
                     { title: "Dashboard", url: "/" },
                     { title: "Employee", url: "/employee/view" },
-                    { title: currentRole }
+                    { title: currentRole || "All Roles" }
                 ],
                 body: html
             });
@@ -732,7 +790,6 @@ export default class EmployeeController {
             res.status(500).send("Error rendering employee list");
         }
     }
-
 
     /* =========================
        DEACTIVATED EMPLOYEES
@@ -761,16 +818,18 @@ export default class EmployeeController {
                 currentRole = roles[0];
             }
 
-            const employee = await EmployeeModel.findDeactive(
+            // Fetch inactive employees (status = 0)
+            const employee = await EmployeeModel.findAll(
                 limit,
                 offset,
                 search,
                 sortBy,
                 sortDir,
-                [currentRole]
+                [currentRole],
+                0  // Status = 0 (inactive)
             );
 
-            const total = await EmployeeModel.getDeactiveTotalCount(search, [currentRole]);
+            const total = await EmployeeModel.getTotalCount(search, [currentRole], 0);
             const totalPages = Math.ceil(total / limit);
 
             const viewPath = path.join(
@@ -783,7 +842,6 @@ export default class EmployeeController {
             const html = await ejs.renderFile(viewPath, {
                 employee,
                 pagination: { page, limit, total, totalPages },
-                search,
                 search,
                 roles,
                 currentRole
@@ -804,7 +862,6 @@ export default class EmployeeController {
             res.status(500).send("Error rendering deactivated employees");
         }
     }
-
 
 
     //Get All Employees
@@ -858,28 +915,103 @@ export default class EmployeeController {
     static async updateEmployee(req, res) {
         try {
             const id = req.params.id;
-            const data = { ...req.body };
+            const updateData = { ...req.body };
 
-            if (req.file) {
-                data.profile_picture = req.file.path;
+            // Check if email is being changed and if it already exists
+            if (updateData.e_email && updateData.e_email.trim() !== '') {
+                const existingEmployee = await EmployeeModel.findByEmail(updateData.e_email);
+                if (existingEmployee && existingEmployee.id != id) {
+                    // Email exists for another employee
+                    const employee = await EmployeeModel.findById(id);
+                    delete employee.password;
+
+                    const roles = ["Admin", "Accountant", "Teacher", "Librarian", "Receptionist"];
+                    const designations = await DesignationModel.findAll();
+                    const departments = await DepartmentModel.findAll();
+                    const bankAccounts = await BankAccountModel.getBankAccounts(id);
+
+                    const viewPath = path.join(
+                        process.cwd(),
+                        "views",
+                        "employee",
+                        "profile.ejs"
+                    );
+
+                    const modalHtml = getUpdatePasswordModal(id, employee.status);
+
+                    const html = await ejs.renderFile(viewPath, {
+                        employee,
+                        roles,
+                        designations,
+                        departments,
+                        modalHtml,
+                        bankAccounts,
+                        primaryAccount: bankAccounts.find(acc => acc.is_primary) || null,
+                        error: "Email already exists for another employee 😊"
+                    });
+
+                    return res.render("dashboard", {
+                        pageTitle: "Employee Profile",
+                        pageIcon: "fa-user",
+                        breadcrumbs: [
+                            { title: "Dashboard", url: "/" },
+                            { title: "Employee", url: "/employee/view" },
+                            { title: employee.name }
+                        ],
+                        body: html
+                    });
+                }
             }
 
-            const updated = await EmployeeModel.update(id, data);
+            if (updateData.status !== undefined) {
+                updateData.status = Number(updateData.status) === 1 ? 1 : 0;
+            }
 
-            if (!updated) {
+            if (req.file) {
+                updateData.profile_picture = req.file.path;
+            }
+
+            const isUpdated = await EmployeeModel.update(id, updateData);
+
+            if (!isUpdated) {
                 return res.status(404).json({
                     success: false,
                     message: "Employee not found or no changes"
                 });
             }
 
-            res.redirect(`/employee/profile/${id}`);
+            return res.redirect(`/employee/profile/${id}?success=Profile updated successfully`);
         } catch (error) {
             console.error("Update Employee Error:", error);
             res.status(500).json({ success: false, message: "Server Error" });
         }
     }
 
+    // Add this method to check email availability
+    static async checkEmailAvailability(req, res) {
+        try {
+            const { e_email, id } = req.query;
+
+            if (!e_email) {
+                return res.status(400).json({ available: false });
+            }
+
+            const existingEmployee = await EmployeeModel.findByEmail(e_email);
+
+            if (existingEmployee) {
+                // If checking for update (has id) and email belongs to same employee, it's available
+                if (id && existingEmployee.id == id) {
+                    return res.json({ available: true });
+                }
+                return res.json({ available: false });
+            }
+
+            return res.json({ available: true });
+        } catch (error) {
+            console.error("Check Email Error:", error);
+            return res.status(500).json({ available: false });
+        }
+    }
     /* =========================
        UPDATE PASSWORD ONLY
     ========================== */
@@ -1000,47 +1132,41 @@ export default class EmployeeController {
 
     static async renderEmployeeProfile(req, res) {
         try {
-            const roles = [
-                "Admin",
-                "Accountant",
-                "Teacher",
-                "Librarian",
-                "Receptionist"
-            ];
-
-            const designations = await DesignationModel.findAll();
-            const departments = await DepartmentModel.findAll();
-
-
             const employeeId = req.params.id;
-            const employee = await EmployeeModel.findById(employeeId);
 
+            // Get employee data
+            const employee = await EmployeeModel.findById(employeeId);
             if (!employee) {
                 return res.status(404).send("Employee not found");
             }
 
             delete employee.password;
 
-            const viewPath = path.join(
-                process.cwd(),
-                "views",
-                "employee",
-                "profile.ejs"
-            );
+            // Get bank accounts
+            const bankAccounts = await BankAccountModel.getByEmployeeId(employeeId);
+            const primaryAccount = await BankAccountModel.getPrimaryAccount(employeeId);
 
-            // Generate modal HTML with current status
-            const modalHtml = getUpdatePasswordModal(employeeId, employee.status);
+            // Get other data
+            const roles = ["Admin", "Accountant", "Teacher", "Librarian", "Receptionist"];
+            const designations = await DesignationModel.findAll();
+            const departments = await DepartmentModel.findAll();
+            const documents = await DocumentModel.getByEmployeeId(employeeId);
+
+            const viewPath = path.join(process.cwd(), "views", "employee", "profile.ejs");
 
             const html = await ejs.renderFile(viewPath, {
                 employee,
                 roles,
                 designations,
                 departments,
-                modalHtml
+                bankAccounts,
+                primaryAccount,
+                documents,
+                modalHtml: getUpdatePasswordModal(employeeId, employee.status) // Your existing modal function
             });
 
             res.render("dashboard", {
-                pageTitle: "Employee Profile",
+                pageTitle: `${employee.name}'s Profile`,
                 pageIcon: "fa-user",
                 breadcrumbs: [
                     { title: "Dashboard", url: "/" },
@@ -1049,12 +1175,48 @@ export default class EmployeeController {
                 ],
                 body: html
             });
+
         } catch (error) {
-            console.error(error);
+            console.error("Render Profile Error:", error);
             res.status(500).send("Error loading employee profile");
         }
     }
 
+
+    static async getEmployeeWithAccounts(req, res) {
+        try {
+            const employeeId = req.params.id;
+
+            const employee = await EmployeeModel.findById(employeeId);
+            if (!employee) {
+                return res.status(404).json({
+                    success: false,
+                    message: "Employee not found"
+                });
+            }
+
+            delete employee.password;
+
+            const bankAccounts = await BankAccountModel.getByEmployeeId(employeeId);
+            const primaryAccount = await BankAccountModel.getPrimaryAccount(employeeId);
+
+            return res.status(200).json({
+                success: true,
+                data: {
+                    employee,
+                    bankAccounts,
+                    primaryAccount
+                }
+            });
+
+        } catch (error) {
+            console.error("Get Employee With Accounts Error:", error);
+            return res.status(500).json({
+                success: false,
+                message: "Server Error"
+            });
+        }
+    }
 }
 
 

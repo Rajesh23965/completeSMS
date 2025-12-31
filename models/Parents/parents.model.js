@@ -5,8 +5,8 @@ const ALLOWED_SORT_COLUMNS = {
     id: 'id',
     name: 'name',
     occupation: 'occupation',
-    mobile_no: 'mobile_no',
-    email: 'email'
+    mobile_no: 'mobile_num',
+    email: 'parent_email'
 };
 
 export default class ParentModel {
@@ -16,9 +16,9 @@ export default class ParentModel {
         const query = `
       INSERT INTO parents (
         name, relation, father_name, mother_name, occupation, 
-        income, education, city, state, mobile_no, email, address, 
+        income, education, city, state, mobile_num, parent_email, p_address, 
         profile_image, username, password, 
-        facebook_url, twitter_url, linkedin_url
+        p_facebook_url, p_twitter_url, p_linkedin_url
       ) 
       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `;
@@ -34,15 +34,15 @@ export default class ParentModel {
             data.education || null,
             data.city || null,
             data.state || null,
-            data.mobile_no,
-            data.email || null,
-            data.address || null,
+            data.mobile_num,
+            data.parent_email || null,
+            data.p_address || null,
             data.profile_image || null,
             data.username,
             data.password,
-            data.facebook_url || null,
-            data.twitter_url || null,
-            data.linkedin_url || null
+            data.p_facebook_url || null,
+            data.p_twitter_url || null,
+            data.p_linkedin_url || null
         ];
 
 
@@ -63,7 +63,7 @@ export default class ParentModel {
         const direction = sortDir === 'ASC' ? 'ASC' : 'DESC';
 
         let query = `
-        SELECT id, name, relation, occupation, mobile_no, email, city
+        SELECT id, name, relation, occupation, mobile_num, parent_email, city
         FROM parents
         WHERE status = 1
     `;
@@ -73,8 +73,8 @@ export default class ParentModel {
         if (search) {
             query += `
             WHERE name LIKE ?
-               OR mobile_no LIKE ?
-               OR email LIKE ?
+               OR mobile_num LIKE ?
+               OR parent_email LIKE ?
         `;
             const s = `%${search}%`;
             params.push(s, s, s);
@@ -99,7 +99,7 @@ export default class ParentModel {
         const direction = sortDir === 'ASC' ? 'ASC' : 'DESC';
 
         let query = `
-    SELECT id, name, relation, occupation, mobile_no, email, city
+    SELECT id, name, relation, occupation, mobile_num, parent_email, city
     FROM parents
     WHERE status = 0
 `;
@@ -110,8 +110,8 @@ export default class ParentModel {
             query += `
         AND (
             name LIKE ?
-            OR mobile_no LIKE ?
-            OR email LIKE ?
+            OR mobile_num LIKE ?
+            OR parent_email LIKE ?
         )
     `;
             const s = `%${search}%`;
@@ -139,8 +139,8 @@ export default class ParentModel {
             query += `
         AND (
             name LIKE ?
-            OR mobile_no LIKE ?
-            OR email LIKE ?
+            OR mobile_num LIKE ?
+            OR parent_email LIKE ?
         )
     `;
             const s = `%${search}%`;
@@ -159,8 +159,8 @@ export default class ParentModel {
         if (search) {
             query += `
             WHERE name LIKE ?
-               OR mobile_no LIKE ?
-               OR email LIKE ?
+               OR mobile_num LIKE ?
+               OR parent_email LIKE ?
         `;
             const s = `%${search}%`;
             params.push(s, s, s);
@@ -187,12 +187,12 @@ export default class ParentModel {
     //Update Parent Data
     static async update(id, data) {
         const fields = [];
-        const values = []; // Changed from 'value' to 'values'
+        const values = [];
 
         const allowedColumns = [
             'name', 'relation', 'father_name', 'mother_name', 'occupation',
-            'income', 'education', 'city', 'state', 'mobile_no', 'email', 'address',
-            'profile_image', 'username', 'facebook_url', 'twitter_url', 'linkedin_url', 'status'
+            'income', 'education', 'city', 'state', 'mobile_num', 'parent_email', 'p_address',
+            'profile_image', 'username', 'p_facebook_url', 'p_twitter_url', 'p_linkedin_url', 'status'
         ];
 
         for (const [key, val] of Object.entries(data)) {
@@ -212,10 +212,10 @@ export default class ParentModel {
 
         if (fields.length === 0) return false;
 
-        values.push(id); // Changed from 'value.push(id)' to 'values.push(id)'
+        values.push(id);
         const query = `UPDATE parents SET ${fields.join(', ')} WHERE id = ?`;
 
-        const [result] = await pool.execute(query, values); // Changed 'value' to 'values'
+        const [result] = await pool.execute(query, values);
         return result.affectedRows > 0;
     }
 

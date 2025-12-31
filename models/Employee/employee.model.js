@@ -40,15 +40,10 @@ export default class EmployeeModel {
         return staffId;
     }
 
-
-
-
     /* =========================
        CREATE EMPLOYEE
     ========================== */
     static async create(data) {
-
-        // Fetch branch_name
         const [settings] = await pool.query(
             `SELECT setting_value
          FROM school_settings
@@ -62,26 +57,23 @@ export default class EmployeeModel {
         }
 
         const branchName = settings[0].setting_value;
-
-        //  AUTO GENERATE STAFF ID
         const staffId = await this.generateUniqueStaffId();
 
+        // Corrected query - now has 25 placeholders
         const query = `
         INSERT INTO employees (
             staffId, name, role, gender, date_of_birth,
             religion, blood_group,
-            mobile_number, email,
+            mobile_number, e_email,
             present_address, permanent_address,
             joining_date, designation_id, department_id,
             qualification, experience_details, total_experience,
             profile_picture,
             username, password,
-            facebook_url, twitter_url, linkedin_url,
-            bank_name, account_holder_name, bank_branch,
-            bank_address, ifsc_code, account_no,
+            e_facebook_url, e_twitter_url, e_linkedin_url,
             branch_name, status
         )
-        VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+        VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
     `;
 
         const values = [
@@ -93,7 +85,7 @@ export default class EmployeeModel {
             data.religion || null,
             data.blood_group || null,
             data.mobile_number,
-            data.email || null,
+            data.e_email || null,
             data.present_address || null,
             data.permanent_address || null,
             data.joining_date,
@@ -105,25 +97,34 @@ export default class EmployeeModel {
             data.profile_picture || null,
             data.username,
             data.password,
-            data.facebook_url || null,
-            data.twitter_url || null,
-            data.linkedin_url || null,
-            data.bank_name || null,
-            data.account_holder_name || null,
-            data.bank_branch || null,
-            data.bank_address || null,
-            data.ifsc_code || null,
-            data.account_no || null,
+            data.e_facebook_url || null,
+            data.e_twitter_url || null,
+            data.e_linkedin_url || null,
             branchName,
-            1 // status active
+            1
         ];
+
+
 
         const [result] = await pool.execute(query, values);
 
         return {
             id: result.insertId,
-            staffId
+            staffId: staffId
         };
+    }
+
+    static async findByEmail(e_email, excludeId = null) {
+        let query = `SELECT * FROM employees WHERE e_email = ? AND deleted_at IS NULL`;
+        const params = [e_email];
+
+        if (excludeId) {
+            query += ` AND id != ?`;
+            params.push(excludeId);
+        }
+
+        const [rows] = await pool.execute(query, params);
+        return rows[0];
     }
 
 
@@ -131,14 +132,7 @@ export default class EmployeeModel {
        FIND ALL (ACTIVE)
     ========================== */
 
-    static async findAll(
-        limit = 25,
-        offset = 0,
-        search = "",
-        sortBy = "id",
-        sortDir = "ASC",
-        roles = []
-    ) {
+    static async findAll(limit = 25, offset = 0, search = "", sortBy = "id", sortDir = "ASC", roles = [], status = 1) {
         const column = ALLOWED_SORT_COLUMNS[sortBy] || "e.id";
         const direction = sortDir === "DESC" ? "DESC" : "ASC";
 
@@ -150,36 +144,40 @@ export default class EmployeeModel {
             e.role,
             e.status,
             e.mobile_number,
-            e.email,
+            e.e_email,
             e.branch_name,
             d.designation_name,
             dp.department_name,
             e.joining_date,
-            e.profile_picture
+            e.profile_picture,
+            (
+                SELECT COUNT(*)
+                FROM employee_bank_accounts b
+                WHERE b.employee_id = e.id AND b.deleted_at IS NULL
+            ) as bank_account_count
         FROM employees e
         JOIN designations d ON e.designation_id = d.id
         JOIN departments dp ON e.department_id = dp.id
         WHERE e.deleted_at IS NULL
+        AND e.status = ?
     `;
 
-        const params = [];
+        const params = [status];
 
-        // Role filtering
         if (roles && roles.length > 0) {
             query += ` AND e.role IN (${roles.map(() => '?').join(',')})`;
             params.push(...roles);
         }
 
-        // Search filtering
         if (search) {
             query += `
-        AND (
-            e.staffId LIKE CONCAT(?, '%')
-            OR e.name LIKE CONCAT('%', ?, '%')
-            OR e.mobile_number LIKE CONCAT(?, '%')
-            OR e.email LIKE CONCAT('%', ?, '%')
-        )
-    `;
+            AND (
+                e.staffId LIKE CONCAT(?, '%')
+                OR e.name LIKE CONCAT('%', ?, '%')
+                OR e.mobile_number LIKE CONCAT(?, '%')
+                OR e.e_email LIKE CONCAT('%', ?, '%')
+            )
+        `;
             params.push(search, search, search, search);
         }
 
@@ -190,41 +188,6 @@ export default class EmployeeModel {
         return rows;
     }
 
-    /* =========================
-       GET TOTAL COUNT with Role Filtering
-    ========================== */
-    static async getTotalCount(search = "", roles = []) {
-        let query = `
-        SELECT COUNT(*) AS total
-        FROM employees e
-        WHERE e.deleted_at IS NULL
-    `;
-
-        const params = [];
-
-        // Role filtering
-        if (roles && roles.length > 0) {
-            query += ` AND e.role IN (${roles.map(() => '?').join(',')})`;
-            params.push(...roles);
-        }
-
-        // Search filtering
-        if (search) {
-            query += `
-            AND (
-                e.staffId LIKE ?
-                OR e.name LIKE ?
-                OR e.mobile_number LIKE ?
-                OR e.email LIKE ?
-            )
-        `;
-            const s = `%${search}%`;
-            params.push(s, s, s, s);
-        }
-
-        const [[row]] = await pool.query(query, params);
-        return row.total;
-    }
 
 
     /* =========================
@@ -232,7 +195,7 @@ export default class EmployeeModel {
     ========================== */
     static async findDeactive(limit = 25, offset = 0, search = "") {
         let query = `
-            SELECT id, staffId, name, mobile_number, email
+            SELECT id, staffId, name, mobile_number, e_email
             FROM employees
             WHERE deleted_at IS NOT NULL
         `;
@@ -245,7 +208,7 @@ export default class EmployeeModel {
                     staffId LIKE ?
                     OR name LIKE ?
                     OR mobile_number LIKE ?
-                    OR email LIKE ?
+                    OR e_email LIKE ?
                 )
             `;
             const s = `%${search}%`;
@@ -262,24 +225,24 @@ export default class EmployeeModel {
     /* =========================
        COUNTS
     ========================== */
-    static async getTotalCount(search = "") {
-        let query = `
-            SELECT COUNT(*) AS total
-            FROM employees
-            WHERE deleted_at IS NULL
-        `;
+    static async getTotalCount(search = "", roles = [], status = 1) {
+        let query = `SELECT COUNT(*) AS total FROM employees e WHERE e.deleted_at IS NULL AND e.status = ?`;
+        const params = [status];
 
-        const params = [];
+        if (roles && roles.length > 0) {
+            query += ` AND e.role IN (${roles.map(() => '?').join(',')})`;
+            params.push(...roles);
+        }
 
         if (search) {
             query += `
-                AND (
-                    staffId LIKE ?
-                    OR name LIKE ?
-                    OR mobile_number LIKE ?
-                    OR email LIKE ?
-                )
-            `;
+            AND (
+                e.staffId LIKE ?
+                OR e.name LIKE ?
+                OR e.mobile_number LIKE ?
+                OR e.e_email LIKE ?
+            )
+        `;
             const s = `%${search}%`;
             params.push(s, s, s, s);
         }
@@ -303,7 +266,7 @@ export default class EmployeeModel {
                     staffId LIKE ?
                     OR name LIKE ?
                     OR mobile_number LIKE ?
-                    OR email LIKE ?
+                    OR e_email LIKE ?
                 )
             `;
             const s = `%${search}%`;
@@ -320,7 +283,14 @@ export default class EmployeeModel {
     ========================== */
     static async findById(id) {
         const [rows] = await pool.execute(
-            `SELECT * FROM employees WHERE id = ? AND deleted_at IS NULL`,
+            `SELECT 
+                e.*,
+                d.designation_name,
+                dp.department_name
+             FROM employees e
+             LEFT JOIN designations d ON e.designation_id = d.id
+             LEFT JOIN departments dp ON e.department_id = dp.id
+             WHERE e.id = ? AND e.deleted_at IS NULL`,
             [id]
         );
         return rows[0];
@@ -342,41 +312,42 @@ export default class EmployeeModel {
         const values = [];
 
         const allowedColumns = [
-            "staffId",
             "name", "role", "gender", "date_of_birth",
             "religion", "blood_group",
-            "mobile_number", "email",
+            "mobile_number", "e_email",
             "present_address", "permanent_address",
             "joining_date", "designation_id", "department_id",
             "qualification", "experience_details", "total_experience",
             "profile_picture",
-            "facebook_url", "twitter_url", "linkedin_url",
-            "bank_name", "account_holder_name",
-            "bank_branch", "bank_address",
-            "ifsc_code", "account_no",
-            "branch_name",
+            "e_facebook_url", "e_twitter_url", "e_linkedin_url",
             "status"
         ];
 
-        for (const [key, value] of Object.entries(data)) {
-            if (allowedColumns.includes(key) && value !== undefined) {
+        for (const [key, val] of Object.entries(data)) {
+            if (allowedColumns.includes(key) && val !== undefined && val !== null) {
+                // Handle empty string for optional fields
+                if (val === '') {
+                    values.push(null);
+                } else {
+                    values.push(val);
+                }
                 fields.push(`${key} = ?`);
-                values.push(value);
             }
         }
 
-        if (!fields.length) return false;
+        if (fields.length === 0) return false;
 
         values.push(id);
 
-        const [result] = await pool.execute(
-            `UPDATE employees SET ${fields.join(", ")} WHERE id = ? AND deleted_at IS NULL`,
-            values
-        );
+        const query = `UPDATE employees SET ${fields.join(", ")} WHERE id = ?`;
 
-        return result.affectedRows > 0;
+        try {
+            const [result] = await pool.execute(query, values);
+            return result.affectedRows > 0;
+        } catch (error) {
+            throw error;
+        }
     }
-
 
     /* =========================
        UPDATE PASSWORD
@@ -410,4 +381,7 @@ export default class EmployeeModel {
         );
         return result.affectedRows > 0;
     }
+
+
+    
 }

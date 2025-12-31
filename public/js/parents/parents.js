@@ -52,14 +52,14 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         previewImage.src = URL.createObjectURL(file);
-        
+
         // Display filename (truncate if too long)
         let fileName = file.name;
         if (fileName.length > 20) {
             fileName = fileName.substring(0, 17) + '...';
         }
         filenameDisplay.textContent = fileName;
-        
+
         previewContainer.style.display = 'flex';
         dropContent.style.display = 'none';
         dropZone.style.borderColor = '#28a745';
@@ -81,7 +81,7 @@ document.addEventListener('DOMContentLoaded', () => {
     previewContainer.addEventListener('mouseenter', () => {
         previewContainer.style.backgroundColor = '#e0e0e0';
     });
-    
+
     previewContainer.addEventListener('mouseleave', () => {
         previewContainer.style.backgroundColor = '#f5f5f5';
     });
